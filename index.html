@@ -2,62 +2,48 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
-    <title>Click Dash — Speed Tapper</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no, viewport-fit=cover">
+    <title>Dodge — Falling Objects</title>
     <style>
         * {
+            margin: 0;
+            padding: 0;
             box-sizing: border-box;
             user-select: none;
             -webkit-tap-highlight-color: transparent;
         }
 
         body {
-            font-family: system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
-            background: linear-gradient(145deg, #1a1e2b 0%, #0f121c 100%);
+            background: linear-gradient(145deg, #0a0f1e 0%, #05070f 100%);
             min-height: 100vh;
             display: flex;
             justify-content: center;
             align-items: center;
-            margin: 0;
-            padding: 20px;
+            font-family: system-ui, -apple-system, 'Segoe UI', sans-serif;
+            touch-action: pan-x pan-y;
+        }
+
+        .game-wrapper {
+            padding: 16px;
+            width: 100%;
+            max-width: 500px;
         }
 
         .game-container {
-            background: rgba(10, 14, 23, 0.7);
-            backdrop-filter: blur(8px);
-            border-radius: 64px;
-            padding: 24px 20px 32px;
-            box-shadow: 0 25px 45px rgba(0,0,0,0.5), inset 0 1px 0 rgba(255,255,255,0.1);
-            border: 1px solid rgba(255,255,255,0.2);
-            width: 100%;
-            max-width: 500px;
-            text-align: center;
-        }
-
-        h1 {
-            font-size: 2.4rem;
-            margin: 0 0 4px 0;
-            background: linear-gradient(135deg, #FFD166, #FF8C42);
-            -webkit-background-clip: text;
-            background-clip: text;
-            color: transparent;
-            letter-spacing: -0.5px;
-        }
-
-        .sub {
-            color: #9aa1b8;
-            margin-bottom: 24px;
-            font-weight: 500;
+            background: #0f1322;
+            border-radius: 48px;
+            padding: 20px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.4);
+            border: 1px solid rgba(255,255,255,0.1);
         }
 
         .stats {
-            background: #05070f;
-            border-radius: 60px;
-            padding: 16px 20px;
-            margin-bottom: 24px;
             display: flex;
             justify-content: space-between;
-            border: 1px solid #2a2f42;
+            background: #060812;
+            padding: 12px 20px;
+            border-radius: 60px;
+            margin-bottom: 20px;
         }
 
         .stat {
@@ -65,199 +51,317 @@
         }
 
         .stat-label {
-            font-size: 0.8rem;
-            text-transform: uppercase;
+            font-size: 0.7rem;
+            color: #8a90b0;
             letter-spacing: 1px;
-            color: #6d7394;
         }
 
         .stat-value {
-            font-size: 2.2rem;
+            font-size: 1.8rem;
             font-weight: 800;
             color: white;
             line-height: 1;
         }
 
-        .click-area {
-            background: #0b0e17;
-            border-radius: 48px;
-            padding: 32px 20px;
-            margin-bottom: 24px;
-            border: 2px solid #2d324b;
-        }
-
-        .click-button {
-            background: linear-gradient(145deg, #FF8C42, #FF5E00);
-            border: none;
+        canvas {
+            display: block;
             width: 100%;
-            padding: 40px 20px;
-            border-radius: 40px;
-            font-size: 3rem;
-            font-weight: bold;
-            color: white;
-            text-shadow: 0 2px 5px rgba(0,0,0,0.3);
+            background: #01010a;
+            border-radius: 32px;
             cursor: pointer;
-            transition: 0.05s linear;
-            box-shadow: 0 12px 0 #a13d00;
+            touch-action: none;
         }
 
-        .click-button:active {
-            transform: translateY(4px);
-            box-shadow: 0 6px 0 #a13d00;
-        }
-
-        .action-buttons {
+        .controls-info {
             display: flex;
+            justify-content: space-between;
+            margin-top: 16px;
             gap: 12px;
-            margin-bottom: 20px;
         }
 
-        .btn {
+        .control-btn {
             flex: 1;
-            background: #1e243b;
+            background: #1e243f;
             border: none;
-            padding: 14px 0;
-            border-radius: 50px;
-            font-weight: bold;
+            padding: 14px;
+            border-radius: 40px;
             color: white;
+            font-weight: bold;
             font-size: 1rem;
             cursor: pointer;
         }
 
-        .btn-primary {
-            background: #2e6b3e;
-            box-shadow: 0 2px 8px rgba(0,200,100,0.2);
+        .control-btn:active {
+            background: #2e3555;
         }
 
-        footer {
-            font-size: 0.7rem;
-            color: #4a5070;
-            margin-top: 20px;
+        .restart-btn {
+            background: #ff5e00;
+            box-shadow: 0 2px 10px rgba(255,94,0,0.3);
+        }
+
+        .status {
+            text-align: center;
+            margin-top: 16px;
+            font-weight: bold;
+            color: #ffae70;
+        }
+
+        @media (max-width: 600px) {
+            .stat-value { font-size: 1.4rem; }
+            .control-btn { padding: 10px; font-size: 0.9rem; }
         }
     </style>
 </head>
 <body>
-<div class="game-container">
-    <h1>⚡ CLICK DASH</h1>
-    <div class="sub">10 seconds · fastest taps win</div>
-
-    <div class="stats">
-        <div class="stat">
-            <div class="stat-label">SCORE</div>
-            <div class="stat-value" id="scoreDisplay">0</div>
+<div class="game-wrapper">
+    <div class="game-container">
+        <div class="stats">
+            <div class="stat">
+                <div class="stat-label">SCORE</div>
+                <div class="stat-value" id="scoreValue">0</div>
+            </div>
+            <div class="stat">
+                <div class="stat-label">BEST</div>
+                <div class="stat-value" id="bestValue">0</div>
+            </div>
         </div>
-        <div class="stat">
-            <div class="stat-label">TIME</div>
-            <div class="stat-value" id="timerDisplay">10.0</div>
-        </div>
-        <div class="stat">
-            <div class="stat-label">🏆 BEST</div>
-            <div class="stat-value" id="highScoreDisplay">0</div>
-        </div>
-    </div>
 
-    <div class="click-area">
-        <button class="click-button" id="clickBtn">🔥 TAP 🔥</button>
-    </div>
+        <canvas id="gameCanvas" width="400" height="500" style="width:100%; height:auto; aspect-ratio:400/500"></canvas>
 
-    <div class="action-buttons">
-        <button class="btn" id="resetGameBtn">🔄 NEW GAME</button>
+        <div class="controls-info">
+            <button class="control-btn" id="leftBtn">◀ LEFT</button>
+            <button class="control-btn restart-btn" id="restartBtn">🔄 RESTART</button>
+            <button class="control-btn" id="rightBtn">RIGHT ▶</button>
+        </div>
+        <div class="status" id="gameStatus">👇 Tap LEFT or RIGHT to move</div>
     </div>
-    <footer>👇 Tap fast before time runs out!</footer>
 </div>
 
 <script>
-    let score = 0;
-    let timeLeft = 10.0;
-    let gameActive = false;
-    let gameInterval = null;
+    (function(){
+        // ----- CANVAS SETUP -----
+        const canvas = document.getElementById('gameCanvas');
+        const ctx = canvas.getContext('2d');
 
-    const clickBtn = document.getElementById('clickBtn');
-    const scoreDisplay = document.getElementById('scoreDisplay');
-    const timerDisplay = document.getElementById('timerDisplay');
-    const highScoreDisplay = document.getElementById('highScoreDisplay');
-    const resetBtn = document.getElementById('resetGameBtn');
+        // Dimensions
+        let canvasWidth = 400;
+        let canvasHeight = 500;
+        canvas.width = canvasWidth;
+        canvas.height = canvasHeight;
 
-    let bestScore = localStorage.getItem('clickDashHigh') ? parseInt(localStorage.getItem('clickDashHigh')) : 0;
-    highScoreDisplay.innerText = bestScore;
+        // Game state
+        let gameRunning = true;
+        let score = 0;
+        let bestScore = localStorage.getItem('dodgeBest') ? parseInt(localStorage.getItem('dodgeBest')) : 0;
+        document.getElementById('bestValue').innerText = bestScore;
 
-    function updateUI() {
-        scoreDisplay.innerText = score;
-        timerDisplay.innerText = timeLeft.toFixed(1);
-    }
+        // Player
+        const PLAYER_WIDTH = 50;
+        const PLAYER_HEIGHT = 20;
+        let playerX = (canvasWidth - PLAYER_WIDTH) / 2;
+        const playerY = canvasHeight - PLAYER_HEIGHT - 10;
 
-    function endGame() {
-        if (!gameActive) return;
-        gameActive = false;
-        if (gameInterval) {
-            clearInterval(gameInterval);
-            gameInterval = null;
-        }
+        // Falling objects
+        let objects = [];
+        const OBJECT_SIZE = 28;
+        let frameCounter = 0;
+        let spawnRate = 35; // frames between spawns (lower = harder)
+        
+        // Touch / mouse move support (for phone)
+        let lastTouchX = playerX;
 
-        if (score > bestScore) {
-            bestScore = score;
-            localStorage.setItem('clickDashHigh', bestScore);
-            highScoreDisplay.innerText = bestScore;
-            alert(`🏆 NEW RECORD! ${score} clicks!`);
-        }
-    }
+        // UI elements
+        const scoreSpan = document.getElementById('scoreValue');
+        const gameStatusDiv = document.getElementById('gameStatus');
 
-    function startGame() {
-        if (gameActive) return;
-        score = 0;
-        timeLeft = 10.0;
-        gameActive = true;
-        updateUI();
-
-        if (gameInterval) clearInterval(gameInterval);
-
-        gameInterval = setInterval(() => {
-            if (!gameActive) {
-                if (gameInterval) clearInterval(gameInterval);
-                return;
+        // ----- Helper Functions -----
+        function updateUI() {
+            scoreSpan.innerText = score;
+            if(score > bestScore) {
+                bestScore = score;
+                localStorage.setItem('dodgeBest', bestScore);
+                document.getElementById('bestValue').innerText = bestScore;
             }
-            if (timeLeft <= 0.01) {
-                endGame();
-                if (gameInterval) clearInterval(gameInterval);
-                gameInterval = null;
+        }
+
+        function spawnObject() {
+            let randX = Math.random() * (canvasWidth - OBJECT_SIZE);
+            objects.push({
+                x: randX,
+                y: -OBJECT_SIZE,
+                size: OBJECT_SIZE
+            });
+        }
+
+        function resetGame() {
+            gameRunning = true;
+            score = 0;
+            objects = [];
+            frameCounter = 0;
+            spawnRate = 35;
+            playerX = (canvasWidth - PLAYER_WIDTH) / 2;
+            updateUI();
+            gameStatusDiv.innerText = "🎮 Game on! Dodge the red blocks!";
+            gameStatusDiv.style.color = "#88ff88";
+        }
+
+        function endGame() {
+            gameRunning = false;
+            gameStatusDiv.innerText = "💀 GAME OVER — Press RESTART 💀";
+            gameStatusDiv.style.color = "#ff8888";
+        }
+
+        // ----- Collision & Logic -----
+        function updateGame() {
+            if (!gameRunning) return;
+
+            // 1. Spawn objects
+            frameCounter++;
+            if (frameCounter >= spawnRate) {
+                frameCounter = 0;
+                spawnObject();
+                // slowly increase difficulty
+                if (spawnRate > 18) spawnRate -= 0.2;
+            }
+
+            // 2. Move objects & collision
+            for (let i = 0; i < objects.length; i++) {
+                const obj = objects[i];
+                obj.y += 4.5; // fall speed
+
+                // Collision detection (player vs object)
+                if (obj.y + OBJECT_SIZE > playerY &&
+                    obj.y < playerY + PLAYER_HEIGHT &&
+                    obj.x + OBJECT_SIZE > playerX &&
+                    obj.x < playerX + PLAYER_WIDTH) {
+                    endGame();
+                    return;
+                }
+            }
+
+            // 3. Remove offscreen objects & increase score
+            let newObjects = [];
+            for (let obj of objects) {
+                if (obj.y < canvasHeight) {
+                    newObjects.push(obj);
+                } else {
+                    // object passed below — increase score
+                    score++;
+                    updateUI();
+                }
+            }
+            objects = newObjects;
+
+            // keep player within bounds
+            if (playerX < 0) playerX = 0;
+            if (playerX + PLAYER_WIDTH > canvasWidth) playerX = canvasWidth - PLAYER_WIDTH;
+        }
+
+        // ----- DRAW EVERYTHING -----
+        function draw() {
+            ctx.clearRect(0, 0, canvasWidth, canvasHeight);
+            
+            // Draw background grid
+            ctx.fillStyle = "#01010a";
+            ctx.fillRect(0, 0, canvasWidth, canvasHeight);
+            
+            // Draw falling objects (red with gradient)
+            for (let obj of objects) {
+                const grad = ctx.createLinearGradient(obj.x, obj.y, obj.x+OBJECT_SIZE, obj.y+OBJECT_SIZE);
+                grad.addColorStop(0, '#e03a3a');
+                grad.addColorStop(1, '#a01010');
+                ctx.fillStyle = grad;
+                ctx.shadowBlur = 8;
+                ctx.shadowColor = "red";
+                ctx.fillRect(obj.x, obj.y, OBJECT_SIZE, OBJECT_SIZE);
+                ctx.fillStyle = "#ff8080";
+                ctx.fillRect(obj.x+5, obj.y+5, OBJECT_SIZE-10, OBJECT_SIZE-10);
+            }
+            ctx.shadowBlur = 0;
+            
+            // Draw Player (shield-like)
+            ctx.fillStyle = "#3ac0ff";
+            ctx.shadowBlur = 10;
+            ctx.shadowColor = "#00a6ff";
+            ctx.fillRect(playerX, playerY, PLAYER_WIDTH, PLAYER_HEIGHT);
+            ctx.fillStyle = "#ffffff";
+            ctx.fillRect(playerX+8, playerY+4, PLAYER_WIDTH-16, 6);
+            ctx.fillStyle = "#aaffff";
+            ctx.fillRect(playerX+12, playerY+10, PLAYER_WIDTH-24, 6);
+            
+            // Draw border
+            ctx.strokeStyle = "#3a506c";
+            ctx.lineWidth = 2;
+            ctx.strokeRect(2, 2, canvasWidth-4, canvasHeight-4);
+            ctx.shadowBlur = 0;
+            
+            if (!gameRunning) {
+                ctx.font = "bold 24px system-ui";
+                ctx.fillStyle = "#ffffffcc";
+                ctx.shadowBlur = 0;
+                ctx.fillText("GAME OVER", canvasWidth/2-85, canvasHeight/2-30);
+            }
+        }
+
+        // ----- MOVE PLAYER (works for both touch and buttons) -----
+        function movePlayer(deltaX) {
+            if (!gameRunning) return;
+            playerX += deltaX;
+            if (playerX < 0) playerX = 0;
+            if (playerX + PLAYER_WIDTH > canvasWidth) playerX = canvasWidth - PLAYER_WIDTH;
+            lastTouchX = playerX;
+        }
+
+        // ----- EVENT HANDLERS (phone friendly) -----
+        function handleCanvasTap(e) {
+            e.preventDefault();
+            const rect = canvas.getBoundingClientRect();
+            const scaleX = canvasWidth / rect.width;
+            let clientX;
+            if (e.touches) {
+                clientX = e.touches[0].clientX;
             } else {
-                timeLeft = Math.max(0, timeLeft - 0.1);
-                timerDisplay.innerText = timeLeft.toFixed(1);
-                if (timeLeft <= 0) endGame();
+                clientX = e.clientX;
             }
-        }, 100);
-    }
-
-    function handleClick() {
-        if (!gameActive) {
-            startGame();
-            return;
+            let canvasX = (clientX - rect.left) * scaleX;
+            if (canvasX < canvasWidth/2) {
+                movePlayer(-40);
+            } else {
+                movePlayer(40);
+            }
         }
-        if (timeLeft > 0) {
-            score++;
-            scoreDisplay.innerText = score;
-            clickBtn.style.transform = "scale(0.97)";
-            setTimeout(() => { if(clickBtn) clickBtn.style.transform = ""; }, 80);
+
+        // Buttons
+        document.getElementById('leftBtn').addEventListener('click', (e) => {
+            e.preventDefault();
+            movePlayer(-45);
+        });
+        document.getElementById('rightBtn').addEventListener('click', (e) => {
+            e.preventDefault();
+            movePlayer(45);
+        });
+        document.getElementById('restartBtn').addEventListener('click', (e) => {
+            resetGame();
+        });
+        
+        // Touch on canvas
+        canvas.addEventListener('touchstart', handleCanvasTap);
+        canvas.addEventListener('mousedown', handleCanvasTap);
+        
+        // Optional: prevent drag on canvas
+        canvas.addEventListener('dragstart', (e) => e.preventDefault());
+        
+        // ----- GAME LOOP (60fps)-----
+        function gameLoop() {
+            updateGame();
+            draw();
+            requestAnimationFrame(gameLoop);
         }
-    }
-
-    function resetGame() {
-        if (gameInterval) {
-            clearInterval(gameInterval);
-            gameInterval = null;
-        }
-        gameActive = false;
-        score = 0;
-        timeLeft = 10.0;
-        updateUI();
-        startGame();
-    }
-
-    clickBtn.addEventListener('click', handleClick);
-    resetBtn.addEventListener('click', resetGame);
-
-    updateUI();
-    startGame();
+        
+        resetGame();
+        gameLoop();
+    })();
 </script>
 </body>
 </html>
