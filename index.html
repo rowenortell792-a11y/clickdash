@@ -106,11 +106,6 @@
             font-weight: bold;
             color: #ffae70;
         }
-
-        @media (max-width: 600px) {
-            .stat-value { font-size: 1.4rem; }
-            .control-btn { padding: 10px; font-size: 0.9rem; }
-        }
     </style>
 </head>
 <body>
@@ -140,42 +135,33 @@
 
 <script>
     (function(){
-        // ----- CANVAS SETUP -----
         const canvas = document.getElementById('gameCanvas');
         const ctx = canvas.getContext('2d');
 
-        // Dimensions
         let canvasWidth = 400;
         let canvasHeight = 500;
         canvas.width = canvasWidth;
         canvas.height = canvasHeight;
 
-        // Game state
         let gameRunning = true;
         let score = 0;
         let bestScore = localStorage.getItem('dodgeBest') ? parseInt(localStorage.getItem('dodgeBest')) : 0;
         document.getElementById('bestValue').innerText = bestScore;
 
-        // Player
-        const PLAYER_WIDTH = 50;
-        const PLAYER_HEIGHT = 20;
+        const PLAYER_WIDTH = 55;
+        const PLAYER_HEIGHT = 22;
         let playerX = (canvasWidth - PLAYER_WIDTH) / 2;
         const playerY = canvasHeight - PLAYER_HEIGHT - 10;
 
-        // Falling objects
         let objects = [];
-        const OBJECT_SIZE = 28;
+        const OBJECT_SIZE = 26;
         let frameCounter = 0;
-        let spawnRate = 35; // frames between spawns (lower = harder)
+        let spawnRate = 45;
         
-        // Touch / mouse move support (for phone)
         let lastTouchX = playerX;
-
-        // UI elements
         const scoreSpan = document.getElementById('scoreValue');
         const gameStatusDiv = document.getElementById('gameStatus');
 
-        // ----- Helper Functions -----
         function updateUI() {
             scoreSpan.innerText = score;
             if(score > bestScore) {
@@ -199,10 +185,10 @@
             score = 0;
             objects = [];
             frameCounter = 0;
-            spawnRate = 35;
+            spawnRate = 45;
             playerX = (canvasWidth - PLAYER_WIDTH) / 2;
             updateUI();
-            gameStatusDiv.innerText = "🎮 Game on! Dodge the red blocks!";
+            gameStatusDiv.innerText = "🎮 Dodge! Survive as long as you can!";
             gameStatusDiv.style.color = "#88ff88";
         }
 
@@ -212,85 +198,70 @@
             gameStatusDiv.style.color = "#ff8888";
         }
 
-        // ----- Collision & Logic -----
         function updateGame() {
             if (!gameRunning) return;
 
-            // 1. Spawn objects
             frameCounter++;
             if (frameCounter >= spawnRate) {
                 frameCounter = 0;
                 spawnObject();
-                // slowly increase difficulty
-                if (spawnRate > 18) spawnRate -= 0.2;
+                if (spawnRate > 25) spawnRate -= 0.15;
             }
 
-            // 2. Move objects & collision
             for (let i = 0; i < objects.length; i++) {
                 const obj = objects[i];
-                obj.y += 4.5; // fall speed
+                obj.y += 4.2;
 
-                // Collision detection (player vs object)
-                if (obj.y + OBJECT_SIZE > playerY &&
-                    obj.y < playerY + PLAYER_HEIGHT &&
-                    obj.x + OBJECT_SIZE > playerX &&
-                    obj.x < playerX + PLAYER_WIDTH) {
+                // SMALLER hitbox for fairness
+                if (obj.y + OBJECT_SIZE - 5 > playerY &&
+                    obj.y + 5 < playerY + PLAYER_HEIGHT &&
+                    obj.x + OBJECT_SIZE - 8 > playerX &&
+                    obj.x + 8 < playerX + PLAYER_WIDTH) {
                     endGame();
                     return;
                 }
             }
 
-            // 3. Remove offscreen objects & increase score
             let newObjects = [];
             for (let obj of objects) {
                 if (obj.y < canvasHeight) {
                     newObjects.push(obj);
                 } else {
-                    // object passed below — increase score
                     score++;
                     updateUI();
                 }
             }
             objects = newObjects;
 
-            // keep player within bounds
             if (playerX < 0) playerX = 0;
             if (playerX + PLAYER_WIDTH > canvasWidth) playerX = canvasWidth - PLAYER_WIDTH;
         }
 
-        // ----- DRAW EVERYTHING -----
         function draw() {
             ctx.clearRect(0, 0, canvasWidth, canvasHeight);
-            
-            // Draw background grid
             ctx.fillStyle = "#01010a";
             ctx.fillRect(0, 0, canvasWidth, canvasHeight);
             
-            // Draw falling objects (red with gradient)
             for (let obj of objects) {
                 const grad = ctx.createLinearGradient(obj.x, obj.y, obj.x+OBJECT_SIZE, obj.y+OBJECT_SIZE);
                 grad.addColorStop(0, '#e03a3a');
                 grad.addColorStop(1, '#a01010');
                 ctx.fillStyle = grad;
-                ctx.shadowBlur = 8;
+                ctx.shadowBlur = 6;
                 ctx.shadowColor = "red";
                 ctx.fillRect(obj.x, obj.y, OBJECT_SIZE, OBJECT_SIZE);
                 ctx.fillStyle = "#ff8080";
-                ctx.fillRect(obj.x+5, obj.y+5, OBJECT_SIZE-10, OBJECT_SIZE-10);
+                ctx.fillRect(obj.x+6, obj.y+6, OBJECT_SIZE-12, OBJECT_SIZE-12);
             }
             ctx.shadowBlur = 0;
             
-            // Draw Player (shield-like)
             ctx.fillStyle = "#3ac0ff";
-            ctx.shadowBlur = 10;
+            ctx.shadowBlur = 8;
             ctx.shadowColor = "#00a6ff";
             ctx.fillRect(playerX, playerY, PLAYER_WIDTH, PLAYER_HEIGHT);
             ctx.fillStyle = "#ffffff";
-            ctx.fillRect(playerX+8, playerY+4, PLAYER_WIDTH-16, 6);
-            ctx.fillStyle = "#aaffff";
-            ctx.fillRect(playerX+12, playerY+10, PLAYER_WIDTH-24, 6);
+            ctx.fillRect(playerX+10, playerY+5, PLAYER_WIDTH-20, 6);
             
-            // Draw border
             ctx.strokeStyle = "#3a506c";
             ctx.lineWidth = 2;
             ctx.strokeRect(2, 2, canvasWidth-4, canvasHeight-4);
@@ -299,12 +270,10 @@
             if (!gameRunning) {
                 ctx.font = "bold 24px system-ui";
                 ctx.fillStyle = "#ffffffcc";
-                ctx.shadowBlur = 0;
                 ctx.fillText("GAME OVER", canvasWidth/2-85, canvasHeight/2-30);
             }
         }
 
-        // ----- MOVE PLAYER (works for both touch and buttons) -----
         function movePlayer(deltaX) {
             if (!gameRunning) return;
             playerX += deltaX;
@@ -313,7 +282,6 @@
             lastTouchX = playerX;
         }
 
-        // ----- EVENT HANDLERS (phone friendly) -----
         function handleCanvasTap(e) {
             e.preventDefault();
             const rect = canvas.getBoundingClientRect();
@@ -326,33 +294,28 @@
             }
             let canvasX = (clientX - rect.left) * scaleX;
             if (canvasX < canvasWidth/2) {
-                movePlayer(-40);
+                movePlayer(-48);
             } else {
-                movePlayer(40);
+                movePlayer(48);
             }
         }
 
-        // Buttons
         document.getElementById('leftBtn').addEventListener('click', (e) => {
             e.preventDefault();
-            movePlayer(-45);
+            movePlayer(-50);
         });
         document.getElementById('rightBtn').addEventListener('click', (e) => {
             e.preventDefault();
-            movePlayer(45);
+            movePlayer(50);
         });
         document.getElementById('restartBtn').addEventListener('click', (e) => {
             resetGame();
         });
         
-        // Touch on canvas
         canvas.addEventListener('touchstart', handleCanvasTap);
         canvas.addEventListener('mousedown', handleCanvasTap);
-        
-        // Optional: prevent drag on canvas
         canvas.addEventListener('dragstart', (e) => e.preventDefault());
         
-        // ----- GAME LOOP (60fps)-----
         function gameLoop() {
             updateGame();
             draw();
