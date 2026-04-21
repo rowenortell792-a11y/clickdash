@@ -1,0 +1,263 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <title>Click Dash — Speed Tapper</title>
+    <style>
+        * {
+            box-sizing: border-box;
+            user-select: none;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        body {
+            font-family: system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+            background: linear-gradient(145deg, #1a1e2b 0%, #0f121c 100%);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin: 0;
+            padding: 20px;
+        }
+
+        .game-container {
+            background: rgba(10, 14, 23, 0.7);
+            backdrop-filter: blur(8px);
+            border-radius: 64px;
+            padding: 24px 20px 32px;
+            box-shadow: 0 25px 45px rgba(0,0,0,0.5), inset 0 1px 0 rgba(255,255,255,0.1);
+            border: 1px solid rgba(255,255,255,0.2);
+            width: 100%;
+            max-width: 500px;
+            text-align: center;
+        }
+
+        h1 {
+            font-size: 2.4rem;
+            margin: 0 0 4px 0;
+            background: linear-gradient(135deg, #FFD166, #FF8C42);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            letter-spacing: -0.5px;
+        }
+
+        .sub {
+            color: #9aa1b8;
+            margin-bottom: 24px;
+            font-weight: 500;
+        }
+
+        .stats {
+            background: #05070f;
+            border-radius: 60px;
+            padding: 16px 20px;
+            margin-bottom: 24px;
+            display: flex;
+            justify-content: space-between;
+            border: 1px solid #2a2f42;
+        }
+
+        .stat {
+            text-align: center;
+        }
+
+        .stat-label {
+            font-size: 0.8rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: #6d7394;
+        }
+
+        .stat-value {
+            font-size: 2.2rem;
+            font-weight: 800;
+            color: white;
+            line-height: 1;
+        }
+
+        .click-area {
+            background: #0b0e17;
+            border-radius: 48px;
+            padding: 32px 20px;
+            margin-bottom: 24px;
+            border: 2px solid #2d324b;
+        }
+
+        .click-button {
+            background: linear-gradient(145deg, #FF8C42, #FF5E00);
+            border: none;
+            width: 100%;
+            padding: 40px 20px;
+            border-radius: 40px;
+            font-size: 3rem;
+            font-weight: bold;
+            color: white;
+            text-shadow: 0 2px 5px rgba(0,0,0,0.3);
+            cursor: pointer;
+            transition: 0.05s linear;
+            box-shadow: 0 12px 0 #a13d00;
+        }
+
+        .click-button:active {
+            transform: translateY(4px);
+            box-shadow: 0 6px 0 #a13d00;
+        }
+
+        .action-buttons {
+            display: flex;
+            gap: 12px;
+            margin-bottom: 20px;
+        }
+
+        .btn {
+            flex: 1;
+            background: #1e243b;
+            border: none;
+            padding: 14px 0;
+            border-radius: 50px;
+            font-weight: bold;
+            color: white;
+            font-size: 1rem;
+            cursor: pointer;
+        }
+
+        .btn-primary {
+            background: #2e6b3e;
+            box-shadow: 0 2px 8px rgba(0,200,100,0.2);
+        }
+
+        footer {
+            font-size: 0.7rem;
+            color: #4a5070;
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+<div class="game-container">
+    <h1>⚡ CLICK DASH</h1>
+    <div class="sub">10 seconds · fastest taps win</div>
+
+    <div class="stats">
+        <div class="stat">
+            <div class="stat-label">SCORE</div>
+            <div class="stat-value" id="scoreDisplay">0</div>
+        </div>
+        <div class="stat">
+            <div class="stat-label">TIME</div>
+            <div class="stat-value" id="timerDisplay">10.0</div>
+        </div>
+        <div class="stat">
+            <div class="stat-label">🏆 BEST</div>
+            <div class="stat-value" id="highScoreDisplay">0</div>
+        </div>
+    </div>
+
+    <div class="click-area">
+        <button class="click-button" id="clickBtn">🔥 TAP 🔥</button>
+    </div>
+
+    <div class="action-buttons">
+        <button class="btn" id="resetGameBtn">🔄 NEW GAME</button>
+    </div>
+    <footer>👇 Tap fast before time runs out!</footer>
+</div>
+
+<script>
+    let score = 0;
+    let timeLeft = 10.0;
+    let gameActive = false;
+    let gameInterval = null;
+
+    const clickBtn = document.getElementById('clickBtn');
+    const scoreDisplay = document.getElementById('scoreDisplay');
+    const timerDisplay = document.getElementById('timerDisplay');
+    const highScoreDisplay = document.getElementById('highScoreDisplay');
+    const resetBtn = document.getElementById('resetGameBtn');
+
+    let bestScore = localStorage.getItem('clickDashHigh') ? parseInt(localStorage.getItem('clickDashHigh')) : 0;
+    highScoreDisplay.innerText = bestScore;
+
+    function updateUI() {
+        scoreDisplay.innerText = score;
+        timerDisplay.innerText = timeLeft.toFixed(1);
+    }
+
+    function endGame() {
+        if (!gameActive) return;
+        gameActive = false;
+        if (gameInterval) {
+            clearInterval(gameInterval);
+            gameInterval = null;
+        }
+
+        if (score > bestScore) {
+            bestScore = score;
+            localStorage.setItem('clickDashHigh', bestScore);
+            highScoreDisplay.innerText = bestScore;
+            alert(`🏆 NEW RECORD! ${score} clicks!`);
+        }
+    }
+
+    function startGame() {
+        if (gameActive) return;
+        score = 0;
+        timeLeft = 10.0;
+        gameActive = true;
+        updateUI();
+
+        if (gameInterval) clearInterval(gameInterval);
+
+        gameInterval = setInterval(() => {
+            if (!gameActive) {
+                if (gameInterval) clearInterval(gameInterval);
+                return;
+            }
+            if (timeLeft <= 0.01) {
+                endGame();
+                if (gameInterval) clearInterval(gameInterval);
+                gameInterval = null;
+            } else {
+                timeLeft = Math.max(0, timeLeft - 0.1);
+                timerDisplay.innerText = timeLeft.toFixed(1);
+                if (timeLeft <= 0) endGame();
+            }
+        }, 100);
+    }
+
+    function handleClick() {
+        if (!gameActive) {
+            startGame();
+            return;
+        }
+        if (timeLeft > 0) {
+            score++;
+            scoreDisplay.innerText = score;
+            clickBtn.style.transform = "scale(0.97)";
+            setTimeout(() => { if(clickBtn) clickBtn.style.transform = ""; }, 80);
+        }
+    }
+
+    function resetGame() {
+        if (gameInterval) {
+            clearInterval(gameInterval);
+            gameInterval = null;
+        }
+        gameActive = false;
+        score = 0;
+        timeLeft = 10.0;
+        updateUI();
+        startGame();
+    }
+
+    clickBtn.addEventListener('click', handleClick);
+    resetBtn.addEventListener('click', resetGame);
+
+    updateUI();
+    startGame();
+</script>
+</body>
+</html>
