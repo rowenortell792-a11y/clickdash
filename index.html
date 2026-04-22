@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
-    <title>Click Dash — Dodge Game</title>
+    <title>Click Dash — Premium Dodge Game</title>
     <style>
         * {
             margin: 0;
@@ -79,6 +79,11 @@
             width: 100%;
             font-size: 1.2rem;
         }
+        .code-btn {
+            background: #3a6ea5;
+            margin-top: 8px;
+            width: 100%;
+        }
         .premium-badge {
             text-align: center;
             margin-top: 12px;
@@ -89,6 +94,17 @@
             text-align: center;
             margin-top: 12px;
             color: #ffae70;
+        }
+        .code-input {
+            width: 100%;
+            padding: 12px;
+            margin-top: 8px;
+            border-radius: 40px;
+            border: none;
+            text-align: center;
+            font-size: 1rem;
+            background: #1e243f;
+            color: white;
         }
     </style>
 </head>
@@ -108,6 +124,11 @@
     </div>
 
     <button class="control-btn cashapp-btn" id="cashappBtn">💵 BUY PREMIUM — $2.99 (Cash App) 💵</button>
+    
+    <!-- AUTO-UNLOCK SECTION -->
+    <input type="text" class="code-input" id="unlockCode" placeholder="Enter your unlock code">
+    <button class="control-btn code-btn" id="unlockBtn">🔓 UNLOCK PREMIUM WITH CODE 🔓</button>
+    
     <div class="premium-badge" id="premiumStatus">⚡ Free version — ads shown occasionally</div>
     <div class="status" id="gameStatus">👇 Tap LEFT or RIGHT to move</div>
 </div>
@@ -127,11 +148,22 @@
         let bestScore = localStorage.getItem('dodgeBest') ? parseInt(localStorage.getItem('dodgeBest')) : 0;
         document.getElementById('bestValue').innerText = bestScore;
 
+        // 🔥 PREMIUM UNLOCK CODES (YOU CREATE THESE) 🔥
+        // When someone pays you, give them one of these codes
+        const VALID_CODES = {
+            "PREMIUM2024": true,
+            "CLICKDASH1": true,
+            "GOLDEN123": true,
+            "SPEEDDEMON": true
+        };
+        
+        // Check if premium is already unlocked
         let isPremium = localStorage.getItem('clickDashPremium') === 'true';
         if(isPremium) {
             document.getElementById('premiumStatus').innerHTML = "👑 PREMIUM ACTIVE — No ads, green theme 👑";
             document.getElementById('cashappBtn').innerText = "✅ PREMIUM UNLOCKED";
             document.getElementById('cashappBtn').disabled = true;
+            document.getElementById('unlockBtn').disabled = true;
         }
 
         const PLAYER_WIDTH = 55;
@@ -258,7 +290,7 @@
         document.getElementById('rightBtn').onclick = () => movePlayer(50);
         document.getElementById('restartBtn').onclick = () => resetGame();
         
-        // 🔥 YOUR CASH APP LINK IS ALREADY HERE 🔥
+        // 💰 CASH APP BUTTON
         const YOUR_CASHAPP_LINK = "cash.app/$trigganordy1/2.99";
         
         document.getElementById('cashappBtn').onclick = () => {
@@ -269,7 +301,32 @@
             
             window.open("https://" + YOUR_CASHAPP_LINK, "_blank");
             
-            alert("1️⃣ Send $2.99 via Cash App to $trigganordy1\n2️⃣ Take a screenshot\n3️⃣ Text it to me\n4️⃣ I'll unlock premium for you!\n\nPremium gives you: No ads + Green theme");
+            alert("💰 Send $2.99 to $trigganordy1 on Cash App\n\nAfter payment, message me on Cash App or social media.\nI will send you an UNLOCK CODE instantly!\n\nThen enter the code in the game to unlock premium.");
+        };
+        
+        // 🔓 AUTO-UNLOCK WITH CODE 🔓
+        document.getElementById('unlockBtn').onclick = () => {
+            if(isPremium) {
+                alert("You already have premium!");
+                return;
+            }
+            
+            const codeInput = document.getElementById('unlockCode');
+            const code = codeInput.value.trim().toUpperCase();
+            
+            if(code === "") {
+                alert("Enter a code first.");
+                return;
+            }
+            
+            if(VALID_CODES[code]) {
+                // Premium unlocked!
+                localStorage.setItem('clickDashPremium', 'true');
+                alert("✅ PREMIUM UNLOCKED! The game will now refresh.");
+                location.reload();
+            } else {
+                alert("❌ Invalid code. Please check and try again.");
+            }
         };
         
         canvas.addEventListener('touchstart', handleCanvasTap);
