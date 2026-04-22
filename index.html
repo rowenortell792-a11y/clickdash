@@ -125,7 +125,6 @@
 
     <button class="control-btn cashapp-btn" id="cashappBtn">💵 BUY PREMIUM — $2.99 (Cash App) 💵</button>
     
-    <!-- AUTO-UNLOCK SECTION -->
     <input type="text" class="code-input" id="unlockCode" placeholder="Enter your unlock code">
     <button class="control-btn code-btn" id="unlockBtn">🔓 UNLOCK PREMIUM WITH CODE 🔓</button>
     
@@ -148,16 +147,13 @@
         let bestScore = localStorage.getItem('dodgeBest') ? parseInt(localStorage.getItem('dodgeBest')) : 0;
         document.getElementById('bestValue').innerText = bestScore;
 
-        // 🔥 PREMIUM UNLOCK CODES (YOU CREATE THESE) 🔥
-        // When someone pays you, give them one of these codes
+        // 🔥 YOUR UNLOCK CODES — EDIT THESE 🔥
         const VALID_CODES = {
-            "PREMIUM2024": true,
-            "CLICKDASH1": true,
-            "GOLDEN123": true,
-            "SPEEDDEMON": true
+            "CODE123": true,
+            "GOLD789": true,
+            "PREMIUM456": true
         };
         
-        // Check if premium is already unlocked
         let isPremium = localStorage.getItem('clickDashPremium') === 'true';
         if(isPremium) {
             document.getElementById('premiumStatus').innerHTML = "👑 PREMIUM ACTIVE — No ads, green theme 👑";
@@ -290,7 +286,7 @@
         document.getElementById('rightBtn').onclick = () => movePlayer(50);
         document.getElementById('restartBtn').onclick = () => resetGame();
         
-        // 💰 CASH APP BUTTON
+        // 💰 CASH APP BUTTON with YOUR link
         const YOUR_CASHAPP_LINK = "cash.app/$trigganordy1/2.99";
         
         document.getElementById('cashappBtn').onclick = () => {
@@ -301,10 +297,10 @@
             
             window.open("https://" + YOUR_CASHAPP_LINK, "_blank");
             
-            alert("💰 Send $2.99 to $trigganordy1 on Cash App\n\nAfter payment, message me on Cash App or social media.\nI will send you an UNLOCK CODE instantly!\n\nThen enter the code in the game to unlock premium.");
+            alert("💰 Send $2.99 to $trigganordy1 on Cash App\n\nAfter payment, I will send you an UNLOCK CODE!\nThen enter the code below to unlock premium.");
         };
         
-        // 🔓 AUTO-UNLOCK WITH CODE 🔓
+        // 🔓 AUTO-UNLOCK WITH CODE
         document.getElementById('unlockBtn').onclick = () => {
             if(isPremium) {
                 alert("You already have premium!");
@@ -320,7 +316,6 @@
             }
             
             if(VALID_CODES[code]) {
-                // Premium unlocked!
                 localStorage.setItem('clickDashPremium', 'true');
                 alert("✅ PREMIUM UNLOCKED! The game will now refresh.");
                 location.reload();
