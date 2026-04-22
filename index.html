@@ -2,8 +2,8 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no, viewport-fit=cover">
-    <title>Dodge — Falling Objects</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <title>Click Dash — Dodge Game</title>
     <style>
         * {
             margin: 0;
@@ -12,31 +12,22 @@
             user-select: none;
             -webkit-tap-highlight-color: transparent;
         }
-
         body {
             background: linear-gradient(145deg, #0a0f1e 0%, #05070f 100%);
             min-height: 100vh;
             display: flex;
             justify-content: center;
             align-items: center;
-            font-family: system-ui, -apple-system, 'Segoe UI', sans-serif;
-            touch-action: pan-x pan-y;
-        }
-
-        .game-wrapper {
+            font-family: system-ui, sans-serif;
             padding: 16px;
-            width: 100%;
-            max-width: 500px;
         }
-
         .game-container {
             background: #0f1322;
             border-radius: 48px;
             padding: 20px;
-            box-shadow: 0 20px 40px rgba(0,0,0,0.4);
-            border: 1px solid rgba(255,255,255,0.1);
+            max-width: 500px;
+            width: 100%;
         }
-
         .stats {
             display: flex;
             justify-content: space-between;
@@ -45,40 +36,29 @@
             border-radius: 60px;
             margin-bottom: 20px;
         }
-
         .stat {
             text-align: center;
         }
-
         .stat-label {
             font-size: 0.7rem;
             color: #8a90b0;
-            letter-spacing: 1px;
         }
-
         .stat-value {
             font-size: 1.8rem;
             font-weight: 800;
             color: white;
-            line-height: 1;
         }
-
         canvas {
-            display: block;
             width: 100%;
             background: #01010a;
             border-radius: 32px;
-            cursor: pointer;
-            touch-action: none;
+            aspect-ratio: 400/500;
         }
-
         .controls-info {
             display: flex;
-            justify-content: space-between;
-            margin-top: 16px;
             gap: 12px;
+            margin-top: 16px;
         }
-
         .control-btn {
             flex: 1;
             background: #1e243f;
@@ -87,50 +67,49 @@
             border-radius: 40px;
             color: white;
             font-weight: bold;
-            font-size: 1rem;
             cursor: pointer;
         }
-
-        .control-btn:active {
-            background: #2e3555;
-        }
-
         .restart-btn {
             background: #ff5e00;
-            box-shadow: 0 2px 10px rgba(255,94,0,0.3);
         }
-
+        .cashapp-btn {
+            background: #00d632;
+            color: #000;
+            margin-top: 12px;
+            width: 100%;
+            font-size: 1.2rem;
+        }
+        .premium-badge {
+            text-align: center;
+            margin-top: 12px;
+            font-size: 0.8rem;
+            color: #00d632;
+        }
         .status {
             text-align: center;
-            margin-top: 16px;
-            font-weight: bold;
+            margin-top: 12px;
             color: #ffae70;
         }
     </style>
 </head>
 <body>
-<div class="game-wrapper">
-    <div class="game-container">
-        <div class="stats">
-            <div class="stat">
-                <div class="stat-label">SCORE</div>
-                <div class="stat-value" id="scoreValue">0</div>
-            </div>
-            <div class="stat">
-                <div class="stat-label">BEST</div>
-                <div class="stat-value" id="bestValue">0</div>
-            </div>
-        </div>
-
-        <canvas id="gameCanvas" width="400" height="500" style="width:100%; height:auto; aspect-ratio:400/500"></canvas>
-
-        <div class="controls-info">
-            <button class="control-btn" id="leftBtn">◀ LEFT</button>
-            <button class="control-btn restart-btn" id="restartBtn">🔄 RESTART</button>
-            <button class="control-btn" id="rightBtn">RIGHT ▶</button>
-        </div>
-        <div class="status" id="gameStatus">👇 Tap LEFT or RIGHT to move</div>
+<div class="game-container">
+    <div class="stats">
+        <div class="stat"><div class="stat-label">SCORE</div><div class="stat-value" id="scoreValue">0</div></div>
+        <div class="stat"><div class="stat-label">BEST</div><div class="stat-value" id="bestValue">0</div></div>
     </div>
+
+    <canvas id="gameCanvas" width="400" height="500"></canvas>
+
+    <div class="controls-info">
+        <button class="control-btn" id="leftBtn">◀ LEFT</button>
+        <button class="control-btn restart-btn" id="restartBtn">🔄 RESTART</button>
+        <button class="control-btn" id="rightBtn">RIGHT ▶</button>
+    </div>
+
+    <button class="control-btn cashapp-btn" id="cashappBtn">💵 BUY PREMIUM — $2.99 (Cash App) 💵</button>
+    <div class="premium-badge" id="premiumStatus">⚡ Free version — ads shown occasionally</div>
+    <div class="status" id="gameStatus">👇 Tap LEFT or RIGHT to move</div>
 </div>
 
 <script>
@@ -148,6 +127,13 @@
         let bestScore = localStorage.getItem('dodgeBest') ? parseInt(localStorage.getItem('dodgeBest')) : 0;
         document.getElementById('bestValue').innerText = bestScore;
 
+        let isPremium = localStorage.getItem('clickDashPremium') === 'true';
+        if(isPremium) {
+            document.getElementById('premiumStatus').innerHTML = "👑 PREMIUM ACTIVE — No ads, green theme 👑";
+            document.getElementById('cashappBtn').innerText = "✅ PREMIUM UNLOCKED";
+            document.getElementById('cashappBtn').disabled = true;
+        }
+
         const PLAYER_WIDTH = 55;
         const PLAYER_HEIGHT = 22;
         let playerX = (canvasWidth - PLAYER_WIDTH) / 2;
@@ -158,7 +144,6 @@
         let frameCounter = 0;
         let spawnRate = 45;
         
-        let lastTouchX = playerX;
         const scoreSpan = document.getElementById('scoreValue');
         const gameStatusDiv = document.getElementById('gameStatus');
 
@@ -173,11 +158,7 @@
 
         function spawnObject() {
             let randX = Math.random() * (canvasWidth - OBJECT_SIZE);
-            objects.push({
-                x: randX,
-                y: -OBJECT_SIZE,
-                size: OBJECT_SIZE
-            });
+            objects.push({ x: randX, y: -OBJECT_SIZE, size: OBJECT_SIZE });
         }
 
         function resetGame() {
@@ -189,30 +170,32 @@
             playerX = (canvasWidth - PLAYER_WIDTH) / 2;
             updateUI();
             gameStatusDiv.innerText = "🎮 Dodge! Survive as long as you can!";
-            gameStatusDiv.style.color = "#88ff88";
         }
 
         function endGame() {
             gameRunning = false;
             gameStatusDiv.innerText = "💀 GAME OVER — Press RESTART 💀";
-            gameStatusDiv.style.color = "#ff8888";
+            if(!isPremium) {
+                let gamesPlayed = parseInt(localStorage.getItem('gamesPlayed') || '0');
+                gamesPlayed++;
+                localStorage.setItem('gamesPlayed', gamesPlayed);
+                if(gamesPlayed % 3 === 0) {
+                    alert("📢 AD BREAK\n💵 Buy Premium for $2.99 on Cash App to remove ads!");
+                }
+            }
         }
 
         function updateGame() {
             if (!gameRunning) return;
-
             frameCounter++;
             if (frameCounter >= spawnRate) {
                 frameCounter = 0;
                 spawnObject();
                 if (spawnRate > 25) spawnRate -= 0.15;
             }
-
             for (let i = 0; i < objects.length; i++) {
                 const obj = objects[i];
                 obj.y += 4.2;
-
-                // SMALLER hitbox for fairness
                 if (obj.y + OBJECT_SIZE - 5 > playerY &&
                     obj.y + 5 < playerY + PLAYER_HEIGHT &&
                     obj.x + OBJECT_SIZE - 8 > playerX &&
@@ -221,18 +204,12 @@
                     return;
                 }
             }
-
             let newObjects = [];
             for (let obj of objects) {
-                if (obj.y < canvasHeight) {
-                    newObjects.push(obj);
-                } else {
-                    score++;
-                    updateUI();
-                }
+                if (obj.y < canvasHeight) newObjects.push(obj);
+                else { score++; updateUI(); }
             }
             objects = newObjects;
-
             if (playerX < 0) playerX = 0;
             if (playerX + PLAYER_WIDTH > canvasWidth) playerX = canvasWidth - PLAYER_WIDTH;
         }
@@ -243,29 +220,16 @@
             ctx.fillRect(0, 0, canvasWidth, canvasHeight);
             
             for (let obj of objects) {
-                const grad = ctx.createLinearGradient(obj.x, obj.y, obj.x+OBJECT_SIZE, obj.y+OBJECT_SIZE);
-                grad.addColorStop(0, '#e03a3a');
-                grad.addColorStop(1, '#a01010');
-                ctx.fillStyle = grad;
-                ctx.shadowBlur = 6;
-                ctx.shadowColor = "red";
+                ctx.fillStyle = "#e03a3a";
                 ctx.fillRect(obj.x, obj.y, OBJECT_SIZE, OBJECT_SIZE);
                 ctx.fillStyle = "#ff8080";
                 ctx.fillRect(obj.x+6, obj.y+6, OBJECT_SIZE-12, OBJECT_SIZE-12);
             }
-            ctx.shadowBlur = 0;
             
-            ctx.fillStyle = "#3ac0ff";
-            ctx.shadowBlur = 8;
-            ctx.shadowColor = "#00a6ff";
+            ctx.fillStyle = isPremium ? "#00d632" : "#3ac0ff";
             ctx.fillRect(playerX, playerY, PLAYER_WIDTH, PLAYER_HEIGHT);
             ctx.fillStyle = "#ffffff";
             ctx.fillRect(playerX+10, playerY+5, PLAYER_WIDTH-20, 6);
-            
-            ctx.strokeStyle = "#3a506c";
-            ctx.lineWidth = 2;
-            ctx.strokeRect(2, 2, canvasWidth-4, canvasHeight-4);
-            ctx.shadowBlur = 0;
             
             if (!gameRunning) {
                 ctx.font = "bold 24px system-ui";
@@ -279,42 +243,37 @@
             playerX += deltaX;
             if (playerX < 0) playerX = 0;
             if (playerX + PLAYER_WIDTH > canvasWidth) playerX = canvasWidth - PLAYER_WIDTH;
-            lastTouchX = playerX;
         }
 
         function handleCanvasTap(e) {
             e.preventDefault();
             const rect = canvas.getBoundingClientRect();
             const scaleX = canvasWidth / rect.width;
-            let clientX;
-            if (e.touches) {
-                clientX = e.touches[0].clientX;
-            } else {
-                clientX = e.clientX;
-            }
+            let clientX = e.touches ? e.touches[0].clientX : e.clientX;
             let canvasX = (clientX - rect.left) * scaleX;
-            if (canvasX < canvasWidth/2) {
-                movePlayer(-48);
-            } else {
-                movePlayer(48);
-            }
+            movePlayer(canvasX < canvasWidth/2 ? -48 : 48);
         }
 
-        document.getElementById('leftBtn').addEventListener('click', (e) => {
-            e.preventDefault();
-            movePlayer(-50);
-        });
-        document.getElementById('rightBtn').addEventListener('click', (e) => {
-            e.preventDefault();
-            movePlayer(50);
-        });
-        document.getElementById('restartBtn').addEventListener('click', (e) => {
-            resetGame();
-        });
+        document.getElementById('leftBtn').onclick = () => movePlayer(-50);
+        document.getElementById('rightBtn').onclick = () => movePlayer(50);
+        document.getElementById('restartBtn').onclick = () => resetGame();
+        
+        // 🔥 YOUR CASH APP LINK IS ALREADY HERE 🔥
+        const YOUR_CASHAPP_LINK = "cash.app/$trigganordy1/2.99";
+        
+        document.getElementById('cashappBtn').onclick = () => {
+            if(isPremium) {
+                alert("You already have premium!");
+                return;
+            }
+            
+            window.open("https://" + YOUR_CASHAPP_LINK, "_blank");
+            
+            alert("1️⃣ Send $2.99 via Cash App to $trigganordy1\n2️⃣ Take a screenshot\n3️⃣ Text it to me\n4️⃣ I'll unlock premium for you!\n\nPremium gives you: No ads + Green theme");
+        };
         
         canvas.addEventListener('touchstart', handleCanvasTap);
         canvas.addEventListener('mousedown', handleCanvasTap);
-        canvas.addEventListener('dragstart', (e) => e.preventDefault());
         
         function gameLoop() {
             updateGame();
