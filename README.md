@@ -1,9 +1,3 @@
-Got it — you want to replace the old "click speed game" description with something that reflects what ClickDash actually is: your full ecosystem platform.
-
-Here's a better README for clickdash.io:
-
----
-
 ClickDash
 
 Shorten, brand, and track every click — with real‑time analytics, custom domains, and deep linking.
