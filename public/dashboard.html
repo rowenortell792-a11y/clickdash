@@ -1,0 +1,309 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ClickDash — Dashboard</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            background: linear-gradient(145deg, #0a0f1e 0%, #05070f 100%);
+            font-family: system-ui, -apple-system, 'Segoe UI', monospace;
+            color: #eef5ff;
+            padding: 20px;
+        }
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: #0f1322cc;
+            backdrop-filter: blur(10px);
+            padding: 16px 24px;
+            border-radius: 60px;
+            margin-bottom: 24px;
+            border: 1px solid #2a2f4f;
+        }
+        .user-info {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+        .avatar {
+            width: 48px;
+            height: 48px;
+            border-radius: 50%;
+            border: 2px solid #3ac0ff;
+        }
+        .plan-badge {
+            background: #00d63220;
+            color: #00d632;
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: bold;
+        }
+        .card {
+            background: #0f1322;
+            border-radius: 32px;
+            padding: 24px;
+            margin-bottom: 24px;
+            border: 1px solid #1e243f;
+        }
+        h2 {
+            font-size: 1.5rem;
+            margin-bottom: 16px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        input, button {
+            width: 100%;
+            padding: 14px 18px;
+            margin: 8px 0;
+            border-radius: 60px;
+            border: none;
+            font-size: 1rem;
+        }
+        input {
+            background: #1e243f;
+            color: white;
+            border: 1px solid #2a2f4f;
+        }
+        button {
+            background: #3ac0ff;
+            color: #0a0f1e;
+            font-weight: bold;
+            cursor: pointer;
+            transition: 0.2s;
+        }
+        button:hover {
+            background: #5fcbff;
+            transform: scale(0.98);
+        }
+        .link-item {
+            background: #1e243f;
+            padding: 12px 16px;
+            border-radius: 40px;
+            margin: 8px 0;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+        .link-url {
+            font-family: monospace;
+            color: #3ac0ff;
+            word-break: break-all;
+        }
+        .pulse-box {
+            background: #01010a;
+            border-radius: 60px;
+            padding: 12px 24px;
+            text-align: center;
+            border: 1px solid #3ac0ff;
+            margin-bottom: 20px;
+        }
+        .pulse-value {
+            font-size: 2.5rem;
+            font-weight: 800;
+            color: #3ac0ff;
+        }
+        .admin-panel {
+            background: #1a1e30;
+            border-left: 4px solid #ff5e00;
+        }
+        .small {
+            font-size: 0.8rem;
+            color: #8a90b0;
+        }
+        hr {
+            border-color: #2a2f4f;
+            margin: 16px 0;
+        }
+        @media (max-width: 600px) {
+            .header { flex-direction: column; gap: 12px; text-align: center; }
+            .link-item { flex-direction: column; align-items: flex-start; }
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <div class="header">
+        <div class="user-info">
+            <img id="avatar" class="avatar" src="" alt="avatar">
+            <div>
+                <strong id="username">Loading...</strong><br>
+                <span id="plan" class="plan-badge">—</span>
+            </div>
+        </div>
+        <div>
+            <a href="/auth/logout" style="color:#ffae70;">Logout</a>
+        </div>
+    </div>
+
+    <div class="pulse-box">
+        <div style="font-size: 0.8rem;">🌀 GGC Ecosystem Pulse</div>
+        <div class="pulse-value" id="pulseValue">50</div>
+        <div class="small" id="lastEvent">waiting for events...</div>
+    </div>
+
+    <div class="card">
+        <h2>🔗 Shorten a link</h2>
+        <input type="url" id="longUrl" placeholder="https://example.com/your-long-url" autocomplete="off">
+        <input type="text" id="customSlug" placeholder="Custom slug (optional, e.g., mylink)">
+        <button id="shortenBtn">⚡ Shorten link</button>
+        <div id="shortenResult" class="small" style="margin-top: 12px;"></div>
+    </div>
+
+    <div class="card">
+        <h2>📁 Your shortened links</h2>
+        <div id="linksList">Loading...</div>
+    </div>
+
+    <div id="adminPanel" style="display: none;">
+        <div class="card admin-panel">
+            <h2>⚙️ Admin — Pricing</h2>
+            <input type="number" id="slugPrice" placeholder="Slug price (USD)" step="1">
+            <input type="number" id="premiumPrice" placeholder="Premium plan price (USD)" step="1">
+            <button id="updatePricingBtn">Update pricing</button>
+            <div id="pricingMsg" class="small"></div>
+        </div>
+    </div>
+</div>
+
+<script>
+    // Helper: fetch with credentials
+    async function apiCall(url, options = {}) {
+        const res = await fetch(url, {
+            ...options,
+            credentials: 'same-origin',
+            headers: { 'Content-Type': 'application/json', ...options.headers }
+        });
+        if (!res.ok) throw new Error(await res.text());
+        return res.json();
+    }
+
+    // Load user info
+    async function loadUser() {
+        try {
+            const user = await apiCall('/api/me');
+            document.getElementById('username').innerText = user.username || user.discordId;
+            document.getElementById('plan').innerText = user.plan === 'unlimited' ? '∞ UNLIMITED' : (user.plan || 'FREE');
+            if (user.avatar) document.getElementById('avatar').src = `https://cdn.discordapp.com/avatars/${user.discordId}/${user.avatar}.png`;
+            // Show admin panel if plan unlimited
+            if (user.plan === 'unlimited') {
+                document.getElementById('adminPanel').style.display = 'block';
+            }
+            // Load pricing
+            const pricing = await apiCall('/api/pricing');
+            document.getElementById('slugPrice').value = pricing.slug || 19;
+            document.getElementById('premiumPrice').value = pricing.premium || 49;
+        } catch (err) {
+            console.error(err);
+            document.getElementById('username').innerText = 'Error loading user';
+        }
+    }
+
+    // Load user's links
+    async function loadLinks() {
+        try {
+            const links = await apiCall('/api/links');
+            const container = document.getElementById('linksList');
+            if (!links.length) {
+                container.innerHTML = '<div class="small">No links yet. Create your first short link above.</div>';
+                return;
+            }
+            container.innerHTML = links.map(link => `
+                <div class="link-item">
+                    <span class="link-url">🔗 clickdash.io/${link.shortCode}</span>
+                    <span>→ ${link.longUrl.substring(0, 60)}${link.longUrl.length > 60 ? '…' : ''}</span>
+                    <span class="small">📊 ${link.clicks} clicks</span>
+                </div>
+            `).join('');
+        } catch (err) {
+            document.getElementById('linksList').innerHTML = '<div class="small">Failed to load links. Please login.</div>';
+        }
+    }
+
+    // Shorten link
+    document.getElementById('shortenBtn').onclick = async () => {
+        const longUrl = document.getElementById('longUrl').value.trim();
+        const customSlug = document.getElementById('customSlug').value.trim();
+        if (!longUrl) {
+            alert('Please enter a URL');
+            return;
+        }
+        const btn = document.getElementById('shortenBtn');
+        btn.disabled = true;
+        btn.innerText = 'Shortening...';
+        try {
+            const result = await apiCall('/api/shorten', {
+                method: 'POST',
+                body: JSON.stringify({ longUrl, customSlug: customSlug || undefined })
+            });
+            document.getElementById('shortenResult').innerHTML = `✅ Short link created: <a href="${result.shortUrl}" target="_blank">${result.shortUrl}</a>`;
+            document.getElementById('longUrl').value = '';
+            document.getElementById('customSlug').value = '';
+            loadLinks(); // refresh list
+        } catch (err) {
+            alert('Error: ' + err.message);
+        } finally {
+            btn.disabled = false;
+            btn.innerText = '⚡ Shorten link';
+        }
+    };
+
+    // Admin update pricing
+    document.getElementById('updatePricingBtn')?.addEventListener('click', async () => {
+        const slugPrice = parseInt(document.getElementById('slugPrice').value);
+        const premiumPrice = parseInt(document.getElementById('premiumPrice').value);
+        if (isNaN(slugPrice) || isNaN(premiumPrice)) {
+            alert('Enter valid numbers');
+            return;
+        }
+        try {
+            await apiCall('/api/admin/pricing', {
+                method: 'POST',
+                body: JSON.stringify({ prices: { slug: slugPrice, premium: premiumPrice } })
+            });
+            document.getElementById('pricingMsg').innerText = '✅ Pricing updated';
+        } catch (err) {
+            alert('Admin only: ' + err.message);
+        }
+    });
+
+    // WebSocket for real-time pulse
+    let ws;
+    function connectWebSocket() {
+        const protocol = location.protocol === 'https:' ? 'wss:' : 'ws:';
+        ws = new WebSocket(`${protocol}//${location.host}`);
+        ws.onopen = () => console.log('WebSocket connected');
+        ws.onmessage = (event) => {
+            const data = JSON.parse(event.data);
+            if (data.type === 'pulse_update') {
+                document.getElementById('pulseValue').innerText = data.pulse;
+                document.getElementById('lastEvent').innerHTML = `last event: ${data.lastEvent} from ${data.source || 'system'}`;
+            }
+        };
+        ws.onclose = () => {
+            console.log('WebSocket closed, reconnecting in 3s...');
+            setTimeout(connectWebSocket, 3000);
+        };
+    }
+    connectWebSocket();
+
+    // Initialize
+    loadUser();
+    loadLinks();
+</script>
+</body>
+</html>
