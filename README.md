@@ -1,4 +1,6 @@
 ClickDash
+GGC Sovereign Organism - ClickDash Engine
+
 
 Shorten, brand, and track every click — with real‑time analytics, custom domains, and deep linking.
 
