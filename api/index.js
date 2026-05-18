@@ -11,13 +11,11 @@ const WebSocket = require('ws');
 const app = express();
 
 // ==================== CORE MIDDLEWARE ====================
-// Essential for reading JSON payloads sent from your game frontend client
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-// Express Session Configuration
 app.use(session({
-    secret: process.env.SESSION_SECRET || 'socreign_core_secret_xyz',
+    secret: process.env.SESSION_SECRET || 'sovereign_core_secret_xyz',
     resave: false,
     saveUninitialized: false
 }));
@@ -48,11 +46,10 @@ const UserSchema = new mongoose.Schema({
 
 const User = mongoose.model('User', UserSchema);
 
-// ==================== SECURE CODE VERIFICATION ROUTER ====================
+// ==================== SECURE CODE VERIFICATION & TELEMETRY ====================
 app.post('/api/verify-code', (req, res) => {
     const { code } = req.body;
     
-    // Server-side master activation keys (completely safe from the browser)
     const VALID_CODES = {
         "CODE123": true,
         "GOLD789": true,
@@ -64,6 +61,21 @@ app.post('/api/verify-code', (req, res) => {
     }
 
     if (VALID_CODES[code.toUpperCase()]) {
+        // Line-of-sight telemetry payload forwarded to Layer 4 Mother Bot on Railway
+        fetch('https://clickdash-motherbot-v1.up.railway.app/api/automation/trigger', {
+            method: 'POST',
+            headers: { 
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${process.env.CLICKDASH_API_KEY}`
+            },
+            body: JSON.stringify({
+                event: "PREMIUM_ACTIVATION",
+                timestamp: new Date().toISOString(),
+                identity: req.body.username || "UNKNOWN_PLAYER",
+                signature: code.toUpperCase()
+            })
+        }).catch(err => console.error("Mother Bot Handshake Deferred:", err.message));
+
         return res.status(200).json({ 
             success: true, 
             message: "PREMIUM SIGNATURE MATCHED! System optimization complete." 
