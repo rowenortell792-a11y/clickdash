@@ -1,341 +1,81 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
-    <title>Click Dash — Premium Dodge Game</title>
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            user-select: none;
-            -webkit-tap-highlight-color: transparent;
-        }
-        body {
-            background: linear-gradient(145deg, #0a0f1e 0%, #05070f 100%);
-            min-height: 100vh;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            font-family: system-ui, sans-serif;
-            padding: 16px;
-        }
-        .game-container {
-            background: #0f1322;
-            border-radius: 48px;
-            padding: 20px;
-            max-width: 500px;
-            width: 100%;
-        }
-        .stats {
-            display: flex;
-            justify-content: space-between;
-            background: #060812;
-            padding: 12px 20px;
-            border-radius: 60px;
-            margin-bottom: 20px;
-        }
-        .stat {
-            text-align: center;
-        }
-        .stat-label {
-            font-size: 0.7rem;
-            color: #8a90b0;
-        }
-        .stat-value {
-            font-size: 1.8rem;
-            font-weight: 800;
-            color: white;
-        }
-        canvas {
-            width: 100%;
-            background: #01010a;
-            border-radius: 32px;
-            aspect-ratio: 400/500;
-        }
-        .controls-info {
-            display: flex;
-            gap: 12px;
-            margin-top: 16px;
-        }
-        .control-btn {
-            flex: 1;
-            background: #1e243f;
-            border: none;
-            padding: 14px;
-            border-radius: 40px;
-            color: white;
-            font-weight: bold;
-            cursor: pointer;
-        }
-        .restart-btn {
-            background: #ff5e00;
-        }
-        .cashapp-btn {
-            background: #00d632;
-            color: #000;
-            margin-top: 12px;
-            width: 100%;
-            font-size: 1.2rem;
-        }
-        .code-btn {
-            background: #3a6ea5;
-            margin-top: 8px;
-            width: 100%;
-        }
-        .premium-badge {
-            text-align: center;
-            margin-top: 12px;
-            font-size: 0.8rem;
-            color: #00d632;
-        }
-        .status {
-            text-align: center;
-            margin-top: 12px;
-            color: #ffae70;
-        }
-        .code-input {
-            width: 100%;
-            padding: 12px;
-            margin-top: 8px;
-            border-radius: 40px;
-            border: none;
-            text-align: center;
-            font-size: 1rem;
-            background: #1e243f;
-            color: white;
-        }
-    </style>
-</head>
-<body>
-<div class="game-container">
-    <div class="stats">
-        <div class="stat"><div class="stat-label">SCORE</div><div class="stat-value" id="scoreValue">0</div></div>
-        <div class="stat"><div class="stat-label">BEST</div><div class="stat-value" id="bestValue">0</div></div>
-    </div>
+/*
+==========================================================================
+ [ LAYER 1: THE CORE CONSTITUTION ]
+    Sovereign Legal & Business Codes
+                   │
+                   ▼
+ [ LAYER 2: THE DATA POWER PLANT ]
+    MongoDB Shared Database Ledger
+        ▲                     ▲
+ (Updates Ranks)       (Monitors & Enforces)
+        │                     │
+ [ LAYER 3: THE SERVER ]  [ LAYER 4: THE AUTOMATION ]
+    actual-click-dash        clickdash.io-motherbot
+  (Vercel Core Engine)      (Railway Always-On Bot)
+==========================================================================
+*/
 
-    <canvas id="gameCanvas" width="400" height="500"></canvas>
+require('dotenv').config();
+const express = require('express');
+const cors = require('cors');
+const path = require('path');
 
-    <div class="controls-info">
-        <button class="control-btn" id="leftBtn">◀ LEFT</button>
-        <button class="control-btn restart-btn" id="restartBtn">🔄 RESTART</button>
-        <button class="control-btn" id="rightBtn">RIGHT ▶</button>
-    </div>
+const app = express();
+const PORT = process.env.PORT || 3000;
 
-    <button class="control-btn cashapp-btn" id="cashappBtn">💵 BUY PREMIUM — $2.99 (Cash App) 💵</button>
-    
-    <input type="text" class="code-input" id="unlockCode" placeholder="Enter your unlock code">
-    <button class="control-btn code-btn" id="unlockBtn">🔓 UNLOCK PREMIUM WITH CODE 🔓</button>
-    
-    <div class="premium-badge" id="premiumStatus">⚡ Free version — ads shown occasionally</div>
-    <div class="status" id="gameStatus">👇 Tap LEFT or RIGHT to move</div>
-</div>
+// Middleware Configuration
+app.use(cors());
+app.use(express.json());
 
-<script>
-    (function(){
-        const canvas = document.getElementById('gameCanvas');
-        const ctx = canvas.getContext('2d');
+// Serve static files from the 'public' directory
+app.use(express.static(path.join(__dirname, '../public')));
 
-        let canvasWidth = 400;
-        let canvasHeight = 500;
-        canvas.width = canvasWidth;
-        canvas.height = canvasHeight;
+// Pulling Core Environment Signatures
+const systemConfig = {
+    workspaceId: process.env.WORKSPACE_ID || 'Offline',
+    operator: process.env.CHARACTER_NAME || 'Sovereign Core',
+    cash1: process.env.CASHAPP_1,
+    cash2: process.env.CASHAPP_2
+};
 
-        let gameRunning = true;
-        let score = 0;
-        let bestScore = localStorage.getItem('dodgeBest') ? parseInt(localStorage.getItem('dodgeBest')) : 0;
-        document.getElementById('bestValue').innerText = bestScore;
+// 1. CORE ENGINE STATUS ROUTE
+app.get('/api/status', (req, res) => {
+    res.status(200).json({
+        layer: "LAYER 3: THE SERVER",
+        engine: "actual-click-dash (Vercel Core Engine)",
+        status: "OPERATIONAL",
+        operator: systemConfig.operator,
+        linkedWorkspace: systemConfig.workspaceId ? "SECURED" : "UNLINKED"
+    });
+});
 
-        // 🔥 YOUR UNLOCK CODES — EDIT THESE 🔥
-        const VALID_CODES = {
-            "CODE123": true,
-            "GOLD789": true,
-            "PREMIUM456": true
-        };
-        
-        let isPremium = localStorage.getItem('clickDashPremium') === 'true';
-        if(isPremium) {
-            document.getElementById('premiumStatus').innerHTML = "👑 PREMIUM ACTIVE — No ads, green theme 👑";
-            document.getElementById('cashappBtn').innerText = "✅ PREMIUM UNLOCKED";
-            document.getElementById('cashappBtn').disabled = true;
-            document.getElementById('unlockBtn').disabled = true;
-        }
+// 2. FRONTEND ROUTING - Serves Dashboard UI
+app.get('/dashboard', (req, res) => {
+    res.sendFile(path.join(__dirname, '../public/dashboard.html'));
+});
 
-        const PLAYER_WIDTH = 55;
-        const PLAYER_HEIGHT = 22;
-        let playerX = (canvasWidth - PLAYER_WIDTH) / 2;
-        const playerY = canvasHeight - PLAYER_HEIGHT - 10;
+// 3. FRONTEND ROUTING - Serves Hub UI
+app.get('/hub', (req, res) => {
+    res.sendFile(path.join(__dirname, '../public/hub.html'));
+});
 
-        let objects = [];
-        const OBJECT_SIZE = 26;
-        let frameCounter = 0;
-        let spawnRate = 45;
-        
-        const scoreSpan = document.getElementById('scoreValue');
-        const gameStatusDiv = document.getElementById('gameStatus');
+// 4. FRONTEND ROUTING - Serves The Premium Game
+app.get('/game', (req, res) => {
+    res.sendFile(path.join(__dirname, '../public/game.html'));
+});
 
-        function updateUI() {
-            scoreSpan.innerText = score;
-            if(score > bestScore) {
-                bestScore = score;
-                localStorage.setItem('dodgeBest', bestScore);
-                document.getElementById('bestValue').innerText = bestScore;
-            }
-        }
+// Fallback route redirects traffic to the dashboard
+app.get('*', (req, res) => {
+    res.redirect('/dashboard');
+});
 
-        function spawnObject() {
-            let randX = Math.random() * (canvasWidth - OBJECT_SIZE);
-            objects.push({ x: randX, y: -OBJECT_SIZE, size: OBJECT_SIZE });
-        }
+// Local Development Boot
+if (process.env.NODE_ENV !== 'production') {
+    app.listen(PORT, () => {
+        console.log(`\n║ LAYER 3 ENGINE ONLINE ║ Local server running on Port: ${PORT}`);
+        console.log(`▶ Active Operator: ${systemConfig.operator}\n`);
+    });
+}
 
-        function resetGame() {
-            gameRunning = true;
-            score = 0;
-            objects = [];
-            frameCounter = 0;
-            spawnRate = 45;
-            playerX = (canvasWidth - PLAYER_WIDTH) / 2;
-            updateUI();
-            gameStatusDiv.innerText = "🎮 Dodge! Survive as long as you can!";
-        }
-
-        function endGame() {
-            gameRunning = false;
-            gameStatusDiv.innerText = "💀 GAME OVER — Press RESTART 💀";
-            if(!isPremium) {
-                let gamesPlayed = parseInt(localStorage.getItem('gamesPlayed') || '0');
-                gamesPlayed++;
-                localStorage.setItem('gamesPlayed', gamesPlayed);
-                if(gamesPlayed % 3 === 0) {
-                    alert("📢 AD BREAK\n💵 Buy Premium for $2.99 on Cash App to remove ads!");
-                }
-            }
-        }
-
-        function updateGame() {
-            if (!gameRunning) return;
-            frameCounter++;
-            if (frameCounter >= spawnRate) {
-                frameCounter = 0;
-                spawnObject();
-                if (spawnRate > 25) spawnRate -= 0.15;
-            }
-            for (let i = 0; i < objects.length; i++) {
-                const obj = objects[i];
-                obj.y += 4.2;
-                if (obj.y + OBJECT_SIZE - 5 > playerY &&
-                    obj.y + 5 < playerY + PLAYER_HEIGHT &&
-                    obj.x + OBJECT_SIZE - 8 > playerX &&
-                    obj.x + 8 < playerX + PLAYER_WIDTH) {
-                    endGame();
-                    return;
-                }
-            }
-            let newObjects = [];
-            for (let obj of objects) {
-                if (obj.y < canvasHeight) newObjects.push(obj);
-                else { score++; updateUI(); }
-            }
-            objects = newObjects;
-            if (playerX < 0) playerX = 0;
-            if (playerX + PLAYER_WIDTH > canvasWidth) playerX = canvasWidth - PLAYER_WIDTH;
-        }
-
-        function draw() {
-            ctx.clearRect(0, 0, canvasWidth, canvasHeight);
-            ctx.fillStyle = "#01010a";
-            ctx.fillRect(0, 0, canvasWidth, canvasHeight);
-            
-            for (let obj of objects) {
-                ctx.fillStyle = "#e03a3a";
-                ctx.fillRect(obj.x, obj.y, OBJECT_SIZE, OBJECT_SIZE);
-                ctx.fillStyle = "#ff8080";
-                ctx.fillRect(obj.x+6, obj.y+6, OBJECT_SIZE-12, OBJECT_SIZE-12);
-            }
-            
-            ctx.fillStyle = isPremium ? "#00d632" : "#3ac0ff";
-            ctx.fillRect(playerX, playerY, PLAYER_WIDTH, PLAYER_HEIGHT);
-            ctx.fillStyle = "#ffffff";
-            ctx.fillRect(playerX+10, playerY+5, PLAYER_WIDTH-20, 6);
-            
-            if (!gameRunning) {
-                ctx.font = "bold 24px system-ui";
-                ctx.fillStyle = "#ffffffcc";
-                ctx.fillText("GAME OVER", canvasWidth/2-85, canvasHeight/2-30);
-            }
-        }
-
-        function movePlayer(deltaX) {
-            if (!gameRunning) return;
-            playerX += deltaX;
-            if (playerX < 0) playerX = 0;
-            if (playerX + PLAYER_WIDTH > canvasWidth) playerX = canvasWidth - PLAYER_WIDTH;
-        }
-
-        function handleCanvasTap(e) {
-            e.preventDefault();
-            const rect = canvas.getBoundingClientRect();
-            const scaleX = canvasWidth / rect.width;
-            let clientX = e.touches ? e.touches[0].clientX : e.clientX;
-            let canvasX = (clientX - rect.left) * scaleX;
-            movePlayer(canvasX < canvasWidth/2 ? -48 : 48);
-        }
-
-        document.getElementById('leftBtn').onclick = () => movePlayer(-50);
-        document.getElementById('rightBtn').onclick = () => movePlayer(50);
-        document.getElementById('restartBtn').onclick = () => resetGame();
-        
-        // 💰 CASH APP BUTTON with YOUR link
-        const YOUR_CASHAPP_LINK = "cash.app/$trigganordy1/2.99";
-        
-        document.getElementById('cashappBtn').onclick = () => {
-            if(isPremium) {
-                alert("You already have premium!");
-                return;
-            }
-            
-            window.open("https://" + YOUR_CASHAPP_LINK, "_blank");
-            
-            alert("💰 Send $2.99 to $trigganordy1 on Cash App\n\nAfter payment, I will send you an UNLOCK CODE!\nThen enter the code below to unlock premium.");
-        };
-        
-        // 🔓 AUTO-UNLOCK WITH CODE
-        document.getElementById('unlockBtn').onclick = () => {
-            if(isPremium) {
-                alert("You already have premium!");
-                return;
-            }
-            
-            const codeInput = document.getElementById('unlockCode');
-            const code = codeInput.value.trim().toUpperCase();
-            
-            if(code === "") {
-                alert("Enter a code first.");
-                return;
-            }
-            
-            if(VALID_CODES[code]) {
-                localStorage.setItem('clickDashPremium', 'true');
-                alert("✅ PREMIUM UNLOCKED! The game will now refresh.");
-                location.reload();
-            } else {
-                alert("❌ Invalid code. Please check and try again.");
-            }
-        };
-        
-        canvas.addEventListener('touchstart', handleCanvasTap);
-        canvas.addEventListener('mousedown', handleCanvasTap);
-        
-        function gameLoop() {
-            updateGame();
-            draw();
-            requestAnimationFrame(gameLoop);
-        }
-        
-        resetGame();
-        gameLoop();
-    })();
-</script>
-</body>
-</html>
+// Export for Vercel Serverless Architecture
+module.exports = app;
