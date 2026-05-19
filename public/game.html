@@ -159,13 +159,6 @@
         let score = 0;
         let bestScore = localStorage.getItem('dodgeBest') ? parseInt(localStorage.getItem('dodgeBest')) : 0;
         document.getElementById('bestValue').innerText = bestScore;
-
-        // VALIDS SIGNATURE CODES FOR QUICK FRONTEND TESTING
-        const VALID_CODES = {
-            "CODE123": true,
-            "GOLD789": true,
-            "PREMIUM456": true
-        };
         
         let isPremium = localStorage.getItem('clickDashPremium') === 'true';
         if(isPremium) {
@@ -306,23 +299,39 @@
             alert("💰 Send $2.99 to $trigganordy1 on Cash App\n\nAfter payment, you will receive your verification UNLOCK CODE to activate Premium mode below!");
         };
         
+        // SECURED CONNECTOR HANDLER
         document.getElementById('unlockBtn').onclick = () => {
             if(isPremium) return;
             const codeInput = document.getElementById('unlockCode');
-            const code = codeInput.value.trim().toUpperCase();
+            const code = codeInput.value.trim();
             
             if(code === "") {
                 alert("Please enter your premium unlock code.");
                 return;
             }
             
-            if(VALID_CODES[code]) {
-                localStorage.setItem('clickDashPremium', 'true');
-                alert("✅ PREMIUM SIGNATURE MATCHED! System optimization complete.");
-                location.reload();
-            } else {
-                alert("❌ Verification mismatch. Code signature not found.");
-            }
+            // Network handshake to Layer 3 Server Engine
+            fetch('/api/verify-code', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ code: code })
+            })
+            .then(response => response.json())
+            .then(data => {
+                if(data.success) {
+                    localStorage.setItem('clickDashPremium', 'true');
+                    alert(data.message);
+                    location.reload();
+                } else {
+                    alert(data.message);
+                }
+            })
+            .catch(err => {
+                console.error("Security Connection Error:", err);
+                alert("Network connection error. Server interface failed to validate.");
+            });
         };
         
         canvas.addEventListener('touchstart', handleCanvasTap);
