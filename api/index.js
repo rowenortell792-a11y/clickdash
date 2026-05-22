@@ -4,7 +4,7 @@ const express = require('express');
 const session = require('express-session');
 const passport = require('passport');
 const DiscordStrategy = require('passport-discord').Strategy;
-const mongoose = require('mongoose');
+const { Pool } = require('pg'); 
 const crypto = require('crypto');
 const WebSocket = require('ws');
 
@@ -15,7 +15,7 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
 app.use(session({
-    secret: process.env.SESSION_SECRET || 'sovereign_core_secret_xyz',
+    secret: process.env.SESSION_SECRET || 'mke_architect_lcmt_vision_2026',
     resave: false,
     saveUninitialized: false
 }));
@@ -23,80 +23,56 @@ app.use(session({
 app.use(passport.initialize());
 app.use(passport.session());
 
-// ==================== MONGODB CONNECTION ====================
-mongoose.connect(process.env.MONGO_URI || 'mongodb://localhost:27017/clickdash', {
-    useNewUrlParser: true,
-    useUnifiedTopology: true
-}).then(() => console.log('MongoDB connected'))
-  .catch(err => console.error('MongoDB error:', err));
-
-const db = mongoose.connection.db;
-
-// ==================== MODELS ====================
-const UserSchema = new mongoose.Schema({
-    discordId: { type: String, required: true },
-    username: String,
-    avatar: String,
-    orbsBalance: { type: Number, default: 0 },
-    memberSince: { type: String, default: () => new Date().toISOString().split('T')[0] },
-    systemStatus: { type: String, default: "ALPHA_USER" },
-    lastActive: { type: Date, default: Date.now },
-    plan: { type: String, default: "unlimited" }
+// ==================== POSTGRESQL CONNECTION ====================
+const pool = new Pool({
+    connectionString: process.env.DATABASE_URL,
+    ssl: {
+        rejectUnauthorized: false 
+    }
 });
 
-const User = mongoose.model('User', UserSchema);
+pool.connect((err, client, release) => {
+    if (err) {
+        return console.error('❌ PostgreSQL connection error:', err.stack);
+    }
+    console.log('✅ PostgreSQL engine connected to Railway cluster.');
+    release();
+});
 
-// ==================== SECURE CODE VERIFICATION & TELEMETRY ====================
-app.post('/api/verify-code', (req, res) => {
+// ==================== SECURE VERIFICATION ROUTE ====================
+app.post('/api/verify-code', async (req, res) => {
     const { code } = req.body;
-    
-    const VALID_CODES = {
-        "CODE123": true,
-        "GOLD789": true,
-        "PREMIUM456": true
-    };
 
     if (!code) {
-        return res.status(400).json({ success: false, message: "Missing code signature." });
+        return res.status(400).json({ success: false, message: "Missing authorization signature." });
     }
 
-    if (VALID_CODES[code.toUpperCase()]) {
-        // Line-of-sight telemetry payload forwarded to Layer 4 Mother Bot on Railway
-        fetch('https://clickdash-motherbot-v1.up.railway.app/api/automation/trigger', {
-            method: 'POST',
-            headers: { 
-                'Content-Type': 'application/json',
-                'Authorization': `Bearer ${process.env.CLICKDASH_API_KEY}`
-            },
-            body: JSON.stringify({
-                event: "PREMIUM_ACTIVATION",
-                timestamp: new Date().toISOString(),
-                identity: req.body.username || "UNKNOWN_PLAYER",
-                signature: code.toUpperCase()
-            })
-        }).catch(err => console.error("Mother Bot Handshake Deferred:", err.message));
+    try {
+        // Master bypass codes matching your Tier 2 credentials
+        if (code === 'CODE123' || code === process.env.CLICKDASH_API_KEY) {
+            
+            // Log code execution straight into your PostgreSQL ledger database
+            await pool.query(
+                'INSERT INTO activation_logs (action_type, verification_code, executed_at) VALUES ($1, $2, NOW())',
+                ['PREMIUM_UNLOCK', code]
+            );
 
-        return res.status(200).json({ 
-            success: true, 
-            message: "PREMIUM SIGNATURE MATCHED! System optimization complete." 
-        });
-    } else {
-        return res.status(401).json({ 
-            success: false, 
-            message: "Verification mismatch. Code signature not found." 
-        });
+            return res.status(200).json({ 
+                success: true, 
+                message: "👑 PREMIUM SIGNATURE MATCHED! System optimization complete." 
+            });
+        }
+
+        return res.status(401).json({ success: false, message: "INVALID CRITICAL SIGNATURE. Access Denied." });
+    } catch (error) {
+        console.error("Ledger Write Failure:", error);
+        return res.status(500).json({ success: false, message: "Database ledger authentication sync failed." });
     }
 });
 
-// ==================== SYSTEM STATUS ROUTE ====================
+// Serve root configuration test
 app.get('/api/status', (req, res) => {
-    res.status(200).json({
-        status: "ONLINE",
-        layer: 3,
-        engine: "Vercel Core Engine",
-        database: mongoose.connection.readyState === 1 ? "CONNECTED" : "DISCONNECTED"
-    });
+    res.json({ status: "online", platform: process.env.PLATFORM_NAME || "ClickDash", version: "1.0.4" });
 });
 
-// ==================== VERCEL EXPORT SERVERLESS HANDLER ====================
 module.exports = app;
