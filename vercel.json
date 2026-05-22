@@ -2,14 +2,14 @@
   "version": 2,
   "builds": [
     {
-      "src": "click.js",
+      "src": "api/click.js",
       "use": "@vercel/node"
     }
   ],
   "routes": [
     {
       "src": "/(.*)",
-      "dest": "click.js"
+      "dest": "api/click.js"
     }
   ]
 }
