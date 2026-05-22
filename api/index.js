@@ -1,78 +1,66 @@
-// ==================== DEPENDENCIES ====================
 require('dotenv').config();
 const express = require('express');
-const session = require('express-session');
-const passport = require('passport');
-const DiscordStrategy = require('passport-discord').Strategy;
-const { Pool } = require('pg'); 
-const crypto = require('crypto');
-const WebSocket = require('ws');
+const cors = require('cors');
+const path = require('path');
+const { Client, GatewayIntentBits } = require('discord.js');
 
 const app = express();
 
-// ==================== CORE MIDDLEWARE ====================
+// 1. MIDDLEWARE
+app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-app.use(session({
-    secret: process.env.SESSION_SECRET || 'mke_architect_lcmt_vision_2026',
-    resave: false,
-    saveUninitialized: false
-}));
+// Serve your dashboard files out of the public folder
+app.use(express.static(path.join(__dirname, '../public')));
 
-app.use(passport.initialize());
-app.use(passport.session());
+// 2. DISCORD BOT "THE AGENT" WAKE-UP
+if (process.env.DISCORD_TOKEN) {
+    const client = new Client({ 
+        intents: [
+            GatewayIntentBits.Guilds, 
+            GatewayIntentBits.GuildMessages, 
+            GatewayIntentBits.MessageContent 
+        ] 
+    });
 
-// ==================== POSTGRESQL CONNECTION ====================
-const pool = new Pool({
-    connectionString: process.env.DATABASE_URL,
-    ssl: {
-        rejectUnauthorized: false 
-    }
-});
+    client.once('ready', () => {
+        console.log('🤖 GGC Sovereign Agent is ONLINE and synced to Clickdash.io');
+    });
 
-pool.connect((err, client, release) => {
-    if (err) {
-        return console.error('❌ PostgreSQL connection error:', err.stack);
-    }
-    console.log('✅ PostgreSQL engine connected to Railway cluster.');
-    release();
-});
-
-// ==================== SECURE VERIFICATION ROUTE ====================
-app.post('/api/verify-code', async (req, res) => {
-    const { code } = req.body;
-
-    if (!code) {
-        return res.status(400).json({ success: false, message: "Missing authorization signature." });
-    }
-
-    try {
-        // Master bypass codes matching your Tier 2 credentials
-        if (code === 'CODE123' || code === process.env.CLICKDASH_API_KEY) {
-            
-            // Log code execution straight into your PostgreSQL ledger database
-            await pool.query(
-                'INSERT INTO activation_logs (action_type, verification_code, executed_at) VALUES ($1, $2, NOW())',
-                ['PREMIUM_UNLOCK', code]
-            );
-
-            return res.status(200).json({ 
-                success: true, 
-                message: "👑 PREMIUM SIGNATURE MATCHED! System optimization complete." 
-            });
+    client.on('messageCreate', (message) => {
+        if (message.content === '!pulse') {
+            message.reply('📡 Clickdash.io System: Active. PA Bridge: Stable.');
         }
+    });
 
-        return res.status(401).json({ success: false, message: "INVALID CRITICAL SIGNATURE. Access Denied." });
-    } catch (error) {
-        console.error("Ledger Write Failure:", error);
-        return res.status(500).json({ success: false, message: "Database ledger authentication sync failed." });
-    }
-});
+    client.login(process.env.DISCORD_TOKEN).catch(err => {
+        console.error('Discord Agent connection delayed:', err.message);
+    });
+}
 
-// Serve root configuration test
+// 3. SERVER ROUTES (THE GRID)
 app.get('/api/status', (req, res) => {
-    res.json({ status: "online", platform: process.env.PLATFORM_NAME || "ClickDash", version: "1.0.4" });
+    res.status(200).json({ 
+        status: "online", 
+        platform: "ClickDash Engine", 
+        layer: "LAYER 3" 
+    });
 });
 
+app.post('/api/bridge', (req, res) => {
+    console.log('📥 Data received at Clickdash.io Bridge:', req.body);
+    res.status(200).json({ status: "Connection Verified" });
+});
+
+// UI Redirects
+app.get('/dashboard', (req, res) => {
+    res.sendFile(path.join(__dirname, '../public/dashboard.html'));
+});
+
+app.get('*', (req, res) => {
+    res.redirect('/dashboard');
+});
+
+// Export for Vercel Serverless Architecture
 module.exports = app;
