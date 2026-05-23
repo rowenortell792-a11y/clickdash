@@ -2,64 +2,52 @@ require('dotenv').config();
 const express = require('express');
 const cors = require('cors');
 const path = require('path');
-const { Client, GatewayIntentBits } = require('discord.js');
 
 const app = express();
 
-// 1. MIDDLEWARE
+// ==================== 1. SYSTEM MIDDLEWARE ====================
 app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-// Serve your dashboard files out of the public folder
+// Serve static frontend assets safely
 app.use(express.static(path.join(__dirname, '../public')));
 
-// 2. DISCORD BOT "THE AGENT" WAKE-UP
-if (process.env.DISCORD_TOKEN) {
-    const client = new Client({ 
-        intents: [
-            GatewayIntentBits.Guilds, 
-            GatewayIntentBits.GuildMessages, 
-            GatewayIntentBits.MessageContent 
-        ] 
-    });
+// Pulling Core Environment Signatures
+const systemConfig = {
+    workspaceId: process.env.WORKSPACE_ID || 'Offline',
+    operator: process.env.CHARACTER_NAME || 'Sovereign Core'
+};
 
-    client.once('ready', () => {
-        console.log('🤖 GGC Sovereign Agent is ONLINE and synced to Clickdash.io');
-    });
-
-    client.on('messageCreate', (message) => {
-        if (message.content === '!pulse') {
-            message.reply('📡 Clickdash.io System: Active. PA Bridge: Stable.');
-        }
-    });
-
-    client.login(process.env.DISCORD_TOKEN).catch(err => {
-        console.error('Discord Agent connection delayed:', err.message);
-    });
-}
-
-// 3. SERVER ROUTES (THE GRID)
+// ==================== 2. SERVERLESS STATUS ROUTES ====================
 app.get('/api/status', (req, res) => {
-    res.status(200).json({ 
-        status: "online", 
-        platform: "ClickDash Engine", 
-        layer: "LAYER 3" 
+    res.status(200).json({
+        layer: "LAYER 3: THE SERVER",
+        engine: "clickdash-core",
+        status: "OPERATIONAL",
+        operator: systemConfig.operator,
+        linkedWorkspace: systemConfig.workspaceId ? "SECURED" : "UNLINKED",
+        version: "1.0.5"
     });
 });
 
 app.post('/api/bridge', (req, res) => {
-    console.log('📥 Data received at Clickdash.io Bridge:', req.body);
+    console.log('📥 Data received at Clickdash Bridge:', req.body);
     res.status(200).json({ status: "Connection Verified" });
 });
 
-// UI Redirects
+// ==================== 3. FRONTEND UI ROUTING ====================
 app.get('/dashboard', (req, res) => {
+    // Looks for your dashboard file in the public directory
     res.sendFile(path.join(__dirname, '../public/dashboard.html'));
 });
 
+// Auto-fallback home route
 app.get('*', (req, res) => {
-    res.redirect('/dashboard');
+    res.json({ 
+        message: "Clickdash Engine Active", 
+        statusCheck: "/api/status" 
+    });
 });
 
 // Export for Vercel Serverless Architecture
