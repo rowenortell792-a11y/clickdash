@@ -2,29 +2,28 @@ const express = require('express');
 const path = require('path');
 const app = express();
 
-// Middleware to serve static files from the public folder
+// 1. Point to the public folder correctly for Vercel's structure
 app.use(express.static(path.join(__dirname, '../public')));
 
-// 1. DASHBOARD ROUTE - Serves your main dashboard
+// 2. Route to serve the dashboard directly
 app.get('/dashboard', (req, res) => {
     res.sendFile(path.join(__dirname, '../public/dashboard.html'));
 });
 
-// 2. DEFAULT ROUTE - Redirects the main site to the dashboard
+// 3. Main route redirects everyone to the dashboard
 app.get('/', (req, res) => {
     res.redirect('/dashboard');
 });
 
-// 3. API STATUS ROUTE - Keeps your "Engine" functionality alive
+// 4. API status check remains functional
 app.get('/api/status', (req, res) => {
     res.status(200).json({
-        layer: "THE SERVER",
-        engine: "actual-click-dash",
-        status: "OPERATIONAL"
+        message: "Clickdash Engine Active",
+        statusCheck: "/api/status"
     });
 });
 
-// Fallback for everything else
+// 5. Catch-all for any other routes
 app.get('*', (req, res) => {
     res.redirect('/dashboard');
 });
