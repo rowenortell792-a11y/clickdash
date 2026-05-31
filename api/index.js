@@ -2,6 +2,7 @@ const express = require('express');
 const path = require('path');
 const app = express();
 
+// Serve static files from the 'public' folder (one level up from /api)
 app.use(express.static(path.join(__dirname, '../public')));
 
 // 1. DASHBOARD & ADMIN
@@ -10,11 +11,11 @@ app.get('/admin-dashboard', (req, res) => res.sendFile(path.join(__dirname, '../
 
 // 2. UNIVERSAL BOT HOOKS
 app.get('/api/bot/motherbot', (req, res) => {
-    res.json({ bot: "MotherBot", status: "Active", note: "Telemetry managed by client-side click.js" });
+    res.json({ bot: "MotherBot", status: "Active" });
 });
 
 app.get('/api/bot/serverbot', (req, res) => {
-    res.json({ bot: "ServerBot", status: "Operational", environment: "Production" });
+    res.json({ bot: "ServerBot", status: "Operational" });
 });
 
 // 3. STATUS & REDIRECTS
