@@ -2,30 +2,28 @@ const express = require('express');
 const path = require('path');
 const app = express();
 
-// 1. Point to the public folder correctly for Vercel's structure
 app.use(express.static(path.join(__dirname, '../public')));
 
-// 2. Route to serve the dashboard directly
-app.get('/dashboard', (req, res) => {
-    res.sendFile(path.join(__dirname, '../public/dashboard.html'));
+// 1. DASHBOARD & ADMIN
+app.get('/dashboard', (req, res) => res.sendFile(path.join(__dirname, '../public/dashboard.html')));
+app.get('/admin-dashboard', (req, res) => res.sendFile(path.join(__dirname, '../public/admin.html')));
+
+// 2. UNIVERSAL BOT HOOKS (The "Bot Infrastructure")
+// This allows you to ping/control your bots from any domain
+app.get('/api/bot/motherbot', (req, res) => {
+    res.json({ bot: "MotherBot", status: "Active", commandCenter: "https://clickdash.net/admin-dashboard" });
 });
 
-// 3. Main route redirects everyone to the dashboard
-app.get('/', (req, res) => {
-    res.redirect('/dashboard');
+app.get('/api/bot/serverbot', (req, res) => {
+    res.json({ bot: "ServerBot", status: "Operational", host: "Clickdash.net" });
 });
 
-// 4. API status check remains functional
+// 3. STATUS & REDIRECTS
 app.get('/api/status', (req, res) => {
-    res.status(200).json({
-        message: "Clickdash Engine Active",
-        statusCheck: "/api/status"
-    });
+    res.status(200).json({ message: "Clickdash Engine Active", version: "1.0.0" });
 });
 
-// 5. Catch-all for any other routes
-app.get('*', (req, res) => {
-    res.redirect('/dashboard');
-});
+app.get('/', (req, res) => res.redirect('/dashboard'));
+app.get('*', (req, res) => res.redirect('/dashboard'));
 
 module.exports = app;
