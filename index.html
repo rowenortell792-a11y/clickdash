@@ -1,81 +1,30 @@
-/*
-==========================================================================
- [ LAYER 1: THE CORE CONSTITUTION ]
-    Sovereign Legal & Business Codes
-                   │
-                   ▼
- [ LAYER 2: THE DATA POWER PLANT ]
-    MongoDB Shared Database Ledger
-        ▲                     ▲
- (Updates Ranks)       (Monitors & Enforces)
-        │                     │
- [ LAYER 3: THE SERVER ]  [ LAYER 4: THE AUTOMATION ]
-    actual-click-dash        clickdash.io-motherbot
-  (Vercel Core Engine)      (Railway Always-On Bot)
-==========================================================================
-*/
+/**
+ * GGC_UNIVERSE: BARE_METAL_SOVEREIGN_LINK
+ * STATUS: LOCKED_TO_ROOT_KERNEL
+ */
 
-require('dotenv').config();
-const express = require('express');
-const cors = require('cors');
-const path = require('path');
+const sovereign = require('../sovereign_kernel.js');
+const constitution = require('./constitution.js');
 
-const app = express();
-const PORT = process.env.PORT || 3000;
-
-// Middleware Configuration
-app.use(cors());
-app.use(express.json());
-
-// Serve static files from the 'public' directory
-app.use(express.static(path.join(__dirname, '../public')));
-
-// Pulling Core Environment Signatures
-const systemConfig = {
-    workspaceId: process.env.WORKSPACE_ID || 'Offline',
-    operator: process.env.CHARACTER_NAME || 'Sovereign Core',
-    cash1: process.env.CASHAPP_1,
-    cash2: process.env.CASHAPP_2
+// Sovereign Enforcement Gate
+const enforceSovereign = (req, res, next) => {
+    const signal = { 
+        origin: "GGC_UNIVERSE", 
+        data: req.body, 
+        timestamp: Date.now() 
+    };
+    
+    // Pass through Aggressive Interrogation Gate
+    const result = constitution.enforce(signal);
+    
+    if (result.status === "QUARANTINED") {
+        return res.status(403).send("SIGNAL_QUARANTINED: SOVEREIGN_ACCESS_DENIED");
+    }
+    next();
 };
 
-// 1. CORE ENGINE STATUS ROUTE
-app.get('/api/status', (req, res) => {
-    res.status(200).json({
-        layer: "LAYER 3: THE SERVER",
-        engine: "actual-click-dash (Vercel Core Engine)",
-        status: "OPERATIONAL",
-        operator: systemConfig.operator,
-        linkedWorkspace: systemConfig.workspaceId ? "SECURED" : "UNLINKED"
-    });
-});
+// Apply to your app
+// (If you still use express for local routing, keep it below the gate)
+// app.use(enforceSovereign); 
 
-// 2. FRONTEND ROUTING - Serves Dashboard UI
-app.get('/dashboard', (req, res) => {
-    res.sendFile(path.join(__dirname, '../public/dashboard.html'));
-});
-
-// 3. FRONTEND ROUTING - Serves Hub UI
-app.get('/hub', (req, res) => {
-    res.sendFile(path.join(__dirname, '../public/hub.html'));
-});
-
-// 4. FRONTEND ROUTING - Serves The Premium Game
-app.get('/game', (req, res) => {
-    res.sendFile(path.join(__dirname, '../public/game.html'));
-});
-
-// Fallback route redirects traffic to the dashboard
-app.get('*', (req, res) => {
-    res.redirect('/dashboard');
-});
-
-// Local Development Boot
-if (process.env.NODE_ENV !== 'production') {
-    app.listen(PORT, () => {
-        console.log(`\n║ LAYER 3 ENGINE ONLINE ║ Local server running on Port: ${PORT}`);
-        console.log(`▶ Active Operator: ${systemConfig.operator}\n`);
-    });
-}
-
-// Export for Vercel Serverless Architecture
-module.exports = app;
+console.log("[STATUS] PORTAL_LINKED_TO_SOVEREIGN_CORE");
