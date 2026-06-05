@@ -6,7 +6,6 @@
 const fs = require('fs');
 const constitution = require('./constitution.js');
 
-// Aggressive Interrogation Gate: The "Courtroom"
 const interrogateSignal = (input) => {
     if (!input.origin || input.origin !== "GGC_UNIVERSE") {
         console.log("[CRITICAL] UNIDENTIFIED_SIGNAL_DETECTED: QUARANTINE_INITIATED");
@@ -15,7 +14,6 @@ const interrogateSignal = (input) => {
     return constitution.enforce(input);
 };
 
-// Wise Leaf Loop Ledger Logic
 const updateLedger = (data) => {
     try {
         const validatedData = interrogateSignal(data);
