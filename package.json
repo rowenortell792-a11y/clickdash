@@ -1,12 +1,12 @@
 {
-  "name": "mother-bot-v1",
+  "name": "clickdash-hub",
   "version": "1.0.0",
-  "description": "Core GGC_UNIVERSE linkage",
-  "main": "index.js",
+  "description": "ClickDash Interface Hub",
+  "main": "index.html",
   "scripts": {
-    "start": "node index.js"
+    "start": "serve ."
   },
   "dependencies": {
-    "express": "^4.18.2"
+    "serve": "^14.2.0"
   }
 }
