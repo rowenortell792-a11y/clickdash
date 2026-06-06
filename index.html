@@ -1,30 +1,16 @@
-/**
- * GGC_UNIVERSE: BARE_METAL_SOVEREIGN_LINK
- * STATUS: LOCKED_TO_ROOT_KERNEL
- */
-
-const sovereign = require('../sovereign_kernel.js');
-const constitution = require('./constitution.js');
-
-// Sovereign Enforcement Gate
-const enforceSovereign = (req, res, next) => {
-    const signal = { 
-        origin: "GGC_UNIVERSE", 
-        data: req.body, 
-        timestamp: Date.now() 
-    };
-    
-    // Pass through Aggressive Interrogation Gate
-    const result = constitution.enforce(signal);
-    
-    if (result.status === "QUARANTINED") {
-        return res.status(403).send("SIGNAL_QUARANTINED: SOVEREIGN_ACCESS_DENIED");
-    }
-    next();
-};
-
-// Apply to your app
-// (If you still use express for local routing, keep it below the gate)
-// app.use(enforceSovereign); 
-
-console.log("[STATUS] PORTAL_LINKED_TO_SOVEREIGN_CORE");
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ClickDash Hub</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div id="dashboard-container">
+        <h1>ClickDash Interface</h1>
+        <div id="pulse-monitor">System Active</div>
+        <script src="click.js"></script>
+    </div>
+</body>
+</html>
