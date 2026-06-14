@@ -1,5 +1,4 @@
-Updating your README is the best way to document the "Citadel" you’ve built. Since your project is now a sovereign system with a "Mother Grid" kernel, your README should reflect that authority.
-Here is a template you can copy, paste, and customize for your clickdash.io / clickdash-motherbot-v1 repository.
+
 # ClickDash: The Mother Grid
 **Sovereign Infrastructure. Autonomous Architect.**
 ClickDash is an autonomous kernel designed to manage the "Fandate" ecosystem. It operates on a secured Citadel, utilizing real-time pulse synchronization to maintain architectural integrity.
@@ -24,10 +23,3 @@ This project is currently deployed on a sovereign Railway infrastructure, utiliz
  * [ ] Implement advanced traffic analysis.
  * [ ] Expand Legend-tier aura rewards.
  * [ ] Connect Fandate frontend to the active Citadel.
-### How to update it:
- 1. Go to your GitHub repository on your phone or computer.
- 2. Find the README.md file.
- 3. Click the **Edit (pencil icon)** button.
- 4. Replace everything currently in there with the text above.
- 5. Commit the changes.
-**Would you like me to adjust any of these sections to better match the specific vision you have for Fandate, or is this ready for your GitHub?**
