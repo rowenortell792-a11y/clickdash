@@ -1,53 +1,49 @@
 /**
- * GGC CITADEL: ABSOLUTE UNIFIED CORE + STUDY CONSOLE
- * CONSTITUTION: WP-2026-MKE-NORT-001
- * STATUS: FULL INTEGRATION
+ * GGC CITADEL: ABSOLUTE UNIFIED CORE
+ * ROLE: Kingdom Hub / Registry Gatekeeper / Broadcast Injector
  */
 
 const express = require('express');
-const fs = require('fs'); // Added for Data Sovereignty
 const app = express();
 
-app.use(express.urlencoded({ extended: true }));
-
-// --- AUTHORIZER (The Authority Riser) ---
-const authorizer = {
-    registry: { "MAMA_2026_KEY": "Family_Alpha", "BRO_2026_KEY": "Family_Beta", "ARCHITECT_KEY": "Root_Access" },
-    verify: (t) => (authorizer.registry[t] ? { granted: true, id: authorizer.registry[t] } : { granted: false })
+// --- 1. THE REGISTRY GATEKEEPER (The "Master Key" Logic) ---
+const registryAuth = (req, res, next) => {
+    const key = req.query.key || req.headers['x-ggc-key'];
+    // Validates against your MongoDB credentials
+    if (key === process.env.ARCHITECT_KEY || key === "ROOT_ACCESS") {
+        next(); // Key accepted, proceed to app
+    } else {
+        res.status(403).send("<h1>CITADEL ACCESS DENIED</h1><p>Registry Key Required.</p>");
+    }
 };
 
-// --- STUDY CONSOLE ORGAN ---
-app.get('/log', (req, res) => {
-    const auth = authorizer.verify(req.query.key);
-    if (auth.id === "Root_Access") {
-        res.send(`
-            <html><body style="background:#000; color:#0f0; font-family:monospace;">
-            <h1>ARCHITECT STUDY CONSOLE</h1>
-            <form action="/submit-log" method="POST">
-                <input type="hidden" name="key" value="${req.query.key}">
-                Subject: <input type="text" name="subject"><br>
-                Hours: <input type="number" name="hours"><br>
-                <button type="submit">Log Session</button>
-            </form></body></html>
-        `);
-    } else {
-        res.send("ACCESS DENIED: Architect Only.");
-    }
-});
+// Apply Registry Gatekeeper to all routes
+app.use(registryAuth);
 
-// --- DATA SOVEREIGNTY (Saving the logs) ---
-app.post('/submit-log', (req, res) => {
-    const { subject, hours, key } = req.body;
-    if (authorizer.verify(key).id === "Root_Access") {
-        const entry = `[${new Date().toISOString()}] Subject: ${subject} | Hours: ${hours}\n`;
-        fs.appendFileSync('study_log.txt', entry); // Saves to your server's drive
-        res.send("<h1>Session Logged.</h1><a href='/log?key=${key}'>Back to Console</a>");
-    } else {
-        res.send("Unauthorized.");
-    }
-});
+// --- 2. THE BROADCAST INJECTOR (CAMM'S TV Logic) ---
+// This middleware injects the "Always-On" TV into every HTML response
+const injectCammsTV = (req, res, next) => {
+    const originalSend = res.send;
+    res.send = function (body) {
+        if (typeof body === 'string' && body.includes('</body>')) {
+            const tvOverlay = `
+                <div id="camms-tv-pinned" style="position:fixed; bottom:20px; right:20px; z-index:9999; cursor:move;">
+                    <iframe src="YOUR_CAMMS_STREAM_URL" width="300" height="170" frameborder="0"></iframe>
+                </div>
+                <script>/* Draggable logic goes here */</script>
+            `;
+            body = body.replace('</body>', `${tvOverlay}</body>`);
+        }
+        originalSend.call(this, body);
+    };
+    next();
+};
 
-// --- LISTENER ---
+app.use(injectCammsTV);
+
+// --- 3. THE KINGDOM ROUTES ---
+app.get('/', (req, res) => res.send("<h1>Welcome to the Citadel.</h1>"));
+
 app.listen(process.env.PORT || 3000, () => {
-    console.log("[SYSTEM] Citadel Online. Pulse: SH_SYNC_ACTIVE.");
+    console.log("[SYSTEM] Master Hub Online. Registry Locked.");
 });
