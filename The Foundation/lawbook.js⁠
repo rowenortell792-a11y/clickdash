@@ -1,0 +1,13 @@
+// lawbook.js - Governance Registry
+const CitadelConstants = {
+    THE_FIFTH: "GGC_PROTOCOL_LEVEL_V5",
+    V9: "9000_GHZ_SECURE_SYNC"
+};
+
+const SovereignLaws = {
+    InjectConstants: (kernelData) => {
+        return { ...kernelData, matrix: "VOID_GATE_01" };
+    }
+};
+
+module.exports = { SovereignLaws, CitadelConstants };
