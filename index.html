@@ -1,16 +1,21 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ClickDash Hub</title>
-    <link rel="stylesheet" href="style.css">
-</head>
-<body>
-    <div id="dashboard-container">
-        <h1>ClickDash Interface</h1>
-        <div id="pulse-monitor">System Active</div>
-        <script src="click.js"></script>
-    </div>
-</body>
-</html>
+// click.js - GGC Interface Bridge
+async function updatePulse() {
+    try {
+        // Fetch the ledger state from your kernel
+        const response = await fetch('/ggc_ledger.json');
+        const data = await response.json();
+        
+        const monitor = document.getElementById('pulse-monitor');
+        monitor.innerText = `System Pulse: ${data.governance || 'SYNCING...'}`;
+        monitor.className = 'active'; 
+        
+        console.log('[MOG_UI] Pulse Synchronized with Citadel.');
+    } catch (err) {
+        console.error('[MOG_UI] Signal Lost: Reconnecting to Citadel...');
+        document.getElementById('pulse-monitor').innerText = 'System Offline';
+    }
+}
+
+// Poll every 5 seconds to match your WiseLeafLoop frequency
+setInterval(updatePulse, 5000);
+updatePulse();
