@@ -1,0 +1,35 @@
+/**
+ * GGC_UNIVERSE: INFRASTRUCTURE_PULSE_MODULE
+ * HOST: clickdash.net
+ * ROLE: PostgreSQL Health & Checkpoint Telemetry Probe
+ */
+
+const { exec } = require('child_process');
+
+const runPostgresPulse = () => {
+    console.log("[PULSE] Initiating PostgreSQL infrastructure health check...");
+
+    const query = `
+        SELECT
+          ROUND(100.0 * c.num_requested / NULLIF(c.num_timed + c.num_requested, 0), 1) AS checkpoint_requested_pct,
+          ROUND(100.0 * b.buffers_backend / NULLIF(b.buffers_checkpoint + b.buffers_clean + b.buffers_backend, 0), 1) AS backend_write_pct,
+          b.buffers_backend_fsync,
+          pg_size_pretty(w.wal_bytes) AS total_wal,
+          w.wal_fpi
+        FROM pg_stat_checkpointer c, pg_stat_bgwriter b, pg_stat_wal w;
+    `;
+
+    // Executes the health check query via psql on clickdash.net infrastructure
+    exec(`psql -c "${query}"`, (error, stdout, stderr) => {
+        if (error) {
+            console.error(`[PULSE_ERROR]: ${error.message}`);
+            return;
+        }
+        if (stderr) {
+            console.warn(`[PULSE_WARN]: ${stderr}`);
+        }
+        console.log(`[PULSE_REPORT]\n${stdout}`);
+    });
+};
+
+module.exports = { runPostgresPulse };
