@@ -9,9 +9,8 @@ const app = express();
 // --- 1. THE REGISTRY GATEKEEPER (The "Master Key" Logic) ---
 const registryAuth = (req, res, next) => {
     const key = req.query.key || req.headers['x-ggc-key'];
-    // Validates against your MongoDB credentials
     if (key === process.env.ARCHITECT_KEY || key === "ROOT_ACCESS") {
-        next(); // Key accepted, proceed to app
+        next(); 
     } else {
         res.status(403).send("<h1>CITADEL ACCESS DENIED</h1><p>Registry Key Required.</p>");
     }
@@ -21,16 +20,55 @@ const registryAuth = (req, res, next) => {
 app.use(registryAuth);
 
 // --- 2. THE BROADCAST INJECTOR (CAMM'S TV Logic) ---
-// This middleware injects the "Always-On" TV into every HTML response
 const injectCammsTV = (req, res, next) => {
     const originalSend = res.send;
     res.send = function (body) {
         if (typeof body === 'string' && body.includes('</body>')) {
             const tvOverlay = `
                 <div id="camms-tv-pinned" style="position:fixed; bottom:20px; right:20px; z-index:9999; cursor:move;">
-                    <iframe src="YOUR_CAMMS_STREAM_URL" width="300" height="170" frameborder="0"></iframe>
+                    <iframe src="${process.env.CAMMS_STREAM_URL || ''}" width="300" height="170" frameborder="0"></iframe>
                 </div>
-                <script>/* Draggable logic goes here */</script>
+                <script>
+                    // Draggable stream window logic
+                    const dragItem = document.querySelector("#camms-tv-pinned");
+                    let active = false;
+                    let currentX, currentY, initialX, initialY, xOffset = 0, yOffset = 0;
+
+                    dragItem.addEventListener("touchstart", dragStart, false);
+                    dragItem.addEventListener("touchend", dragEnd, false);
+                    dragItem.addEventListener("touchmove", drag, false);
+
+                    dragItem.addEventListener("mousedown", dragStart, false);
+                    window.addEventListener("mouseup", dragEnd, false);
+                    window.addEventListener("mousemove", drag, false);
+
+                    function dragStart(e) {
+                        initialX = e.clientX || e.touches[0].clientX - xOffset;
+                        initialY = e.clientY || e.touches[0].clientY - yOffset;
+                        if (e.target === dragItem || dragItem.contains(e.target)) active = true;
+                    }
+
+                    function dragEnd() {
+                        initialX = currentX;
+                        initialY = currentY;
+                        active = false;
+                    }
+
+                    function drag(e) {
+                        if (active) {
+                            e.preventDefault();
+                            currentX = (e.clientX || e.touches[0].clientX) - initialX;
+                            currentY = (e.clientY || e.touches[0].clientY) - initialY;
+                            xOffset = currentX;
+                            yOffset = currentY;
+                            setTranslate(currentX, currentY, dragItem);
+                        }
+                    }
+
+                    function setTranslate(xPos, yPos, el) {
+                        el.style.transform = "translate3d(" + xPos + "px, " + yPos + "px, 0)";
+                    }
+                </script>
             `;
             body = body.replace('</body>', `${tvOverlay}</body>`);
         }
@@ -44,6 +82,7 @@ app.use(injectCammsTV);
 // --- 3. THE KINGDOM ROUTES ---
 app.get('/', (req, res) => res.send("<h1>Welcome to the Citadel.</h1>"));
 
-app.listen(process.env.PORT || 3000, () => {
-    console.log("[SYSTEM] Master Hub Online. Registry Locked.");
+const PORT = process.env.PORT || 3000;
+app.listen(PORT, () => {
+    console.log(`[SYSTEM] Master Hub Online on port ${PORT}. Registry Locked.`);
 });
