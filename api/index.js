@@ -18,7 +18,17 @@ app.get('/api/bot/serverbot', (req, res) => {
     res.json({ bot: "ServerBot", status: "Operational" });
 });
 
-// 3. STATUS & REDIRECTS
+// 3. VAULT / TERMINAL ROUTE
+app.post('/api/vault/connection_token', async (req, res) => {
+    try {
+        const connectionToken = await stripe.terminal.connectionTokens.create();
+        res.json({ secret: connectionToken.secret });
+    } catch (error) {
+        res.status(500).json({ error: error.message });
+    }
+});
+
+// 4. STATUS & REDIRECTS
 app.get('/api/status', (req, res) => {
     res.status(200).json({ message: "Clickdash Engine Active" });
 });
