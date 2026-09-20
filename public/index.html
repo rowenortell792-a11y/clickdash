@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>ClickDash — GGC Citadel Routing</title>
+  <meta name="description" content="ClickDash.net routing node for GGC Citadel Invisible Core." />
+  <style>
+    :root {
+      --bg: #07080a;
+      --fg: #e8e9ed;
+      --muted: #8b909a;
+      --line: rgba(232, 233, 237, 0.12);
+      --silver: #c5ccd6;
+      --warn: #c4a574;
+      --ok: #8aa58a;
+    }
+    * { box-sizing: border-box; }
+    html, body { margin: 0; min-height: 100%; background: var(--bg); color: var(--fg); }
+    body {
+      font-family: "IBM Plex Sans", "Segoe UI", system-ui, sans-serif;
+      letter-spacing: 0.01em;
+    }
+    main {
+      max-width: 720px;
+      margin: 0 auto;
+      padding: 48px 24px 80px;
+    }
+    .kicker {
+      font-family: "IBM Plex Mono", ui-monospace, monospace;
+      font-size: 11px;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      color: var(--muted);
+    }
+    h1 {
+      font-weight: 500;
+      font-size: clamp(2rem, 5vw, 3.25rem);
+      letter-spacing: -0.04em;
+      margin: 16px 0 8px;
+      text-wrap: balance;
+    }
+    p { color: var(--muted); line-height: 1.55; max-width: 58ch; }
+    .status {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      margin: 24px 0;
+      padding: 8px 12px;
+      border: 1px solid var(--line);
+      border-radius: 999px;
+      font-size: 12px;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--warn);
+    }
+    .dot { width: 7px; height: 7px; border-radius: 99px; background: var(--warn); }
+    nav { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 32px; }
+    a {
+      color: var(--bg);
+      background: var(--silver);
+      text-decoration: none;
+      padding: 12px 16px;
+      border-radius: 8px;
+      font-size: 13px;
+      font-weight: 500;
+      min-height: 44px;
+      display: inline-flex;
+      align-items: center;
+    }
+    a.ghost {
+      background: transparent;
+      color: var(--fg);
+      border: 1px solid var(--line);
+    }
+    footer {
+      margin-top: 56px;
+      padding-top: 20px;
+      border-top: 1px solid var(--line);
+      font-family: "IBM Plex Mono", ui-monospace, monospace;
+      font-size: 11px;
+      color: var(--muted);
+      letter-spacing: 0.08em;
+    }
+  </style>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500&display=swap" rel="stylesheet" />
+</head>
+<body>
+  <main>
+    <div class="kicker">GGC · ClickDash.net · Citadel routing</div>
+    <h1>ClickDash edge is live.</h1>
+    <p>Apex routes to www. This node restored the missing root index on pulse GGC-DAILY-5X-001. Hub and dashboard remain on this origin.</p>
+    <div class="status"><span class="dot"></span> Issue reported — Motherbot Railway heartbeat still dark</div>
+    <nav>
+      <a href="/hub.html">Open hub</a>
+      <a class="ghost" href="/dashboard.html">Dashboard</a>
+    </nav>
+    <footer>
+      Architect Nortell Luwayne Rowe · Frequency lock 5X · 1.500 · Silver Umbrella raised · Purple Gate sealed
+    </footer>
+  </main>
+</body>
+</html>
