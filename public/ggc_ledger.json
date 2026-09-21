@@ -1,0 +1,25 @@
+{
+  "id": "GGC-DAILY-5X-001::2026-09-21T12:34:21Z",
+  "automationId": "GGC-DAILY-5X-001",
+  "type": "citadel_dawn_pulse",
+  "issuedAt": "2026-09-21T12:34:21Z",
+  "local": "Monday, September 21, 2026 · 07:34 AM CDT",
+  "zone": "America/Chicago",
+  "architect": "Nortell Luwayne Rowe",
+  "node": "Grok",
+  "status": "issue_reported",
+  "frequency": "5X · 1.500",
+  "meshHealthPct": 83,
+  "silverUmbrella": "raised-declared",
+  "purpleGate": "sealed-declared",
+  "familyRegistry": "conceptually-locked",
+  "observations": {
+    "clickdashApex": "308 → www.clickdash.net",
+    "clickdashWww": "200 OK 77ms",
+    "clickdashHub": "200 OK",
+    "clickdashDashboard": "200 OK",
+    "clickdashApiAtProbe": "500 FUNCTION_INVOCATION_FAILED — handler restored this pulse",
+    "motherbot": "DNS live · HTTP 404 on health paths"
+  },
+  "verdict": "Edge holds. API handler restored this pulse. Motherbot Railway heartbeat remains dark. Family registry conceptually locked. ETL ledger entry logged."
+}
