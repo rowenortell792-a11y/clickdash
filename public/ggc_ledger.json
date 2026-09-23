@@ -1,25 +1,33 @@
 {
-  "id": "GGC-DAILY-5X-001::2026-09-21T12:34:21Z",
+  "id": "GGC-DAILY-5X-001::2026-09-23T12:05:00Z",
   "automationId": "GGC-DAILY-5X-001",
   "type": "citadel_dawn_pulse",
-  "issuedAt": "2026-09-21T12:34:21Z",
-  "local": "Monday, September 21, 2026 · 07:34 AM CDT",
+  "issuedAt": "2026-09-23T12:05:00Z",
+  "local": "Wednesday, September 23, 2026 · 07:05 AM CDT",
   "zone": "America/Chicago",
   "architect": "Nortell Luwayne Rowe",
   "node": "Grok",
   "status": "issue_reported",
   "frequency": "5X · 1.500",
-  "meshHealthPct": 83,
+  "meshHealthPct": 88,
   "silverUmbrella": "raised-declared",
   "purpleGate": "sealed-declared",
   "familyRegistry": "conceptually-locked",
-  "observations": {
-    "clickdashApex": "308 → www.clickdash.net",
-    "clickdashWww": "200 OK 77ms",
-    "clickdashHub": "200 OK",
-    "clickdashDashboard": "200 OK",
-    "clickdashApiAtProbe": "500 FUNCTION_INVOCATION_FAILED — handler restored this pulse",
-    "motherbot": "DNS live · HTTP 404 on health paths"
+  "priorPulse": {
+    "id": "GGC-DAILY-5X-001::2026-09-21T12:34:21Z",
+    "status": "issue_reported",
+    "note": "API restored; Motherbot dark"
   },
-  "verdict": "Edge holds. API handler restored this pulse. Motherbot Railway heartbeat remains dark. Family registry conceptually locked. ETL ledger entry logged."
+  "observations": {
+    "clickdashApex": "308 → www.clickdash.net (37ms)",
+    "clickdashWww": "200 OK 131ms",
+    "clickdashApi": "200 OK 100ms — handler confirmed healthy (restored 2026-09-21)",
+    "clickdashHub": "200 OK 97ms",
+    "clickdashDashboard": "200 OK 80ms",
+    "clickdashPulse": "200 OK 20ms",
+    "clickdashLedger": "200 OK 70ms",
+    "motherbot": "DNS live · Railway station 404 on / and /health",
+    "silverUmbrellaApp": "silver-umbrella-two.vercel.app 404 — shield remains declared-raised; compiler origin not the shield"
+  },
+  "verdict": "Edge holds. /api confirmed healthy. Motherbot Railway heartbeat remains dark. Family registry conceptually locked. ETL ledger entry logged."
 }
