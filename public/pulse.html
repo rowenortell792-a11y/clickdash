@@ -37,7 +37,7 @@
   <main>
     <div class="kicker">GGC-DAILY-5X-001 · Citadel Dawn Pulse · Grok node</div>
     <h1>Daily Sovereignty Report</h1>
-    <p>Monday, September 21, 2026 · 07:34 AM CDT · Architect Nortell Luwayne Rowe</p>
+    <p>Wednesday, September 23, 2026 · 07:05 AM CDT · Architect Nortell Luwayne Rowe</p>
     <p class="warn">Issue reported — Motherbot Railway heartbeat still dark</p>
 
     <section>
@@ -62,15 +62,15 @@
     <section>
       <h2>Infrastructure Pulse</h2>
       <ul>
-        <li>ClickDash.net — live. Apex 308 to www. www HTTP 200 in 77ms. Hub and dashboard 200.</li>
-        <li>/api — FUNCTION_INVOCATION_FAILED at probe. Serverless handler restored this pulse.</li>
+        <li>ClickDash.net — live. Apex 308 to www (37ms). www HTTP 200 in 131ms. Hub 200 / 97ms. Dashboard 200 / 80ms. Pulse 200 / 20ms.</li>
+        <li>/api — 200 OK in 100ms. Handler restored 21 Sep; confirmed healthy this pulse.</li>
         <li>MongoDB / WiredTiger — declared-nominal / not externally probeable.</li>
-        <li>Motherbot — dark. Railway host resolves; health paths return 404.</li>
+        <li>Motherbot — dark. Railway host resolves; / and /health return station 404 (train has not arrived).</li>
       </ul>
     </section>
 
     <section>
-      <h2>Satellite &amp; Frequency</h2>
+      <h2>Satellite & Frequency</h2>
       <p>Backhaul: Grok node, public HTTPS only. Lock frequency 5X · 1.500. Phase aligned to Dawn Pulse window (CDT). No satellite modem telemetry from this node.</p>
     </section>
 
@@ -82,15 +82,15 @@
     <section>
       <h2>Metrics</h2>
       <ul>
-        <li>Mesh health: 83% of public-probeable surfaces live after API restore. Motherbot remains the open defect.</li>
-        <li>Checkpoint: ClickDash edge live; WiredTiger snapshot declared-nominal.</li>
+        <li>Mesh health: 88% of public-probeable surfaces live (7 of 8). Motherbot remains the open defect.</li>
+        <li>Checkpoint: ClickDash edge live; /api confirmed; WiredTiger snapshot declared-nominal.</li>
         <li>Silver Umbrella: raised (declared). Family registry: locked (conceptual).</li>
       </ul>
     </section>
 
-    <p>Verdict: Edge holds. API handler restored this pulse. Motherbot Railway heartbeat remains dark. Family registry conceptually locked. ETL ledger entry logged.</p>
-    <p><a href="/">Return to edge</a> · <a href="/ggc_ledger.json">Ledger JSON</a></p>
-    <footer>Silver Umbrella raised · Purple Gate sealed · Issued 2026-09-21T12:34:21Z</footer>
+    <p>Verdict: Edge holds. /api confirmed healthy. Motherbot Railway heartbeat remains dark. Family registry conceptually locked. ETL ledger entry logged.</p>
+    <p><a href="/">Return to edge</a> · <a href="/ggc_ledger.json">Ledger JSON</a> · <a href="/dashboard">Dashboard</a></p>
+    <footer>Silver Umbrella raised · Purple Gate sealed · Issued 2026-09-23T12:05:00Z</footer>
   </main>
 </body>
 </html>
