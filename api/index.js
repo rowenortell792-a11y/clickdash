@@ -2,6 +2,7 @@
  * GGC ClickDash pulse — Vercel serverless handler.
  * Restored on GGC-DAILY-5X-001 (2026-09-21).
  * Confirmed healthy on GGC-DAILY-5X-001 (2026-09-23).
+ * Reconfirmed on GGC-DAILY-5X-001 (2026-09-24).
  * The prior Express server.listen() binary caused FUNCTION_INVOCATION_FAILED.
  */
 module.exports = function handler(req, res) {
@@ -23,9 +24,9 @@ module.exports = function handler(req, res) {
     node: "edge",
     status: "issue_reported",
     governance: "CITADEL_DAWN_PULSE",
-    matrix_constant: "5X·1.500",
-    frequency: "5X · 1.500",
-    lastPulse: "2026-09-23T12:05:00Z",
+    matrix_constant: "5X\u00b71.500",
+    frequency: "5X \u00b7 1.500",
+    lastPulse: "2026-09-24T12:15:00Z",
     meshHealthPct: 88,
     silverUmbrella: "raised-declared",
     purpleGate: "sealed-declared",
@@ -36,7 +37,7 @@ module.exports = function handler(req, res) {
       note: "DNS resolves; Railway station 404 on / and /health — train has not arrived",
     },
     architect: "Nortell Luwayne Rowe",
-    issuedBy: "Grok node · Citadel Triangle",
+    issuedBy: "Grok node \u00b7 Citadel Triangle",
     timestamp: new Date().toISOString(),
     method: req.method,
     path: req.url || "/api",
