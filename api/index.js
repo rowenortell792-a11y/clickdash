@@ -6,6 +6,7 @@
  * Reconfirmed on GGC-DAILY-5X-001 (2026-09-25).
  * Reconfirmed on GGC-DAILY-5X-001 (2026-09-26).
  * Reconfirmed on GGC-DAILY-5X-001 (2026-09-27).
+ * Reconfirmed on GGC-DAILY-5X-001 (2026-09-28).
  * The prior Express server.listen() binary caused FUNCTION_INVOCATION_FAILED.
  */
 module.exports = function handler(req, res) {
@@ -29,7 +30,7 @@ module.exports = function handler(req, res) {
     governance: "CITADEL_DAWN_PULSE",
     matrix_constant: "5X\u00b71.500",
     frequency: "5X \u00b7 1.500",
-    lastPulse: "2026-09-27T12:18:00Z",
+    lastPulse: "2026-09-28T12:20:00Z",
     meshHealthPct: 88,
     silverUmbrella: "raised-declared",
     purpleGate: "sealed-declared",
