@@ -18,53 +18,6 @@
     "status": "issue_reported",
     "note": "API healthy; Motherbot dark; 03 Oct idle"
   },
-  "history": [
-    {
-      "id": "GGC-DAILY-5X-001::2026-10-02T12:23:00Z",
-      "status": "issue_reported",
-      "note": "API healthy; Motherbot dark"
-    },
-    {
-      "id": "GGC-DAILY-5X-001::2026-10-01T12:17:00Z",
-      "status": "issue_reported",
-      "note": "API healthy; Motherbot dark; ledger resumed after 29–30 Sep idle"
-    },
-    {
-      "id": "GGC-DAILY-5X-001::2026-09-28T12:20:00Z",
-      "status": "issue_reported",
-      "note": "API healthy; Motherbot dark"
-    },
-    {
-      "id": "GGC-DAILY-5X-001::2026-09-27T12:18:00Z",
-      "status": "issue_reported",
-      "note": "API healthy; Motherbot dark"
-    },
-    {
-      "id": "GGC-DAILY-5X-001::2026-09-26T12:15:00Z",
-      "status": "issue_reported",
-      "note": "API healthy; Motherbot dark"
-    },
-    {
-      "id": "GGC-DAILY-5X-001::2026-09-25T12:14:00Z",
-      "status": "issue_reported",
-      "note": "API healthy; Motherbot dark"
-    },
-    {
-      "id": "GGC-DAILY-5X-001::2026-09-24T12:15:00Z",
-      "status": "issue_reported",
-      "note": "API healthy; Motherbot dark"
-    },
-    {
-      "id": "GGC-DAILY-5X-001::2026-09-23T12:05:00Z",
-      "status": "issue_reported",
-      "note": "API healthy; Motherbot dark"
-    },
-    {
-      "id": "GGC-DAILY-5X-001::2026-09-21T12:34:21Z",
-      "status": "issue_reported",
-      "note": "API restored; Motherbot dark"
-    }
-  ],
   "observations": {
     "clickdashApex": "308 → www.clickdash.net; 82ms",
     "clickdashWww": "200 OK 78ms",

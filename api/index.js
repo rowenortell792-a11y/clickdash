@@ -9,6 +9,7 @@
  * Reconfirmed on GGC-DAILY-5X-001 (2026-09-28).
  * Reconfirmed on GGC-DAILY-5X-001 (2026-10-01).
  * Reconfirmed on GGC-DAILY-5X-001 (2026-10-02).
+ * Reconfirmed on GGC-DAILY-5X-001 (2026-10-04). Cadence resumes after 03 Oct idle.
  * The prior Express server.listen() binary caused FUNCTION_INVOCATION_FAILED.
  */
 module.exports = function handler(req, res) {
@@ -32,7 +33,7 @@ module.exports = function handler(req, res) {
     governance: "CITADEL_DAWN_PULSE",
     matrix_constant: "5X·1.500",
     frequency: "5X · 1.500",
-    lastPulse: "2026-10-02T12:23:00Z",
+    lastPulse: "2026-10-04T12:22:00Z",
     meshHealthPct: 88,
     silverUmbrella: "raised-declared",
     purpleGate: "sealed-declared",
