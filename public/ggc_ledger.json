@@ -1,9 +1,9 @@
 {
-  "id": "GGC-DAILY-5X-001::2026-10-05T12:48:00Z",
+  "id": "GGC-DAILY-5X-001::2026-10-08T12:23:00Z",
   "automationId": "GGC-DAILY-5X-001",
   "type": "citadel_dawn_pulse",
-  "issuedAt": "2026-10-05T12:48:00Z",
-  "local": "Monday, October 5, 2026 · 07:48 AM CDT",
+  "issuedAt": "2026-10-08T12:23:00Z",
+  "local": "Thursday, October 8, 2026 · 07:23 AM CDT",
   "zone": "America/Chicago",
   "architect": "Nortell Luwayne Rowe",
   "node": "Grok",
@@ -14,11 +14,16 @@
   "purpleGate": "sealed-declared",
   "familyRegistry": "conceptually-locked",
   "priorPulse": {
-    "id": "GGC-DAILY-5X-001::2026-10-04T12:22:00Z",
+    "id": "GGC-DAILY-5X-001::2026-10-05T12:48:00Z",
     "status": "issue_reported",
-    "note": "API healthy; Motherbot dark; cadence resumed after 03 Oct idle"
+    "note": "API healthy; Motherbot dark; daily cadence continued. No ledger entries for 06–07 Oct."
   },
   "history": [
+    {
+      "id": "GGC-DAILY-5X-001::2026-10-05T12:48:00Z",
+      "status": "issue_reported",
+      "note": "API healthy; Motherbot dark; daily cadence continued"
+    },
     {
       "id": "GGC-DAILY-5X-001::2026-10-04T12:22:00Z",
       "status": "issue_reported",
@@ -71,16 +76,16 @@
     }
   ],
   "observations": {
-    "clickdashApex": "308 → www.clickdash.net; 45ms",
-    "clickdashWww": "200 OK 35ms",
-    "clickdashApi": "200 OK 44ms — handler reconfirmed healthy (restored 2026-09-21)",
-    "clickdashHub": "200 OK 30ms",
-    "clickdashDashboard": "200 OK 79ms",
-    "clickdashPulse": "200 OK 76ms",
-    "clickdashLedger": "200 OK 69ms (/ggc_ledger.json); /ledger rewrite 200 / 151ms",
-    "motherbot": "Railway station 404 on / (39ms) and /health (14ms) — Application not found",
-    "silverUmbrellaApp": "silver-umbrella-two.vercel.app 404 24ms — shield remains declared-raised; compiler origin not the shield",
-    "checkpoint": "Origin last pulse 2026-10-04; daily cadence continues 2026-10-05"
+    "clickdashApex": "308 → www.clickdash.net; 75ms",
+    "clickdashWww": "200 OK 79ms",
+    "clickdashApi": "200 OK 109ms — handler reconfirmed healthy (restored 2026-09-21); embedded lastPulse was still 2026-10-05 before this commit",
+    "clickdashHub": "200 OK 83ms",
+    "clickdashDashboard": "200 OK 103ms",
+    "clickdashPulse": "200 OK 52ms",
+    "clickdashLedger": "/ledger rewrite 200 OK 64ms (serves /ggc_ledger.json); cache HIT age ~71.6h; last-modified 2026-10-05T12:49:21Z until this pulse",
+    "motherbot": "Railway station 404 Application not found on / (54ms) and /health (38ms); x-railway-fallback true — train has not arrived",
+    "silverUmbrellaApp": "silver-umbrella-two.vercel.app DEPLOYMENT_NOT_FOUND 59ms — shield remains declared-raised; compiler origin not the shield",
+    "checkpoint": "Origin last pulse 2026-10-05; 06–07 Oct idle; cadence resumes 2026-10-08"
   },
-  "verdict": "Edge holds. /api reconfirmed healthy. Daily cadence continues 05 Oct. Motherbot Railway heartbeat remains dark. Family registry conceptually locked. ETL ledger entry logged."
+  "verdict": "Edge holds. /api reconfirmed healthy. Cadence resumes 08 Oct after 06–07 Oct idle. Motherbot Railway heartbeat remains dark. Family registry conceptually locked. ETL ledger entry logged."
 }
