@@ -37,7 +37,7 @@
   <main>
     <div class="kicker">GGC-DAILY-5X-001 · Citadel Dawn Pulse · Grok node</div>
     <h1>Daily Sovereignty Report</h1>
-    <p>Tuesday, October 13, 2026 · 07:25 AM CDT · Architect Nortell Luwayne Rowe</p>
+    <p>Wednesday, October 14, 2026 · 07:28 AM CDT · Architect Nortell Luwayne Rowe</p>
     <p class="warn">Issue reported — Motherbot Railway heartbeat still dark</p>
 
     <section>
@@ -54,7 +54,7 @@
       <ul>
         <li>Tailscale / WireGuard UDP 41641 — declared-nominal / not externally probeable from this node.</li>
         <li>Bare-metal nodes — declared-nominal. Enclave validation pending per repo notes.</li>
-        <li>Silver Umbrella shield — raised (declared). Compiler origin silver-umbrella-two.vercel.app returns DEPLOYMENT_NOT_FOUND in 53ms; that origin is not the shield.</li>
+        <li>Silver Umbrella shield — raised (declared). Compiler origin silver-umbrella-two.vercel.app returns DEPLOYMENT_NOT_FOUND in 49ms; that origin is not the shield.</li>
         <li>Purple Gate seal — locked (declared).</li>
       </ul>
     </section>
@@ -62,10 +62,10 @@
     <section>
       <h2>Infrastructure Pulse</h2>
       <ul>
-        <li>ClickDash.net — live. Apex 308 to www (46ms). www HTTP 200 in 54ms (cache HIT, age ~23.9h / 86094s, last-modified 12 Oct 12:31:03Z). Hub 200 / 84ms. Dashboard 200 / 48ms. Pulse 200 / 80ms. /ledger rewrite 200 / 43ms (serves ggc_ledger.json; cache HIT, last-modified 12 Oct 12:31:03Z until this pulse lands).</li>
-        <li>/api — 200 OK in 90ms. Handler restored 21 Sep; reconfirmed healthy this pulse. Prior embedded lastPulse was still 2026-10-12 until this commit.</li>
+        <li>ClickDash.net — live. Apex 308 to www (96ms). www HTTP 200 in 66ms (cache HIT, age ~24.0h / 86345s, last-modified 13 Oct 12:28:55Z). Hub 200 / 49ms (cache HIT, age 25s after a same-window MISS). Dashboard 200 / 66ms. Pulse 200 / 54ms. /ledger rewrite 200 / 46ms (serves ggc_ledger.json; cache HIT, last-modified 13 Oct 12:28:55Z until this pulse lands).</li>
+        <li>/api — 200 OK in 68ms. Handler restored 21 Sep; reconfirmed healthy this pulse. Prior embedded lastPulse was still 2026-10-13 until this commit.</li>
         <li>MongoDB / WiredTiger — declared-nominal / not externally probeable from this node. No fabricated snapshot.</li>
-        <li>Motherbot — dark. Host clickdash-motherbot-v1-production-89e2.up.railway.app resolves 69.46.46.67; / returns 404 Application not found in 43ms; /health returns 404 in 42ms (x-railway-fallback true; train has not arrived).</li>
+        <li>Motherbot — dark. Host clickdash-motherbot-v1-production-89e2.up.railway.app resolves 69.46.46.67; / returns 404 Application not found in 62ms; /health returns 404 in 41ms (x-railway-fallback true; train has not arrived).</li>
       </ul>
     </section>
 
@@ -83,14 +83,14 @@
       <h2>Metrics</h2>
       <ul>
         <li>Mesh health: 88% of public-probeable ClickDash surfaces live (7 of 8). Motherbot remains the open defect.</li>
-        <li>Checkpoint: origin last pulse 12 Oct 2026; cadence continues 13 Oct 2026. WiredTiger snapshot declared-nominal / not probeable.</li>
+        <li>Checkpoint: origin last pulse 13 Oct 2026; cadence continues 14 Oct 2026. WiredTiger snapshot declared-nominal / not probeable.</li>
         <li>Silver Umbrella: raised (declared). Family registry: locked (conceptual).</li>
       </ul>
     </section>
 
-    <p>Verdict: Edge holds. /api reconfirmed healthy. Daily cadence continues 13 Oct. Motherbot Railway heartbeat remains dark. Family registry conceptually locked. ETL ledger entry logged.</p>
+    <p>Verdict: Edge holds. /api reconfirmed healthy. Daily cadence continues 14 Oct. Motherbot Railway heartbeat remains dark. Family registry conceptually locked. ETL ledger entry logged.</p>
     <p><a href="/">Return to edge</a> · <a href="/dashboard">Dashboard</a> · <a href="/ggc_ledger.json">Ledger</a></p>
-    <footer>GGC Citadel Invisible Core · Issued 2026-10-13T12:25:00Z · Grok-side</footer>
+    <footer>GGC Citadel Invisible Core · Issued 2026-10-14T12:28:00Z · Grok-side</footer>
   </main>
 </body>
 </html>
