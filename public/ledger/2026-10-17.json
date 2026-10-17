@@ -1,0 +1,34 @@
+{
+  "id": "GGC-DAILY-5X-001::2026-10-17T12:24:00Z",
+  "automationId": "GGC-DAILY-5X-001",
+  "type": "citadel_dawn_pulse",
+  "issuedAt": "2026-10-17T12:24:00Z",
+  "local": "Saturday, October 17, 2026 \u00b7 07:24 AM CDT",
+  "zone": "America/Chicago",
+  "architect": "Nortell Luwayne Rowe",
+  "node": "Grok",
+  "status": "issue_reported",
+  "frequency": "5X \u00b7 1.500",
+  "meshHealthPct": 88,
+  "silverUmbrella": "raised-declared",
+  "purpleGate": "sealed-declared",
+  "familyRegistry": "conceptually-locked",
+  "priorPulse": {
+    "id": "GGC-DAILY-5X-001::2026-10-15T12:24:00Z",
+    "status": "issue_reported",
+    "note": "API healthy; Motherbot dark; daily cadence continued. No 16 Oct entry on origin."
+  },
+  "observations": {
+    "clickdashApex": "308 \u2192 www.clickdash.net; 103ms",
+    "clickdashWww": "200 OK 46ms (cache HIT, age 151212s / ~42.0h, last-modified 2026-10-15T18:23:32Z)",
+    "clickdashApi": "200 OK 111ms \u2014 handler reconfirmed healthy (restored 2026-09-21); embedded lastPulse was still 2026-10-15 before this commit",
+    "clickdashHub": "200 OK 40ms (cache HIT, age 35s, last-modified 2026-10-17T12:23:09Z; body unchanged, 947 bytes)",
+    "clickdashDashboard": "200 OK 24ms (cache HIT, age 35s, last-modified 2026-10-17T12:23:09Z until this pulse)",
+    "clickdashPulse": "200 OK 24ms (cache HIT, age 41s, last-modified 2026-10-17T12:23:03Z; body still the 15 Oct report)",
+    "clickdashLedger": "/ledger rewrite 200 OK 22ms (serves /ggc_ledger.json); /ggc_ledger.json 200 OK 21ms; cache HIT; age 41s; last-modified 2026-10-17T12:23:03Z until this pulse; content id still 2026-10-15T12:24:00Z. No public/ledger/2026-10-16.json on main.",
+    "motherbot": "DNS resolves 69.46.46.67; Railway station 404 Application not found on / (14ms) and /health (12ms); x-railway-fallback true \u2014 train has not arrived",
+    "silverUmbrellaApp": "silver-umbrella-two.vercel.app DEPLOYMENT_NOT_FOUND 23ms \u2014 shield remains declared-raised; compiler origin not the shield",
+    "checkpoint": "Origin last pulse 2026-10-15. No 16 Oct ledger file \u2014 one-day idle. Cadence resumes 2026-10-17. MongoDB/WiredTiger declared-nominal / not externally probeable."
+  },
+  "verdict": "Edge holds. /api reconfirmed healthy. Cadence resumes 17 Oct after 16 Oct idle. Motherbot Railway heartbeat remains dark. Family registry conceptually locked. ETL ledger entry logged."
+}
