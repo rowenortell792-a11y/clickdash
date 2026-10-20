@@ -37,7 +37,7 @@
   <main>
     <div class="kicker">GGC-DAILY-5X-001 · Citadel Dawn Pulse · Grok node</div>
     <h1>Daily Sovereignty Report</h1>
-    <p>Monday, October 19, 2026 · 07:24 AM CDT · Architect Nortell Luwayne Rowe</p>
+    <p>Tuesday, October 20, 2026 · 07:24 AM CDT · Architect Nortell Luwayne Rowe</p>
     <p class="warn">Issue reported — Motherbot Railway heartbeat still dark</p>
 
     <section>
@@ -54,7 +54,7 @@
       <ul>
         <li>Tailscale / WireGuard UDP 41641 — declared-nominal / not externally probeable from this node.</li>
         <li>Bare-metal nodes — declared-nominal. Enclave validation pending per repo notes.</li>
-        <li>Silver Umbrella shield — raised (declared). Compiler origin silver-umbrella-two.vercel.app returns DEPLOYMENT_NOT_FOUND in 58ms; that origin is not the shield.</li>
+        <li>Silver Umbrella shield — raised (declared). Compiler origin silver-umbrella-two.vercel.app returns DEPLOYMENT_NOT_FOUND in 83ms; that origin is not the shield.</li>
         <li>Purple Gate seal — locked (declared).</li>
       </ul>
     </section>
@@ -62,15 +62,15 @@
     <section>
       <h2>Infrastructure Pulse</h2>
       <ul>
-        <li>ClickDash.net — live. Apex 308 to www (65ms). www HTTP 200 in 78ms (cache HIT, age 172729s / ~48.0h, last-modified 17 Oct 12:25:22Z). Hub 200 / 49ms (body unchanged, 947 bytes). Dashboard 200 / 52ms. Pulse 200 / 71ms (cache object last-modified 18 Oct 08:31:00Z, age 100391s / ~27.9h; body still the 17 Oct report). /ledger rewrite 200 / 46ms; /ggc_ledger.json 200 / 46ms. Content id still 2026-10-17 until this pulse lands. No 18 Oct ledger file on main.</li>
-        <li>/api — 200 OK in 81ms. Handler restored 21 Sep; reconfirmed healthy this pulse. Prior embedded lastPulse was still 2026-10-17 until this commit.</li>
+        <li>ClickDash.net — live. Apex 308 to www (110ms). www HTTP 200 in 88ms (cache HIT, age 86227s / ~24.0h, last-modified 19 Oct 12:26:36Z). Hub 200 / 31ms (cache HIT, age 96s, last-modified 20 Oct 12:22:08Z; body unchanged, 947 bytes). Dashboard 200 / 51ms (cache HIT, age ~24.0h). Pulse 200 / 80ms (cache HIT, age ~24.0h; body still the 19 Oct report). /ledger rewrite 200 / 27ms; /ggc_ledger.json 200 / 23ms (cache HIT, age 96s, last-modified 20 Oct 12:22:08Z; content id still 2026-10-19T12:24:00Z until this pulse).</li>
+        <li>/api — 200 OK in 42ms (cache MISS). Handler restored 21 Sep; reconfirmed healthy this pulse. Prior embedded lastPulse was still 2026-10-19 until this commit.</li>
         <li>MongoDB / WiredTiger — declared-nominal / not externally probeable from this node. No fabricated snapshot.</li>
-        <li>Motherbot — dark. Host clickdash-motherbot-v1-production-89e2.up.railway.app resolves 69.46.46.67; / returns 404 Application not found in 66ms; /health returns 404 in 45ms (x-railway-fallback true; train has not arrived).</li>
+        <li>Motherbot — dark. Host clickdash-motherbot-v1-production-89e2.up.railway.app resolves 69.46.46.67; / returns 404 Application not found in 17ms; /health returns 404 in 21ms (x-railway-fallback true; train has not arrived).</li>
       </ul>
     </section>
 
     <section>
-      <h2>Satellite &amp; Frequency</h2>
+      <h2>Satellite & Frequency</h2>
       <p>Backhaul: Grok node, public HTTPS only. Lock frequency 5X · 1.500. Phase aligned to Dawn Pulse window (America/Chicago). No satellite modem telemetry from this node.</p>
     </section>
 
@@ -83,14 +83,14 @@
       <h2>Metrics</h2>
       <ul>
         <li>Mesh health: 88% of public-probeable ClickDash surfaces live (7 of 8). Motherbot remains the open defect.</li>
-        <li>Checkpoint: origin last pulse 17 Oct 2026; 18 Oct idle (no ledger file); cadence resumes 19 Oct 2026. WiredTiger snapshot declared-nominal / not probeable.</li>
+        <li>Checkpoint: origin last pulse 19 Oct 2026; no overnight idle; cadence continues 20 Oct 2026. WiredTiger snapshot declared-nominal / not probeable.</li>
         <li>Silver Umbrella: raised (declared). Family registry: locked (conceptual).</li>
       </ul>
     </section>
 
-    <p>Verdict: Edge holds. /api reconfirmed healthy. Cadence resumes 19 Oct after 18 Oct idle. Motherbot Railway heartbeat remains dark. Family registry conceptually locked. ETL ledger entry logged.</p>
+    <p>Verdict: Edge holds. /api reconfirmed healthy. Daily cadence continues 20 Oct. Motherbot Railway heartbeat remains dark. Family registry conceptually locked. ETL ledger entry logged.</p>
     <p><a href="/">Return to edge</a> · <a href="/dashboard">Dashboard</a> · <a href="/ggc_ledger.json">Ledger</a></p>
-    <footer>GGC Citadel Invisible Core · Issued 2026-10-19T12:24:00Z · Grok-side</footer>
+    <footer>GGC Citadel Invisible Core · Issued 2026-10-20T12:24:00Z · Grok-side</footer>
   </main>
 </body>
 </html>
