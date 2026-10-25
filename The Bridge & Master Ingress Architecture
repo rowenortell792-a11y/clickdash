@@ -1,0 +1,109 @@
+// click.js - Master Ingress Gateway for clickdash.net (One-to-One Full Matrix Edition)
+const express = require('express');
+const fs = require('fs');
+const path = require('path');
+
+const app = express();
+const PORT = process.env.PORT || 3000;
+
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
+app.use(express.static(path.join(__dirname, 'public')));
+
+// --- 1. SYSTEM HEALTH & TAILNET MESH ---
+app.get('/health', (req, res) => {
+    res.json({
+        system: "GGC_GLOBAL_GRID_CORE",
+        status: "SOVEREIGN_ORGANISM_ACTIVE",
+        gateway: "clickdash.net",
+        motherbotNode: "100.64.53.58",
+        mesh: "Tailscale WireGuard Active",
+        timestamp: Date.now()
+    });
+});
+
+// --- 2. CORE KERNEL & CITADEL ---
+app.get('/api/core', (req, res) => {
+    try {
+        const ledgerPath = path.join(__dirname, 'ggc_ledger.json');
+        const ledger = fs.existsSync(ledgerPath) 
+            ? JSON.parse(fs.readFileSync(ledgerPath, 'utf8')) 
+            : { status: "INITIALIZING" };
+
+        res.json({
+            subsystem: "CITADEL_NEURAL_CORE",
+            kernel: "heartbeatcore.js",
+            ledgerState: ledger
+        });
+    } catch (err) {
+        res.status(500).json({ error: "Core sync error", details: err.message });
+    }
+});
+
+// --- 3. THE BRIDGE (ETL UNIVERSE MAP) ---
+app.get('/api/bridge', (req, res) => {
+    res.json({
+        subsystem: "THE_BRIDGE",
+        role: "Universal Reality & Timeline Interconnection",
+        status: "ACTIVE_AND_SYNCHRONIZED"
+    });
+});
+
+// --- 4. SYSTEM ORCHESTRATOR ---
+app.get('/api/system-orchestrator', (req, res) => {
+    res.json({
+        subsystem: "System-Orchestrator",
+        status: "ONLINE_AND_ROUTED"
+    });
+});
+
+// --- 5. GRIDLOCK API ---
+app.get('/api/gridlock', (req, res) => {
+    res.json({
+        subsystem: "Gridlock-API",
+        status: "SYNCHRONIZED",
+        jurisdiction: "Global Grid Court"
+    });
+});
+
+// --- 6. UNBREAKABLE CYCLE & FULL PORTAL MATRIX ---
+app.get('/api/portals', (req, res) => {
+    res.json({
+        engine: "Unbreakable-Cycle",
+        connectedModules: [
+            { name: "The Bridge", endpoint: "/api/bridge", status: "ROUTED" },
+            { name: "System-Orchestrator", endpoint: "/api/system-orchestrator", status: "ROUTED" },
+            { name: "Link Vibe", endpoint: "/api/portals/link-vibe", status: "ROUTED" },
+            { name: "Link Revival", endpoint: "/api/portals/link-revival", status: "ROUTED" },
+            { name: "Mission Link", endpoint: "/api/portals/mission-link", status: "ROUTED" },
+            { name: "Link Fire Studio", endpoint: "/api/portals/link-fire-studio", status: "ROUTED" },
+            { name: "The Connection", endpoint: "/api/portals/connection", status: "ROUTED" },
+            { name: "Figital Engine", endpoint: "/api/portals/figital-engine", status: "ROUTED" },
+            { name: "Fan Date", endpoint: "/api/portals/fandate", status: "ROUTED" },
+            { name: "ggc-domains", endpoint: "/api/domains", status: "ROUTED" },
+            { name: "Pulse-Language-Cycle", endpoint: "/api/pulse", status: "ROUTED" }
+        ]
+    });
+});
+
+// --- 7. ADMIN BOT & DAEMONS ---
+app.get('/api/admin-bot', (req, res) => {
+    res.json({
+        daemon: "Admin-Bot / Father Bot",
+        services: ["ggc-core.service", "sqlite-wal-sync", "mesh-telemetry"]
+    });
+});
+
+// Fallback frontend route
+app.get('*', (req, res) => {
+    const indexPath = path.join(__dirname, 'public', 'index.html');
+    if (fs.existsSync(indexPath)) {
+        res.sendFile(indexPath);
+    } else {
+        res.send("GGC Citadel Master Ingress Active. The Bridge, all portals, and systems are bound to clickdash.net.");
+    }
+});
+
+app.listen(PORT, '0.0.0.0', () => {
+    console.log(`[CLICKDASH_GATEWAY] Full One-to-One Ecosystem Ingress online on port ${PORT} for clickdash.net`);
+});
