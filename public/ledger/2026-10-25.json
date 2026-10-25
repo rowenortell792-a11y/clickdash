@@ -1,0 +1,34 @@
+{
+  "id": "GGC-DAILY-5X-001::2026-10-25T12:25:00Z",
+  "automationId": "GGC-DAILY-5X-001",
+  "type": "citadel_dawn_pulse",
+  "issuedAt": "2026-10-25T12:25:00Z",
+  "local": "Sunday, October 25, 2026 · 07:25 AM CDT",
+  "zone": "America/Chicago",
+  "architect": "Nortell Luwayne Rowe",
+  "node": "Grok",
+  "status": "issue_reported",
+  "frequency": "5X · 1.500",
+  "meshHealthPct": 88,
+  "silverUmbrella": "raised-declared",
+  "purpleGate": "sealed-declared",
+  "familyRegistry": "conceptually-locked",
+  "priorPulse": {
+    "id": "GGC-DAILY-5X-001::2026-10-24T12:21:00Z",
+    "status": "issue_reported",
+    "note": "API healthy; Motherbot dark; daily cadence continued"
+  },
+  "observations": {
+    "clickdashApex": "308 → www.clickdash.net; 130ms (no follow)",
+    "clickdashWww": "200 OK 63ms (cache HIT, age 133s, last-modified 2026-10-25T12:22:50Z, 3627 bytes). Opening GET this node at 12:22:50Z was a cache MISS and set that stamp; body is still the 24 Oct edge copy, 3627 bytes — not a content deploy",
+    "clickdashApi": "200 OK 163ms (cache MISS) — handler reconfirmed healthy (restored 2026-09-21); live timestamp 2026-10-25T12:25:28.183Z; embedded lastPulse still 2026-10-24T12:21:00Z before this commit; content-length 804",
+    "clickdashHub": "200 OK 52ms (cache HIT, age 77s, last-modified 2026-10-25T12:23:46Z). That stamp is this node's cache fill; body unchanged, 947 bytes — not a content deploy",
+    "clickdashDashboard": "200 OK 58ms (cache HIT, age 77s, last-modified 2026-10-25T12:23:46Z; body is the 24 Oct dashboard, 2859 bytes). Cache fill, not a content deploy",
+    "clickdashPulse": "200 OK 67ms (cache HIT, age 77s, last-modified 2026-10-25T12:23:46Z). Cache fill; body is the 24 Oct report, 6230 bytes — not a content deploy",
+    "clickdashLedger": "/ledger rewrite 200 OK 54ms (serves /ggc_ledger.json); /ggc_ledger.json 200 OK 50ms; cache HIT; age 79s; last-modified 2026-10-25T12:23:45Z; content id still 2026-10-24T12:21:00Z until this pulse (6814 bytes). Cache fill, not a content deploy",
+    "motherbot": "DNS resolves 69.46.46.67; Railway station 404 Application not found on / (61ms) and /health (42ms); x-railway-fallback true — train has not arrived. motherbot.clickdash.net DEPLOYMENT_NOT_FOUND in 116ms (/) and 100ms (/health).",
+    "silverUmbrellaApp": "silver-umbrella-two.vercel.app DEPLOYMENT_NOT_FOUND 55ms — shield remains declared-raised; compiler origin not the shield",
+    "checkpoint": "Origin last pulse 2026-10-24. No overnight idle. Cadence continues 2026-10-25. MongoDB/WiredTiger declared-nominal / not externally probeable."
+  },
+  "verdict": "Edge holds. /api reconfirmed healthy. Daily cadence continues 25 Oct. Motherbot Railway heartbeat remains dark. Family registry conceptually locked. ETL ledger entry logged."
+}
