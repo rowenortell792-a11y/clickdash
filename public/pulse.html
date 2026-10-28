@@ -37,7 +37,7 @@
   <main>
     <div class="kicker">GGC-DAILY-5X-001 · Citadel Dawn Pulse · Grok node</div>
     <h1>Daily Sovereignty Report</h1>
-    <p>Monday, October 26, 2026 · 07:27 AM CDT · Architect Nortell Luwayne Rowe</p>
+    <p>Wednesday, October 28, 2026 · 07:22 AM CDT · Architect Nortell Luwayne Rowe</p>
     <p class="warn">Issue reported — Motherbot Railway heartbeat still dark</p>
 
     <section>
@@ -54,7 +54,7 @@
       <ul>
         <li>Tailscale / WireGuard UDP 41641 — declared-nominal / not externally probeable from this node.</li>
         <li>Bare-metal nodes — declared-nominal. Enclave validation pending per repo notes.</li>
-        <li>Silver Umbrella shield — raised (declared). Compiler origin silver-umbrella-two.vercel.app returns DEPLOYMENT_NOT_FOUND in 24ms; that origin is not the shield.</li>
+        <li>Silver Umbrella shield — raised (declared). Compiler origin silver-umbrella-two.vercel.app returns DEPLOYMENT_NOT_FOUND in 53ms; that origin is not the shield.</li>
         <li>Purple Gate seal — locked (declared).</li>
       </ul>
     </section>
@@ -62,10 +62,10 @@
     <section>
       <h2>Infrastructure Pulse</h2>
       <ul>
-        <li>ClickDash.net — live. Apex 308 to www (112ms, no follow). www HTTP 200 in 78ms (cache HIT, age 86403s, last-modified 25 Oct 12:27:38Z, 3627 bytes). Body is the 25 Oct edge copy — yesterday's deploy still live, not a content deploy this pulse. Hub 200 / 29ms (cache HIT, age 15s, last-modified 26 Oct 12:27:26Z). That stamp is this node's cache fill; body unchanged, 947 bytes — not a content deploy. Dashboard 200 / 76ms (cache HIT, age 86403s, last-modified 25 Oct 12:27:38Z; body is the 25 Oct dashboard, 2867 bytes). Pulse 200 / 29ms (cache HIT, age 86412s, last-modified 25 Oct 12:27:29Z). Body is the 25 Oct report, 6266 bytes — not a content deploy this pulse. /ledger rewrite 200 / 25ms; /ggc_ledger.json 200 / 19ms (cache HIT, age 86412s, last-modified 25 Oct 12:27:29Z; content id still 2026-10-25T12:25:00Z until this pulse, 7099 bytes).</li>
-        <li>/api — 200 OK in 861ms (cache MISS, no-store). Handler restored 21 Sep; reconfirmed healthy this pulse. Live timestamp 2026-10-26T12:27:45.694Z. Embedded lastPulse was still 2026-10-25T12:25:00Z until this commit. Content-length 805.</li>
+        <li>ClickDash.net — live. Apex 308 to www (61ms, no follow). www HTTP 200 in 103ms (cache HIT, age 172319s, last-modified 26 Oct 12:29:28Z, 3627 bytes). Body is the 26 Oct edge copy — prior deploy still live, not a content deploy this pulse. Hub 200 / 90ms (cache MISS, age 0, last-modified 28 Oct 12:21:28Z). That stamp is this node's cache fill; body unchanged, 947 bytes — not a content deploy. Dashboard 200 / 60ms (cache HIT, age 172319s, last-modified 26 Oct 12:29:29Z; body is the 26 Oct dashboard, 2867 bytes). Pulse 200 / 52ms (cache HIT, age 172319s, last-modified 26 Oct 12:29:29Z). Body is the 26 Oct report, 6248 bytes — not a content deploy this pulse. /ledger rewrite 200 / 70ms; /ggc_ledger.json 200 / 65ms (cache HIT, age 172319s, last-modified 26 Oct 12:29:29Z; content id still 2026-10-26T12:27:00Z until this pulse, 7305 bytes).</li>
+        <li>/api — 200 OK in 571ms (cache MISS, no-store). Handler restored 21 Sep; reconfirmed healthy this pulse. Live timestamp 2026-10-28T12:21:56.394Z. Embedded lastPulse was still 2026-10-26T12:27:00Z until this commit. Content-length 823.</li>
         <li>MongoDB / WiredTiger — declared-nominal / not externally probeable from this node. No fabricated snapshot.</li>
-        <li>Motherbot — dark. Host clickdash-motherbot-v1-production-89e2.up.railway.app resolves 69.46.46.67; / returns 404 Application not found in 37ms; /health returns 404 in 16ms (x-railway-fallback true; train has not arrived). motherbot.clickdash.net returns DEPLOYMENT_NOT_FOUND in 35ms (/) and 71ms (/health) — alias is not a live train.</li>
+        <li>Motherbot — dark. Host clickdash-motherbot-v1-production-89e2.up.railway.app resolves 69.46.46.67; / returns 404 Application not found in 61ms; /health returns 404 in 43ms (x-railway-fallback true; train has not arrived). motherbot.clickdash.net returns DEPLOYMENT_NOT_FOUND in 87ms (/) and 113ms (/health) — alias is not a live train.</li>
       </ul>
     </section>
 
@@ -83,14 +83,14 @@
       <h2>Metrics</h2>
       <ul>
         <li>Mesh health: 88% of public-probeable ClickDash surfaces live (7 of 8). Motherbot remains the open defect.</li>
-        <li>Checkpoint: origin last pulse 25 Oct 2026; no overnight idle; cadence continues 26 Oct 2026. WiredTiger snapshot declared-nominal / not probeable.</li>
+        <li>Checkpoint: origin last pulse 26 Oct 2026; 27 Oct idle — no origin entry; cadence resumes 28 Oct 2026. WiredTiger snapshot declared-nominal / not probeable.</li>
         <li>Silver Umbrella: raised (declared). Family registry: locked (conceptual).</li>
       </ul>
     </section>
 
-    <p>Verdict: Edge holds. /api reconfirmed healthy. Daily cadence continues 26 Oct. Motherbot Railway heartbeat remains dark. Family registry conceptually locked. ETL ledger entry logged.</p>
+    <p>Verdict: Edge holds. /api reconfirmed healthy. Cadence resumes 28 Oct after 27 Oct idle. Motherbot Railway heartbeat remains dark. Family registry conceptually locked. ETL ledger entry logged.</p>
     <p><a href="/">Return to edge</a> · <a href="/dashboard">Dashboard</a> · <a href="/ggc_ledger.json">Ledger</a></p>
-    <footer>GGC Citadel Invisible Core · Issued 2026-10-26T12:27:00Z · Grok-side</footer>
+    <footer>GGC Citadel Invisible Core · Issued 2026-10-28T12:22:00Z · Grok-side</footer>
   </main>
 </body>
 </html>
