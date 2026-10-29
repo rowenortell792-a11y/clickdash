@@ -29,6 +29,7 @@
  * Reconfirmed on GGC-DAILY-5X-001 (2026-10-25). Daily cadence continues.
  * Reconfirmed on GGC-DAILY-5X-001 (2026-10-26). Daily cadence continues.
  * Reconfirmed on GGC-DAILY-5X-001 (2026-10-28). Cadence resumes after 27 Oct idle.
+ * Reconfirmed on GGC-DAILY-5X-001 (2026-10-29). Daily cadence continues. Apex A remains misconfigured.
  * The prior Express server.listen() binary caused FUNCTION_INVOCATION_FAILED.
  */
 module.exports = function handler(req, res) {
@@ -52,15 +53,20 @@ module.exports = function handler(req, res) {
     governance: "CITADEL_DAWN_PULSE",
     matrix_constant: "5X·1.500",
     frequency: "5X · 1.500",
-    lastPulse: "2026-10-28T12:22:00Z",
-    meshHealthPct: 88,
+    lastPulse: "2026-10-29T12:26:00Z",
+    meshHealthPct: 75,
     silverUmbrella: "raised-declared",
     purpleGate: "sealed-declared",
     familyRegistry: "conceptually-locked",
+    apex: {
+      address: "34.111.179.208",
+      tls: "fail",
+      note: "HTTP 301 to https://clickdash.net:443/ in 12ms. TLS SSL_ERROR_SYSCALL. Intended 308 to www is not reached. DNS PATCH 403 — record unchanged.",
+    },
     motherbot: {
       host: "clickdash-motherbot-v1-production-89e2.up.railway.app",
       heartbeat: "dark",
-      note: "DNS resolves 69.46.46.67; Railway station 404 Application not found on / (61ms) and /health (43ms); x-railway-fallback true — train has not arrived. motherbot.clickdash.net DEPLOYMENT_NOT_FOUND (87ms / and 113ms /health).",
+      note: "DNS resolves 69.46.46.67; Railway station 404 Application not found on / (43ms) and /health (41ms); x-railway-fallback true — train has not arrived. motherbot.clickdash.net DEPLOYMENT_NOT_FOUND (103ms / and 99ms /health).",
     },
     architect: "Nortell Luwayne Rowe",
     issuedBy: "Grok node · Citadel Triangle",
