@@ -37,7 +37,7 @@
   <main>
     <div class="kicker">GGC-DAILY-5X-001 · Citadel Dawn Pulse · Grok node</div>
     <h1>Daily Sovereignty Report</h1>
-    <p>Thursday, October 29, 2026 · 07:26 AM CDT · Architect Nortell Luwayne Rowe</p>
+    <p>Friday, October 30, 2026 · 07:30 AM CDT · Architect Nortell Luwayne Rowe</p>
     <p class="warn">Issue reported — apex TLS dark; Motherbot Railway heartbeat still dark</p>
 
     <section>
@@ -54,7 +54,7 @@
       <ul>
         <li>Tailscale / WireGuard UDP 41641 — declared-nominal / not externally probeable from this node.</li>
         <li>Bare-metal nodes — declared-nominal. Enclave validation pending per repo notes.</li>
-        <li>Silver Umbrella shield — raised (declared). Compiler origin silver-umbrella-two.vercel.app returns DEPLOYMENT_NOT_FOUND in 48ms; that origin is not the shield.</li>
+        <li>Silver Umbrella shield — raised (declared). Compiler origin silver-umbrella-two.vercel.app returns DEPLOYMENT_NOT_FOUND in 27ms; that origin is not the shield.</li>
         <li>Purple Gate seal — locked (declared).</li>
       </ul>
     </section>
@@ -62,10 +62,10 @@
     <section>
       <h2>Infrastructure Pulse</h2>
       <ul>
-        <li>ClickDash.net — www live, apex not. Apex A 34.111.179.208 (Google). HTTP 301 in 12ms to https://clickdash.net:443/ (self). HTTPS TLS SSL_ERROR_SYSCALL in 4ms, no certificate. Intended project redirect is 308 to www; Vercel flags the apex misconfigured. DNS PATCH of rec_f65cbff2937edc94ee179d1d to 76.76.21.21 was refused (403). Record unchanged. www HTTP 200 in 52ms (cache HIT, age 86433s, last-modified 28 Oct 12:24:00Z, 3637 bytes) — 28 Oct edge copy until this commit. Hub 200 / 107ms (cache HIT, age 10s, last-modified 29 Oct 12:24:22Z; cache fill, body unchanged, 947 bytes). Dashboard 200 / 63ms (cache HIT, age 86433s, 2867 bytes, 28 Oct body). Pulse 200 / 45ms (cache HIT, age 86433s, 6271 bytes, 28 Oct body). /ledger rewrite 200 / 52ms; /ggc_ledger.json 200 / 140ms (cache HIT, age 86451s, last-modified 28 Oct 12:23:42Z; content id still 2026-10-28T12:22:00Z until this pulse, 7486 bytes).</li>
-        <li>/api — 200 OK in 110ms (cache MISS, no-store). Handler restored 21 Sep; reconfirmed healthy this pulse. Live timestamp 2026-10-29T12:25:35.028Z. Embedded lastPulse was still 2026-10-28T12:22:00Z until this commit. Content-length 824.</li>
+        <li>ClickDash.net — www live, apex not. Apex A 34.111.179.208 (TTL 300). NS ns1.vercel-dns.com / ns2.vercel-dns.com. HTTP 301 in 6ms to https://clickdash.net:443/ (self). HTTPS TLS fails in 5ms, no certificate. DNS list GET denied 403; zone not rewritten. www HTTP 200 in 49ms (cache HIT, age 68s, last-modified 30 Oct 12:27:42Z, 3734 bytes) — 29 Oct edge copy until this commit. Hub 200 / 32ms (947 bytes, body unchanged). Dashboard 200 / 50ms (2852 bytes, 29 Oct body). Pulse 200 / 28ms (6342 bytes, 29 Oct body). /ledger rewrite 200 / 18ms; /ggc_ledger.json 200 / 22ms (content id still 2026-10-29T12:26:00Z until this pulse, 8153 bytes).</li>
+        <li>/api — 200 OK in 47ms (cache MISS, no-store). Handler restored 21 Sep; reconfirmed healthy this pulse. Live timestamp 2026-10-30T12:29:04.250Z. Embedded lastPulse was still 2026-10-29T12:26:00Z until this commit. Content-length 1025.</li>
         <li>MongoDB / WiredTiger — declared-nominal / not externally probeable from this node. No fabricated snapshot.</li>
-        <li>Motherbot — dark. Host clickdash-motherbot-v1-production-89e2.up.railway.app resolves 69.46.46.67; / returns 404 Application not found in 43ms; /health returns 404 in 41ms (x-railway-fallback true; train has not arrived). motherbot.clickdash.net resolves 64.29.17.65 and returns DEPLOYMENT_NOT_FOUND in 103ms (/) and 99ms (/health).</li>
+        <li>Motherbot — dark. Host clickdash-motherbot-v1-production-89e2.up.railway.app resolves 69.46.46.67; / returns 404 Application not found in 37ms (x-railway-fallback true); /health returns the same 404 JSON in 15ms. motherbot.clickdash.net points at Vercel anycast (216.198.79.1 / 216.198.79.65) and returns DEPLOYMENT_NOT_FOUND in 105ms (/) and 64ms (/health).</li>
       </ul>
     </section>
 
@@ -83,14 +83,14 @@
       <h2>Metrics</h2>
       <ul>
         <li>Mesh health: 75% of public-probeable ClickDash surfaces live (6 of 8). Open defects: apex TLS, Motherbot.</li>
-        <li>Checkpoint: origin last pulse 28 Oct 2026; cadence continues 29 Oct 2026. WiredTiger snapshot declared-nominal / not probeable.</li>
+        <li>Checkpoint: origin last pulse 29 Oct 2026; cadence continues 30 Oct 2026. WiredTiger snapshot declared-nominal / not probeable.</li>
         <li>Silver Umbrella: raised (declared). Family registry: locked (conceptual).</li>
       </ul>
     </section>
 
-    <p>Verdict: www edge holds. Apex A is misconfigured (Google 34.111.179.208; TLS fails; DNS rewrite 403). /api reconfirmed healthy. Motherbot Railway heartbeat remains dark. Family registry conceptually locked. ETL ledger entry logged.</p>
+    <p>Verdict: www edge holds. Apex A remains misconfigured (34.111.179.208; TLS fails; DNS list 403). /api reconfirmed healthy. Motherbot Railway heartbeat remains dark. Family registry conceptually locked. ETL ledger entry logged.</p>
     <p><a href="/">Return to edge</a> · <a href="/dashboard">Dashboard</a> · <a href="/ggc_ledger.json">Ledger</a></p>
-    <footer>GGC Citadel Invisible Core · Issued 2026-10-29T12:26:00Z · Grok-side</footer>
+    <footer>GGC Citadel Invisible Core · Issued 2026-10-30T12:30:00Z · Grok-side</footer>
   </main>
 </body>
 </html>

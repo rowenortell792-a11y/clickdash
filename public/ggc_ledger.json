@@ -1,9 +1,9 @@
 {
-  "id": "GGC-DAILY-5X-001::2026-10-29T12:26:00Z",
+  "id": "GGC-DAILY-5X-001::2026-10-30T12:30:00Z",
   "automationId": "GGC-DAILY-5X-001",
   "type": "citadel_dawn_pulse",
-  "issuedAt": "2026-10-29T12:26:00Z",
-  "local": "Thursday, October 29, 2026 · 07:26 AM CDT",
+  "issuedAt": "2026-10-30T12:30:00Z",
+  "local": "Friday, October 30, 2026 · 07:30 AM CDT",
   "zone": "America/Chicago",
   "architect": "Nortell Luwayne Rowe",
   "node": "Grok",
@@ -14,25 +14,31 @@
   "purpleGate": "sealed-declared",
   "familyRegistry": "conceptually-locked",
   "priorPulse": {
-    "id": "GGC-DAILY-5X-001::2026-10-28T12:22:00Z",
+    "id": "GGC-DAILY-5X-001::2026-10-29T12:26:00Z",
     "status": "issue_reported",
-    "note": "API healthy; Motherbot dark; cadence resumed after 27 Oct idle"
+    "note": "API healthy; Motherbot dark; apex TLS still dark; daily cadence continued"
   },
   "observations": {
-    "clickdashApex": "A 34.111.179.208 (TTL 300, Google). HTTP 301 in 12ms to https://clickdash.net:443/ (self, not www). HTTPS TLS SSL_ERROR_SYSCALL in 4ms — no certificate. Project rowenortell792-a11y-clickdash-acnh still intends 308 → www.clickdash.net, but Vercel marks the apex misconfigured. Recommended replace rec_f65cbff2937edc94ee179d1d with A 76.76.21.21. PATCH denied 403 from this node — record not changed.",
-    "clickdashWww": "200 OK 52ms (cache HIT, age 86433s, last-modified 2026-10-28T12:24:00Z, 3637 bytes). Body is the 28 Oct edge copy — prior deploy still live at probe, until this commit.",
-    "clickdashApi": "200 OK 110ms (cache MISS, no-store) — handler reconfirmed healthy (restored 2026-09-21); live timestamp 2026-10-29T12:25:35.028Z; embedded lastPulse still 2026-10-28T12:22:00Z before this commit; content-length 824",
-    "clickdashHub": "200 OK 107ms (cache HIT, age 10s, last-modified 2026-10-29T12:24:22Z). That stamp is this node's cache fill; body unchanged, 947 bytes — not a content deploy",
-    "clickdashDashboard": "200 OK 63ms (cache HIT, age 86433s, last-modified 2026-10-28T12:24:00Z, 2867 bytes). Body is the 28 Oct dashboard — prior deploy still live until this commit",
-    "clickdashPulse": "200 OK 45ms (cache HIT, age 86433s, last-modified 2026-10-28T12:24:00Z). Body is the 28 Oct report, 6271 bytes — prior deploy still live until this commit",
-    "clickdashLedger": "/ledger rewrite 200 OK 52ms (serves /ggc_ledger.json); /ggc_ledger.json 200 OK 140ms; cache HIT; age 86451s; last-modified 2026-10-28T12:23:42Z; content id still 2026-10-28T12:22:00Z until this pulse (7486 bytes)",
-    "motherbot": "DNS resolves 69.46.46.67; Railway station 404 Application not found on / (43ms) and /health (41ms); x-railway-fallback true — train has not arrived. motherbot.clickdash.net resolves 64.29.17.65; DEPLOYMENT_NOT_FOUND in 103ms (/) and 99ms (/health).",
-    "silverUmbrellaApp": "silver-umbrella-two.vercel.app DEPLOYMENT_NOT_FOUND 48ms — shield remains declared-raised; compiler origin not the shield",
-    "checkpoint": "Origin last pulse 2026-10-28. Cadence continues 2026-10-29. MongoDB/WiredTiger declared-nominal / not externally probeable. Apex DNS rewrite refused (403).",
-    "dnsWrite": "PATCH /v1/domains/records/rec_f65cbff2937edc94ee179d1d denied 403 forbidden. Apex A left at 34.111.179.208."
+    "clickdashApex": "A 34.111.179.208 (TTL 300). NS ns1.vercel-dns.com / ns2.vercel-dns.com (TTL 86400). SOA serial 1780194516. HTTP 301 in 6ms to https://clickdash.net:443/ (self, not www). HTTPS TLS fails in 5ms (OpenSSL SSL_ERROR_SYSCALL; Python UNEXPECTED_EOF_WHILE_READING) — no certificate. Intended project redirect remains 308 → www.clickdash.net. GET /v5/domains/clickdash.net/records denied 403. Vercel CLI on this node has no credentials. Record not changed.",
+    "clickdashWww": "200 OK 49ms (cache HIT, age 68s, last-modified 2026-10-30T12:27:42Z, 3734 bytes). Body is the 29 Oct edge copy (issued 2026-10-29T12:26:00Z). Last-modified is cache fill, not a content deploy, until this commit.",
+    "clickdashApi": "200 OK 47ms (cache MISS, no-store) — handler reconfirmed healthy (restored 2026-09-21); live timestamp 2026-10-30T12:29:04.250Z; embedded lastPulse still 2026-10-29T12:26:00Z before this commit; content-length 1025",
+    "clickdashHub": "200 OK 32ms (cache HIT, age 31s, last-modified 2026-10-30T12:28:19Z, 947 bytes). Cache fill; body unchanged — not a content deploy",
+    "clickdashDashboard": "200 OK 50ms (cache MISS, age 0, last-modified 2026-10-30T12:28:50Z, 2852 bytes). Body is the 29 Oct dashboard until this commit",
+    "clickdashPulse": "200 OK 28ms (cache HIT, age 31s, last-modified 2026-10-30T12:28:18Z, 6342 bytes). Body is the 29 Oct report until this commit",
+    "clickdashLedger": "/ledger rewrite 200 OK 18ms (serves /ggc_ledger.json); /ggc_ledger.json 200 OK 22ms; cache HIT; age 31s; last-modified 2026-10-30T12:28:19Z; content id still 2026-10-29T12:26:00Z until this pulse (8153 bytes)",
+    "motherbot": "DNS resolves 69.46.46.67; Railway station 404 Application not found on / (37ms, x-railway-fallback true) and /health (15ms, same JSON). Train has not arrived. motherbot.clickdash.net A 216.198.79.1 and 216.198.79.65 (Vercel anycast, TTL 1800); DEPLOYMENT_NOT_FOUND in 105ms (/) and 64ms (/health).",
+    "silverUmbrellaApp": "silver-umbrella-two.vercel.app DEPLOYMENT_NOT_FOUND 27ms — shield remains declared-raised; compiler origin not the shield",
+    "siblings": "fig-dash.net NXDOMAIN. tacticcore.tech NXDOMAIN. gguniverse.net A 91.195.240.94; HTTPS 445 in 307ms. Not counted in the ClickDash 8-surface mesh.",
+    "checkpoint": "Origin last pulse 2026-10-29. Cadence continues 2026-10-30. MongoDB/WiredTiger declared-nominal / not externally probeable. Apex DNS list refused (403).",
+    "dnsWrite": "GET /v5/domains/clickdash.net/records denied 403 forbidden. No zone write attempted. Apex A left at 34.111.179.208."
   },
-  "verdict": "www edge holds. Apex A is misconfigured (Google 34.111.179.208; TLS fails; DNS rewrite 403). /api reconfirmed healthy. Motherbot Railway heartbeat remains dark. Family registry conceptually locked. ETL ledger entry logged.",
+  "verdict": "www edge holds. Apex A remains misconfigured (34.111.179.208; TLS fails; DNS list 403). /api reconfirmed healthy. Motherbot Railway heartbeat remains dark. Family registry conceptually locked. ETL ledger entry logged.",
   "history": [
+    {
+      "id": "GGC-DAILY-5X-001::2026-10-29T12:26:00Z",
+      "status": "issue_reported",
+      "note": "API healthy; Motherbot dark; apex TLS still dark; daily cadence continued"
+    },
     {
       "id": "GGC-DAILY-5X-001::2026-10-28T12:22:00Z",
       "status": "issue_reported",
