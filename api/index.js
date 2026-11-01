@@ -31,6 +31,7 @@
  * Reconfirmed on GGC-DAILY-5X-001 (2026-10-28). Cadence resumes after 27 Oct idle.
  * Reconfirmed on GGC-DAILY-5X-001 (2026-10-29). Daily cadence continues. Apex A remains misconfigured.
  * Reconfirmed on GGC-DAILY-5X-001 (2026-10-30). Daily cadence continues. Apex A and Motherbot still dark. DNS list 403.
+ * Reconfirmed on GGC-DAILY-5X-001 (2026-11-01). Cadence resumes after 31 Oct idle. DNS list readable; apex A write 403.
  * The prior Express server.listen() binary caused FUNCTION_INVOCATION_FAILED.
  */
 module.exports = function handler(req, res) {
@@ -54,7 +55,7 @@ module.exports = function handler(req, res) {
     governance: "CITADEL_DAWN_PULSE",
     matrix_constant: "5X·1.500",
     frequency: "5X · 1.500",
-    lastPulse: "2026-10-30T12:30:00Z",
+    lastPulse: "2026-11-01T13:24:00Z",
     meshHealthPct: 75,
     silverUmbrella: "raised-declared",
     purpleGate: "sealed-declared",
@@ -62,12 +63,12 @@ module.exports = function handler(req, res) {
     apex: {
       address: "34.111.179.208",
       tls: "fail",
-      note: "HTTP 301 to https://clickdash.net:443/ in 6ms. TLS fails in 5ms, no certificate. NS are Vercel. GET records 403 — apex A unchanged.",
+      note: "HTTP 301 to https://clickdash.net:443/ in 6ms. TLS fails in 4ms, no certificate. Zone list readable. PATCH of A rec_f65cbff2937edc94ee179d1d to 76.76.21.21 denied 403. Apex A unchanged.",
     },
     motherbot: {
       host: "clickdash-motherbot-v1-production-89e2.up.railway.app",
       heartbeat: "dark",
-      note: "DNS resolves 69.46.46.67; Railway station 404 Application not found on / (37ms, x-railway-fallback true) and /health (15ms). motherbot.clickdash.net DEPLOYMENT_NOT_FOUND (105ms / and 64ms /health).",
+      note: "DNS resolves 69.46.46.67; Railway station 404 Application not found on / (15ms, x-railway-fallback true) and /health (15ms). motherbot.clickdash.net DEPLOYMENT_NOT_FOUND (41ms / and 25ms /health).",
     },
     architect: "Nortell Luwayne Rowe",
     issuedBy: "Grok node · Citadel Triangle",
