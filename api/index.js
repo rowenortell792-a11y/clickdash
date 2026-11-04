@@ -34,6 +34,7 @@
  * Reconfirmed on GGC-DAILY-5X-001 (2026-11-01). Cadence resumes after 31 Oct idle. DNS list readable; apex A write 403.
  * Reconfirmed on GGC-DAILY-5X-001 (2026-11-02). Daily cadence continues. Scoped DNS list readable; apex A write 403 again.
  * Reconfirmed on GGC-DAILY-5X-001 (2026-11-03). Daily cadence continues. Scoped DNS list readable; apex A write 403 again.
+ * Reconfirmed on GGC-DAILY-5X-001 (2026-11-04). Daily cadence continues. Scoped DNS list readable; apex A write 403 again.
  * The prior Express server.listen() binary caused FUNCTION_INVOCATION_FAILED.
  */
 module.exports = function handler(req, res) {
@@ -57,7 +58,7 @@ module.exports = function handler(req, res) {
     governance: "CITADEL_DAWN_PULSE",
     matrix_constant: "5X·1.500",
     frequency: "5X · 1.500",
-    lastPulse: "2026-11-03T13:25:00Z",
+    lastPulse: "2026-11-04T13:26:00Z",
     meshHealthPct: 75,
     silverUmbrella: "raised-declared",
     purpleGate: "sealed-declared",
@@ -65,12 +66,12 @@ module.exports = function handler(req, res) {
     apex: {
       address: "34.111.179.208",
       tls: "fail",
-      note: "HTTP 301 to https://clickdash.net:443/ in 13ms. TLS fails in 32ms, no certificate. Scoped zone list readable. PATCH of A rec_f65cbff2937edc94ee179d1d to 76.76.21.21 denied 403. Apex A unchanged.",
+      note: "HTTP 301 to https://clickdash.net:443/ in 4ms. TLS fails in 33ms (curl) and 11ms (Python EOF), no certificate. Scoped zone list readable. PATCH of A rec_f65cbff2937edc94ee179d1d to 76.76.21.21 denied 403. Apex A unchanged.",
     },
     motherbot: {
       host: "clickdash-motherbot-v1-production-89e2.up.railway.app",
       heartbeat: "dark",
-      note: "DNS resolves 69.46.46.67; Railway station 404 Application not found on / (70ms) and /health (52ms); earlier / this window was x-railway-fallback true. motherbot.clickdash.net DEPLOYMENT_NOT_FOUND (42ms / and 82ms /health).",
+      note: "DNS resolves 69.46.46.67; Railway station 404 Application not found on / (38ms) and /health (41ms); both x-railway-fallback true. motherbot.clickdash.net DEPLOYMENT_NOT_FOUND (77ms / and 82ms /health).",
     },
     architect: "Nortell Luwayne Rowe",
     issuedBy: "Grok node · Citadel Triangle",
