@@ -36,6 +36,7 @@
  * Reconfirmed on GGC-DAILY-5X-001 (2026-11-03). Daily cadence continues. Scoped DNS list readable; apex A write 403 again.
  * Reconfirmed on GGC-DAILY-5X-001 (2026-11-04). Daily cadence continues. Scoped DNS list readable; apex A write 403 again.
  * Reconfirmed on GGC-DAILY-5X-001 (2026-11-05). Daily cadence continues. Team-scoped DNS list readable; apex A write 403 again. Motherbot station IP moved; heartbeat still dark.
+ * Reconfirmed on GGC-DAILY-5X-001 (2026-11-09). Cadence resumes after 06–08 Nov idle. Team-scoped DNS list readable; apex A write 403 again. Motherbot station unchanged and still dark.
  * The prior Express server.listen() binary caused FUNCTION_INVOCATION_FAILED.
  */
 module.exports = function handler(req, res) {
@@ -59,7 +60,7 @@ module.exports = function handler(req, res) {
     governance: "CITADEL_DAWN_PULSE",
     matrix_constant: "5X·1.500",
     frequency: "5X · 1.500",
-    lastPulse: "2026-11-05T13:26:00Z",
+    lastPulse: "2026-11-09T13:36:00Z",
     meshHealthPct: 75,
     silverUmbrella: "raised-declared",
     purpleGate: "sealed-declared",
@@ -67,12 +68,12 @@ module.exports = function handler(req, res) {
     apex: {
       address: "34.111.179.208",
       tls: "fail",
-      note: "HTTP 301 to https://clickdash.net:443/ in 3ms. TLS fails in 45ms (curl) and 32ms (Python EOF), no certificate. Team-scoped zone list readable; apex still misconfigured. PATCH of A rec_f65cbff2937edc94ee179d1d to 76.76.21.21 denied 403. Apex A unchanged.",
+      note: "HTTP 301 to https://clickdash.net:443/ in 4ms. TLS fails in 30ms (curl) and 21ms (Python EOF), no certificate. Team-scoped zone list readable; apex still misconfigured. PATCH of A rec_f65cbff2937edc94ee179d1d to 76.76.21.21 denied 403. Apex A unchanged.",
     },
     motherbot: {
       host: "clickdash-motherbot-v1-production-89e2.up.railway.app",
       heartbeat: "dark",
-      note: "DNS now resolves 153.52.255.45 (was 69.46.46.67); Railway station 404 Application not found on / (45ms) and /health (48ms); both x-railway-fallback true. motherbot.clickdash.net DEPLOYMENT_NOT_FOUND (99ms / and 55ms /health).",
+      note: "DNS still resolves 153.52.255.45; Railway station 404 Application not found on / (60ms) and /health (42ms); both x-railway-fallback true. motherbot.clickdash.net DEPLOYMENT_NOT_FOUND (73ms / and 75ms /health).",
     },
     architect: "Nortell Luwayne Rowe",
     issuedBy: "Grok node · Citadel Triangle",
