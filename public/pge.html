@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+  <title>GGC — PGE Portal Grid Engine</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-black text-zinc-100 font-mono min-h-screen flex flex-col justify-between select-none p-4">
+
+  <!-- Header -->
+  <header class="bg-zinc-950 border border-emerald-500/30 p-4 rounded-xl flex items-center justify-between mb-4">
+    <div>
+      <div class="flex items-center gap-2">
+        <span class="w-2.5 h-2.5 rounded-full bg-emerald-500 animate-pulse"></span>
+        <h1 class="text-sm font-black tracking-widest text-emerald-400 uppercase">PGE HOUSE ENCLOSURE</h1>
+      </div>
+      <p class="text-[11px] text-zinc-400 mt-0.5">PROTOCOL GRID ENGINE • ACTIVE</p>
+    </div>
+    <a href="/hub.html" class="bg-zinc-800 hover:bg-zinc-700 text-white text-xs font-bold px-3 py-1.5 rounded-lg">Hub</a>
+  </header>
+
+  <!-- Main Metrics & Controls -->
+  <main class="space-y-4 flex-1">
+    <div class="grid grid-cols-2 gap-3">
+      <div class="bg-zinc-900 border border-zinc-800 p-3.5 rounded-xl">
+        <span class="text-[10px] text-zinc-500 uppercase block">Resonance Frequency</span>
+        <span id="freqVal" class="text-xl font-black text-white">5X-1.500</span>
+      </div>
+      <div class="bg-zinc-900 border border-zinc-800 p-3.5 rounded-xl">
+        <span class="text-[10px] text-zinc-500 uppercase block">Shield Integrity</span>
+        <span id="shieldVal" class="text-xl font-black text-emerald-400">100%</span>
+      </div>
+    </div>
+
+    <!-- House Telemetry Panel -->
+    <div class="bg-zinc-900 border border-zinc-800 p-4 rounded-xl space-y-3">
+      <span class="text-xs font-bold text-zinc-300 block">PGE NODE COMMAND</span>
+      <input id="houseIdInput" type="text" value="PGE-CORE-01" class="w-full bg-black border border-zinc-700 rounded-lg px-3 py-2.5 text-xs text-white focus:border-emerald-500 focus:outline-none" />
+      <button onclick="syncPgeNode()" class="w-full bg-emerald-600 active:bg-emerald-500 text-white font-black text-xs py-3 rounded-lg uppercase tracking-wider transition">
+        Pulse PGE Resonance Sync
+      </button>
+    </div>
+
+    <!-- Active House Registry -->
+    <div class="bg-zinc-900 border border-zinc-800 p-4 rounded-xl">
+      <span class="text-xs font-bold text-zinc-300 block mb-3">CONNECTED HOUSE REALMS</span>
+      <div id="pgeList" class="space-y-2 text-xs text-zinc-400">
+        <p class="text-zinc-600 italic">Querying PGE grid...</p>
+      </div>
+    </div>
+  </main>
+
+  <script>
+    async function fetchPgeStatus() {
+      try {
+        const res = await fetch('/api/pge/status');
+        const data = await res.json();
+        if (data.realms) {
+          document.getElementById('pgeList').innerHTML = data.realms.map(r => `
+            <div class="flex justify-between items-center bg-black/60 p-2.5 rounded-lg border border-zinc-800">
+              <div>
+                <span class="text-white font-bold">${r.house_id}</span>
+                <span class="text-[10px] text-zinc-500 block">Freq: ${r.resonance_frequency} | Nodes: ${r.active_nodes}</span>
+              </div>
+              <div class="text-right">
+                <span class="text-emerald-400 font-bold">${r.shield_integrity}% SHIELD</span>
+                <span class="text-[10px] text-zinc-400 block">${r.status}</span>
+              </div>
+            </div>
+          `).join('');
+        }
+      } catch (err) {
+        console.error('PGE Sync Error:', err);
+      }
+    }
+
+    async function syncPgeNode() {
+      const houseId = document.getElementById('houseIdInput').value.trim();
+      const res = await fetch('/api/pge/sync', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ house_id: houseId, resonance_frequency: '5X-1.500', shield_integrity: 100 })
+      });
+      const result = await res.json();
+      if (result.status === 'PGE_SYNCED') {
+        document.getElementById('shieldVal').textContent = result.data.shield_integrity + '%';
+        fetchPgeStatus();
+      }
+    }
+
+    fetchPgeStatus();
+    setInterval(fetchPgeStatus, 5000);
+  </script>
+</body>
+</html>
