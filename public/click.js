@@ -8,8 +8,13 @@ const http = require('http');
 const app = express();
 app.use(express.json());
 
-// 1. Static Front-End Asset Pipeline
+// 1. Static Front-End Asset Pipeline (Serves your public PWA shell)
 app.use(express.static(path.join(__dirname, 'public')));
+
+// Root route handler so GET / returns the Hub or Index instead of 404
+app.get('/', (req, res) => {
+  res.sendFile(path.join(__dirname, 'public', 'hub.html'));
+});
 
 // 2. Persistent Database & Message Broker
 const pgPool = new Pool({
@@ -48,7 +53,6 @@ function checkServiceHealth(port, path = '/health') {
 // 3. THE GRIDLOCK MIDDLE LAYER (Security & Access Enforcement)
 // ==========================================
 const gridlockRules = new Map();
-// Default lockdown state for restricted sector gates
 gridlockRules.set('SECTOR_9', { status: 'SECURE', clearance_required: 'GPC_ROOT' });
 
 function enforceGridlock(requiredTier = 'STANDARD') {
@@ -72,22 +76,19 @@ function enforceGridlock(requiredTier = 'STANDARD') {
       });
     }
 
-    // Attach session context to request and pass through the gate
     req.userSession = session;
     next();
   };
 }
 
-// Gridlock Administration Route (Toggle Sector Locks)
+// Gridlock Administration Route
 app.post('/api/gridlock/enforce', enforceGridlock('GPC_ROOT'), (req, res) => {
-  const { sector, status } = req.body; // status: 'SECURE', 'LOCKDOWN', 'OPEN'
+  const { sector, status } = req.body;
   if (!sector || !status) {
     return res.status(400).json({ error: 'Missing sector or status parameter for Gridlock enforcement' });
   }
 
   gridlockRules.set(sector, { status, updated_at: Date.now(), enforced_by: req.userSession.email });
-  
-  // Broadcast gridlock state change over Redis
   redisPub.publish(`gridlock:stream:${REALM_ID}`, JSON.stringify({ sector, status, timestamp: Date.now() }));
 
   res.json({ status: 'GRIDLOCK_STATE_UPDATED', sector, state: status });
@@ -142,7 +143,7 @@ app.post('/api/pge/login', async (req, res) => {
     }
 
     const token = crypto.randomBytes(32).toString('hex');
-    const expiresAt = Date.now() + (24 * 60 * 60 * 1000); // 24-hour TTL
+    const expiresAt = Date.now() + (24 * 60 * 60 * 1000);
 
     activeSessions.set(token, { userId: user.id, email: user.email, tier: user.authorization_tier, expiresAt });
 
@@ -163,7 +164,7 @@ app.get('/api/pge/session', enforceGridlock(), (req, res) => {
 });
 
 // ==========================================
-// 6. GAIA ECOLOGICAL ANOMALY ENGINE (Protected by Gridlock)
+// 6. GAIA ECOLOGICAL ANOMALY ENGINE
 // ==========================================
 app.get('/api/gaia/anomalies', enforceGridlock(), async (req, res) => {
   try {
@@ -255,7 +256,7 @@ app.get('/api/tacticore/stream', async (req, res) => {
   });
 });
 
-const PORT = process.env.PORT || 3000;
+const PORT = process.env.PORT || 8080;
 app.listen(PORT, '0.0.0.0', () => {
   console.log(`[CLICK.JS GRIDLOCK GATEWAY] Active and enforcing perimeters on port ${PORT}`);
 });
