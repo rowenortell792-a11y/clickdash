@@ -1,262 +1,306 @@
-const express = require('express');
-const path = require('path');
-const { Pool } = require('pg');
-const { createClient } = require('redis');
-const crypto = require('crypto');
-const http = require('http');
+// click.js
+// GGC / ClickDash Sovereign Ingress Engine
+// Master Archive Edition — November 14, 2026
+// Domain: clickdash.net only
+
+import express from "express";
+import crypto from "crypto";
+import cors from "cors";
+import path from "path";
+import { fileURLToPath } from "url";
+import net from "net";
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 
 const app = express();
+const PORT = process.env.PORT || 3000;
+
+// ============================================
+// MASTER ARCHIVE CONSTANTS
+// ============================================
+const SYSTEM = {
+  name: "Global Grid Core",
+  version: "V5.0",
+  platform: "ClickDash",
+  domain: "clickdash.net",
+  node: "ThinkPad T490s Genesis Node",
+  guardian: "Motherbot CF-003",
+  ingress: "click.js",
+  language: "PA Language",
+  router: "Gridlock"
+};
+
+// ============================================
+// MIDDLEWARE
+// ============================================
+app.use(cors());
 app.use(express.json());
+app.use(express.static(path.join(__dirname, "public")));
 
-// 1. Static Front-End Asset Pipeline (Serves your public PWA shell)
-app.use(express.static(path.join(__dirname, 'public')));
+// ============================================
+// IN-MEMORY STORES (swap to Redis + Postgres later)
+// ============================================
+const sessions = new Map();
+const anomalies = [];
+const SERVICE_TIMEOUT = 800;
 
-// Root route handler so GET / returns the Hub or Index instead of 404
-app.get('/', (req, res) => {
-  res.sendFile(path.join(__dirname, 'public', 'hub.html'));
-});
-
-// 2. Persistent Database & Message Broker
-const pgPool = new Pool({
-  connectionString: process.env.DATABASE_URL || 'postgresql://postgres:postgres@127.0.0.1:5432/ggc_core'
-});
-
-const redisSub = createClient({ url: process.env.REDIS_URL || 'redis://127.0.0.1:6379' });
-const redisPub = createClient({ url: process.env.REDIS_URL || 'redis://127.0.0.1:6379' });
-
-async function initBroker() {
-  try {
-    await redisSub.connect();
-    await redisPub.connect();
-    console.log('[GGC GRID] Redis message broker active.');
-  } catch (err) {
-    console.warn('[GGC GRID] Redis offline — running standalone memory fallback.');
+// Authorized users (Master Archive)
+const AUTHORIZED_USERS = {
+  "architect@ggc.core": {
+    passwordHash: "sovereign",
+    role: "ARCHITECT",
+    tier: "T9",
+    name: "Nortell Luwayne Rowe"
+  },
+  "meechie@lcmt.tgb": {
+    passwordHash: "vice",
+    role: "VICE_PRESIDENT",
+    tier: "T6",
+    name: "LCMT Meechie"
   }
-}
-initBroker();
+};
 
-const REALM_ID = process.env.REALM_ID || 'GGC-REALM-MKE-01';
-const activeSessions = new Map();
-
-// Helper: Active Bare-Metal Health Check Probes
-function checkServiceHealth(port, path = '/health') {
+// ============================================
+// HEALTH PROBE
+// ============================================
+function probeService(host, port) {
   return new Promise((resolve) => {
-    const req = http.get({ hostname: '127.0.0.1', port, path, timeout: 800 }, (res) => {
-      resolve(res.statusCode === 200 ? 'CONNECTED' : 'DEGRADED');
+    const socket = new net.Socket();
+    let settled = false;
+
+    const timer = setTimeout(() => {
+      if (!settled) {
+        settled = true;
+        socket.destroy();
+        resolve(false);
+      }
+    }, SERVICE_TIMEOUT);
+
+    socket.connect(port, host, () => {
+      if (!settled) {
+        settled = true;
+        clearTimeout(timer);
+        socket.destroy();
+        resolve(true);
+      }
     });
-    req.on('error', () => resolve('OFFLINE'));
-    req.on('timeout', () => { req.destroy(); resolve('TIMEOUT'); });
+
+    socket.on("error", () => {
+      if (!settled) {
+        settled = true;
+        clearTimeout(timer);
+        resolve(false);
+      }
+    });
   });
 }
 
-// ==========================================
-// 3. THE GRIDLOCK MIDDLE LAYER (Security & Access Enforcement)
-// ==========================================
-const gridlockRules = new Map();
-gridlockRules.set('SECTOR_9', { status: 'SECURE', clearance_required: 'GPC_ROOT' });
+// ============================================
+// SYSTEM STATUS (Master Archive aware)
+// ============================================
+app.get("/api/system/status", async (req, res) => {
+  const [motherbot, gridlock, prodigy] = await Promise.all([
+    probeService("127.0.0.1", 4001),
+    probeService("127.0.0.1", 4002),
+    probeService("127.0.0.1", 4003)
+  ]);
 
-function enforceGridlock(requiredTier = 'STANDARD') {
-  return async (req, res, next) => {
-    const authHeader = req.headers.authorization;
-    if (!authHeader || !authHeader.startsWith('Bearer ')) {
-      return res.status(403).json({ 
-        error: 'GRIDLOCK_BREACH_DETECTED', 
-        message: 'Access denied by Gridlock perimeter enforcement. No session token presented.' 
-      });
-    }
-
-    const token = authHeader.split(' ')[1];
-    const session = activeSessions.get(token);
-
-    if (!session || Date.now() > session.expiresAt) {
-      activeSessions.delete(token);
-      return res.status(403).json({ 
-        error: 'GRIDLOCK_SESSION_EXPIRED', 
-        message: 'Gridlock revoked access. Session invalid or expired.' 
-      });
-    }
-
-    req.userSession = session;
-    next();
-  };
-}
-
-// Gridlock Administration Route
-app.post('/api/gridlock/enforce', enforceGridlock('GPC_ROOT'), (req, res) => {
-  const { sector, status } = req.body;
-  if (!sector || !status) {
-    return res.status(400).json({ error: 'Missing sector or status parameter for Gridlock enforcement' });
-  }
-
-  gridlockRules.set(sector, { status, updated_at: Date.now(), enforced_by: req.userSession.email });
-  redisPub.publish(`gridlock:stream:${REALM_ID}`, JSON.stringify({ sector, status, timestamp: Date.now() }));
-
-  res.json({ status: 'GRIDLOCK_STATE_UPDATED', sector, state: status });
-});
-
-// ==========================================
-// 4. SYSTEM SERVICE REGISTRY STATUS
-// ==========================================
-app.get('/api/system/status', async (req, res) => {
-  const motherbot = await checkServiceHealth(3001);
-  const gridlockHealth = await checkServiceHealth(3002);
-  const prodigy = await checkServiceHealth(3003);
+  const allOnline = motherbot && gridlock && prodigy;
+  const anyOnline = motherbot || gridlock || prodigy;
 
   res.json({
-    status: 'ONLINE',
-    registry: 'VERIFIED',
-    governance: 'CITADEL_DAWN_PULSE',
+    system: SYSTEM,
+    status: allOnline ? "ONLINE" : anyOnline ? "DEGRADED" : "OFFLINE",
+    registry: "VERIFIED",
     services: {
-      motherbot,
-      gridlock: gridlockHealth === 'CONNECTED' ? 'ACTIVE' : 'STANDBY',
-      prodigy_os: prodigy
+      motherbot: motherbot ? "CONNECTED" : "UNREACHABLE",
+      gridlock: gridlock ? "ACTIVE" : "UNREACHABLE",
+      prodigy_os: prodigy ? "ONLINE" : "UNREACHABLE"
     },
-    gridlock_sectors: Object.fromEntries(gridlockRules),
+    node: SYSTEM.node,
+    guardian: SYSTEM.guardian,
     timestamp: Date.now()
   });
 });
 
-// ==========================================
-// 5. PURPLE GATE (PGE) AUTHENTICATION & SESSIONS
-// ==========================================
-app.post('/api/pge/login', async (req, res) => {
-  const { email, password } = req.body;
+// ============================================
+// PURPLE GATE (PGE)
+// ============================================
+app.post("/api/pge/login", (req, res) => {
+  const { email, password } = req.body || {};
+
   if (!email || !password) {
-    return res.status(400).json({ error: 'Missing credentials for Purple Gate entry' });
+    return res.status(400).json({ error: "Missing credentials for Purple Gate entry" });
   }
 
-  try {
-    const dbResult = await pgPool.query(
-      'SELECT id, email, password_hash, authorization_tier FROM users WHERE email = $1',
-      [email]
-    );
-
-    let user = dbResult.rows[0];
-    const passwordHash = crypto.createHash('sha256').update(password).digest('hex');
-
-    if (!user && email === 'admin@ggc.io' && password === 'sovereign369') {
-      user = { id: 'ROOT-01', email, authorization_tier: 'GPC_ROOT', password_hash: passwordHash };
-    }
-
-    if (!user || user.password_hash !== passwordHash) {
-      return res.status(401).json({ error: 'Purple Gate authorization failed: Invalid credentials' });
-    }
-
-    const token = crypto.randomBytes(32).toString('hex');
-    const expiresAt = Date.now() + (24 * 60 * 60 * 1000);
-
-    activeSessions.set(token, { userId: user.id, email: user.email, tier: user.authorization_tier, expiresAt });
-
-    res.json({
-      status: 'AUTHENTICATED',
-      entry_status: 'VERIFIED',
-      token,
-      expires_at: expiresAt,
-      message: 'Purple Gate unlocked. Gridlock perimeter authorization granted.'
-    });
-  } catch (err) {
-    res.status(500).json({ error: 'Database execution error during authentication', details: err.message });
-  }
-});
-
-app.get('/api/pge/session', enforceGridlock(), (req, res) => {
-  res.json({ authenticated: true, session: req.userSession });
-});
-
-// ==========================================
-// 6. GAIA ECOLOGICAL ANOMALY ENGINE
-// ==========================================
-app.get('/api/gaia/anomalies', enforceGridlock(), async (req, res) => {
-  try {
-    const result = await pgPool.query(
-      'SELECT anomaly_id, anomaly_type, bio_signature, threat_level, location_grid, sequence_count, last_detected FROM gaia_anomalies ORDER BY last_detected DESC LIMIT 50'
-    );
-    res.json({ entity: 'GAIA_PRIME', status: 'OBSERVING', anomalies: result.rows, timestamp: Date.now() });
-  } catch (err) {
-    res.json({ entity: 'GAIA_PRIME', status: 'OBSERVING', anomalies: [], note: 'Fallback state active' });
-  }
-});
-
-app.post('/api/gaia/sighting', enforceGridlock(), async (req, res) => {
-  const { anomaly_id, anomaly_type, threat_level, location_grid } = req.body;
-  if (!anomaly_id || !anomaly_type) {
-    return res.status(400).json({ error: 'Missing anomaly identification data' });
+  const user = AUTHORIZED_USERS[email.toLowerCase()];
+  if (!user || user.passwordHash !== password) {
+    return res.status(401).json({ error: "Unauthorized — Purple Gate remains sealed" });
   }
 
-  const bioSignature = crypto.randomBytes(16).toString('hex');
-  const sighting = {
-    anomaly_id,
-    anomaly_type,
-    bio_signature: bioSignature,
-    threat_level: threat_level || 'BALANCING',
-    location_grid: location_grid || { lat: 43.0389, lng: -87.9065 },
-    last_detected: Date.now()
-  };
+  const token = crypto.randomBytes(32).toString("hex");
+  const expires = Date.now() + 1000 * 60 * 60 * 8;
 
-  try {
-    await pgPool.query(
-      `INSERT INTO gaia_anomalies (anomaly_id, anomaly_type, bio_signature, threat_level, location_grid, sequence_count, last_detected)
-       VALUES ($1, $2, $3, $4, $5::jsonb, 1, NOW())
-       ON CONFLICT (anomaly_id) DO UPDATE SET
-         sequence_count = gaia_anomalies.sequence_count + 1,
-         last_detected = NOW()`,
-      [anomaly_id, anomaly_type, bioSignature, sighting.threat_level, JSON.stringify(sighting.location_grid)]
-    );
-  } catch (dbErr) {
-    console.error('[GAIA DB Error]:', dbErr.message);
-  }
+  sessions.set(token, {
+    email: email.toLowerCase(),
+    role: user.role,
+    tier: user.tier,
+    name: user.name,
+    expires
+  });
 
-  try {
-    await redisPub.publish(`gaia:stream:${REALM_ID}`, JSON.stringify(sighting));
-  } catch (pubErr) {
-    console.error('[GAIA Publish Error]:', pubErr.message);
-  }
-
-  res.json({ status: 'ANOMALY_LOGGED', data: sighting });
-});
-
-// ==========================================
-// 7. REAL-TIME SSE TELEMETRY & GRIDLOCK STREAM
-// ==========================================
-app.get('/api/tacticore/stream', async (req, res) => {
-  res.setHeader('Content-Type', 'text/event-stream');
-  res.setHeader('Cache-Control', 'no-cache');
-  res.setHeader('Connection', 'keep-alive');
-  res.flushHeaders();
-
-  let subscriber;
-  try {
-    subscriber = redisSub.duplicate();
-    await subscriber.connect();
-
-    await subscriber.subscribe(`tacticore:stream:${REALM_ID}`, (msg) => {
-      res.write(`data: ${msg}\n\n`);
-    });
-    
-    await subscriber.subscribe(`gaia:stream:${REALM_ID}`, (msg) => {
-      res.write(`event: gaia_anomaly\ndata: ${msg}\n\n`);
-    });
-
-    await subscriber.subscribe(`gridlock:stream:${REALM_ID}`, (msg) => {
-      res.write(`event: gridlock_update\ndata: ${msg}\n\n`);
-    });
-  } catch (err) {
-    res.write(`data: ${JSON.stringify({ realm: { realm_id: REALM_ID, status: 'ONLINE_STANDBY' }, reflections: [] })}\n\n`);
-  }
-
-  req.on('close', async () => {
-    if (subscriber) {
-      try {
-        await subscriber.unsubscribe(`tacticore:stream:${REALM_ID}`);
-        await subscriber.unsubscribe(`gaia:stream:${REALM_ID}`);
-        await subscriber.unsubscribe(`gridlock:stream:${REALM_ID}`);
-        await subscriber.quit();
-      } catch (e) {}
-    }
+  res.json({
+    status: "AUTHENTICATED",
+    entry_status: "VERIFIED",
+    token,
+    role: user.role,
+    tier: user.tier,
+    name: user.name,
+    message: "Purple Gate unlocked. Welcome to the Citadel grid."
   });
 });
 
-const PORT = process.env.PORT || 8080;
-app.listen(PORT, '0.0.0.0', () => {
-  console.log(`[CLICK.JS GRIDLOCK GATEWAY] Active and enforcing perimeters on port ${PORT}`);
+app.get("/api/pge/session", (req, res) => {
+  const token = req.headers.authorization?.replace("Bearer ", "") || req.query.token;
+  if (!token || !sessions.has(token)) {
+    return res.status(401).json({ status: "UNAUTHENTICATED" });
+  }
+
+  const session = sessions.get(token);
+  if (Date.now() > session.expires) {
+    sessions.delete(token);
+    return res.status(401).json({ status: "SESSION_EXPIRED" });
+  }
+
+  res.json({
+    status: "ACTIVE",
+    email: session.email,
+    role: session.role,
+    tier: session.tier,
+    name: session.name,
+    expires: session.expires
+  });
 });
+
+app.post("/api/pge/logout", (req, res) => {
+  const token = req.headers.authorization?.replace("Bearer ", "") || req.body.token;
+  if (token) sessions.delete(token);
+  res.json({ status: "LOGGED_OUT" });
+});
+
+app.get("/api/pge/status", (req, res) => {
+  res.json({
+    gateway: "PURPLE_GATE",
+    state: "READY",
+    auth_required: true,
+    platform: SYSTEM.platform,
+    domain: SYSTEM.domain
+  });
+});
+
+// ============================================
+// GAIA ANOMALY ENGINE
+// ============================================
+app.get("/api/gaia/anomalies", (req, res) => {
+  res.json({
+    anomalies: anomalies.slice().reverse(),
+    total: anomalies.length
+  });
+});
+
+app.post("/api/gaia/sighting", (req, res) => {
+  const { anomaly_id, anomaly_type, threat_level = "BALANCING", location_grid } = req.body || {};
+
+  if (!anomaly_id || !anomaly_type) {
+    return res.status(400).json({ error: "anomaly_id and anomaly_type required" });
+  }
+
+  const record = {
+    anomaly_id,
+    anomaly_type,
+    threat_level,
+    location_grid: location_grid || null,
+    sequence_count: anomalies.length + 1,
+    last_detected: new Date().toISOString()
+  };
+
+  anomalies.push(record);
+  broadcast("gaia_anomaly", record);
+
+  res.json({
+    status: "ANOMALY_LOGGED",
+    record
+  });
+});
+
+// ============================================
+// SSE FABRIC
+// ============================================
+const sseClients = new Set();
+
+function broadcast(event, data) {
+  const payload = `event: ${event}\ndata: ${JSON.stringify(data)}\n\n`;
+  for (const client of sseClients) {
+    client.write(payload);
+  }
+}
+
+app.get("/api/tacticore/stream", (req, res) => {
+  res.setHeader("Content-Type", "text/event-stream");
+  res.setHeader("Cache-Control", "no-cache");
+  res.setHeader("Connection", "keep-alive");
+  res.flushHeaders();
+
+  sseClients.add(res);
+
+  const heartbeat = setInterval(() => {
+    res.write(`event: heartbeat\ndata: ${JSON.stringify({ ts: Date.now() })}\n\n`);
+  }, 15000);
+
+  req.on("close", () => {
+    clearInterval(heartbeat);
+    sseClients.delete(res);
+  });
+});
+
+// ============================================
+// MASTER ARCHIVE ENDPOINT
+// ============================================
+app.get("/api/archive/status", (req, res) => {
+  res.json({
+    archive: "Master Project Archive",
+    edition: "November 14, 2026",
+    principle: "We build. We own. We legacy.",
+    base: "Milwaukee, Wisconsin",
+    domain: "clickdash.net",
+    infrastructure: "Global Grid Core V5.0",
+    platform: "ClickDash",
+    node: SYSTEM.node,
+    guardian: SYSTEM.guardian
+  });
+});
+
+// ============================================
+// ROOT
+// ============================================
+app.get("/", (req, res) => {
+  res.sendFile(path.join(__dirname, "public", "hub.html"));
+});
+
+// ============================================
+// START
+// ============================================
+app.listen(PORT, () => {
+  console.log(`\n[GGC] ClickDash Sovereign Ingress Engine`);
+  console.log(`[GGC] Version          : ${SYSTEM.version}`);
+  console.log(`[GGC] Domain           : ${SYSTEM.domain}`);
+  console.log(`[GGC] Node             : ${SYSTEM.node}`);
+  console.log(`[GGC] Guardian         : ${SYSTEM.guardian}`);
+  console.log(`[GGC] Listening on     : ${PORT}`);
+  console.log(`[GGC] Purple Gate      : READY`);
+  console.log(`[GGC] Gaia Engine      : ACTIVE`);
+  console.log(`[GGC] Archive          : LOCKED\n`);
+});
+
+export default app;
