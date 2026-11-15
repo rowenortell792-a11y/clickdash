@@ -12,10 +12,12 @@ import pg from "pg";
 
 const { Pool } = pg;
 
+// Import Modular API Sub-routes
 import commerceRouter from "./api/commerce.js";
 import cammTvRouter from "./api/camm_tv.js";
 import statusRouter from "./api/status.js";
 import seedCardsRouter from "./api/seed_cards_router.js";
+import studioPipelineRouter from "./api/studio_pipeline.js";
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -23,10 +25,14 @@ const __dirname = path.dirname(__filename);
 const app = express();
 const PORT = process.env.PORT || 3000;
 
+// PostgreSQL Connection Pool (T490s Local Iron)
 const pool = new Pool({
   connectionString: process.env.DATABASE_URL || "postgresql://ggc:ggc@localhost:5432/ggc_telemetry"
 });
 
+// ============================================
+// MASTER ARCHIVE CONSTANTS
+// ============================================
 const SYSTEM = {
   name: "Global Grid Core",
   version: "V6.0",
@@ -39,10 +45,16 @@ const SYSTEM = {
   router: "Gridlock"
 };
 
+// ============================================
+// MIDDLEWARE
+// ============================================
 app.use(cors());
 app.use(express.json());
 app.use(express.static(path.join(__dirname, "public")));
 
+// ============================================
+// IN-MEMORY STORES & CONFIG
+// ============================================
 const sessions = new Map();
 const anomalies = [];
 const SERVICE_TIMEOUT = 800;
@@ -62,12 +74,18 @@ const AUTHORIZED_USERS = {
   }
 };
 
-// Mount Sub-routes
+// ============================================
+// MOUNT MODULAR API ROUTES
+// ============================================
 app.use(commerceRouter);
 app.use(cammTvRouter);
 app.use(statusRouter);
 app.use(seedCardsRouter);
+app.use(studioPipelineRouter);
 
+// ============================================
+// HEALTH PROBE & SYSTEM STATUS
+// ============================================
 function probeService(host, port) {
   return new Promise((resolve) => {
     const socket = new net.Socket();
@@ -123,6 +141,9 @@ app.get("/api/system/status", async (req, res) => {
   });
 });
 
+// ============================================
+// PURPLE GATE (PGE) AUTHENTICATION
+// ============================================
 app.post("/api/pge/login", (req, res) => {
   const { email, password } = req.body || {};
   if (!email || !password) return res.status(400).json({ error: "Missing credentials" });
@@ -147,6 +168,9 @@ app.post("/api/pge/login", (req, res) => {
   });
 });
 
+// ============================================
+// ROOT & START LISTENER
+// ============================================
 app.get("/", (req, res) => {
   res.sendFile(path.join(__dirname, "public", "hub.html"));
 });
@@ -157,7 +181,7 @@ app.listen(PORT, () => {
   console.log(`[GGC] Domain           : ${SYSTEM.domain}`);
   console.log(`[GGC] Node             : ${SYSTEM.node}`);
   console.log(`[GGC] Listening on     : ${PORT}`);
-  console.log(`[GGC] Modules Bound    : Commerce, CAMM's TV, Status, Seed Cards\n`);
+  console.log(`[GGC] Modules Bound    : Commerce, CAMM's TV, Status, Seed Cards, Studio Pipeline\n`);
 });
 
 export default app;
