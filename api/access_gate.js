@@ -8,10 +8,6 @@ const TIER_LEVELS = {
     "ARCHITECT": 3
 };
 
-/**
- * Middleware to enforce tier access on sovereign routes.
- * Usage: router.get('/api/tacticore/ai', requireTier('ARCHITECT'), (req, res) => {...})
- */
 export function requireTier(requiredTierName) {
     return (req, res, next) => {
         const user = req.user; // Populated by session/auth middleware
