@@ -1,0 +1,94 @@
+// Copyright (c) 2026 GGC Universe LLC. All rights reserved.
+// 04-api/camm_tv.js
+// CAMM’s TV — View Tracking & Automated Aura Generation Pipeline
+
+import express from "express";
+import pg from "pg";
+
+const { Pool } = pg;
+const router = express.Router();
+
+const pool = new Pool({
+  connectionString: process.env.DATABASE_URL || "postgresql://ggc:ggc@localhost:5432/ggc_telemetry"
+});
+
+// ============================================
+// RECORD VIEW & GENERATE AURA
+// ============================================
+router.post("/api/camm/view", express.json(), async (req, res) => {
+  try {
+    const { gpc_id, video_id, watch_duration_sec } = req.body || {};
+    if (!gpc_id || !video_id) {
+      return res.status(400).json({ error: "gpc_id and video_id required" });
+    }
+
+    // Minimum watch threshold to earn Aura (e.g., 5 seconds)
+    const validView = (watch_duration_sec || 0) >= 5;
+    const auraEarned = validView ? 10 : 0;
+
+    const client = await pool.connect();
+    try {
+      await client.query("BEGIN");
+
+      // 1. Log the aura/view event if valid
+      if (validView) {
+        await client.query(
+          `INSERT INTO gpc_aura_events (gpc_id, event_type, amount, meta)
+           VALUES ($1, 'view', $2, $3)`,
+          [gpc_id, auraEarned, JSON.stringify({ video_id, watch_duration_sec })]
+        );
+
+        // 2. Update identity aura and exposure count
+        const { rows } = await client.query(
+          `UPDATE gpc_identities
+           SET aura = aura + $1,
+               exposure = exposure + 1,
+               updated_at = NOW()
+           WHERE gpc_id = $2
+           RETURNING gpc_id, rank, aura, exposure`,
+          [auraEarned, gpc_id]
+        );
+
+        if (!rows.length) {
+          await client.query("ROLLBACK");
+          return res.status(404).json({ error: "gpc_id_not_found" });
+        }
+
+        // 3. Check Rank Thresholds (Rookie < 1000 <= Pro < 5000 <= Elite)
+        let currentRank = rows[0].rank;
+        const currentAura = rows[0].aura;
+        if (currentAura >= 5000) currentRank = "Elite";
+        else if (currentAura >= 1000) currentRank = "Pro";
+
+        if (currentRank !== rows[0].rank) {
+          await client.query(
+            `UPDATE gpc_identities SET rank = $1 WHERE gpc_id = $2`,
+            [currentRank, gpc_id]
+          );
+          rows[0].rank = currentRank;
+        }
+
+        await client.query("COMMIT");
+        return res.json({
+          status: "recorded",
+          video_id,
+          aura_added: auraEarned,
+          updated_identity: rows[0]
+        });
+      } else {
+        await client.query("COMMIT");
+        return res.json({ status: "skipped", reason: "watch_duration_too_short" });
+      }
+    } catch (e) {
+      await client.query("ROLLBACK");
+      throw e;
+    } finally {
+      client.release();
+    }
+  } catch (err) {
+    console.error("[CAMM TV] view error:", err);
+    res.status(500).json({ error: "internal_error" });
+  }
+});
+
+export default router;
