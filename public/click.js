@@ -1,7 +1,6 @@
-// click.js
-// GGC / ClickDash Sovereign Ingress Engine
-// Master Archive Edition — November 14, 2026
-// Domain: clickdash.net only
+// Copyright (c) 2026 GGC Universe LLC. All rights reserved.
+// click.js — Master Ingress & Routing Engine
+// Host: ThinkPad T490s Genesis Node | Domain: clickdash.net
 
 import express from "express";
 import crypto from "crypto";
@@ -9,6 +8,11 @@ import cors from "cors";
 import path from "path";
 import { fileURLToPath } from "url";
 import net from "net";
+
+// Import Modular API Sub-routes
+import commerceRouter from "./api/commerce.js";
+import cammTvRouter from "./api/camm_tv.js";
+import statusRouter from "./api/status.js";
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -21,7 +25,7 @@ const PORT = process.env.PORT || 3000;
 // ============================================
 const SYSTEM = {
   name: "Global Grid Core",
-  version: "V5.0",
+  version: "V6.0",
   platform: "ClickDash",
   domain: "clickdash.net",
   node: "ThinkPad T490s Genesis Node",
@@ -39,7 +43,7 @@ app.use(express.json());
 app.use(express.static(path.join(__dirname, "public")));
 
 // ============================================
-// IN-MEMORY STORES (swap to Redis + Postgres later)
+// IN-MEMORY STORES & CONFIG
 // ============================================
 const sessions = new Map();
 const anomalies = [];
@@ -62,7 +66,14 @@ const AUTHORIZED_USERS = {
 };
 
 // ============================================
-// HEALTH PROBE
+// MOUNT MODULAR API ROUTES
+// ============================================
+app.use(commerceRouter);
+app.use(cammTvRouter);
+app.use(statusRouter);
+
+// ============================================
+// HEALTH PROBE HELPER
 // ============================================
 function probeService(host, port) {
   return new Promise((resolve) => {
@@ -97,7 +108,7 @@ function probeService(host, port) {
 }
 
 // ============================================
-// SYSTEM STATUS (Master Archive aware)
+// SYSTEM STATUS ENDPOINT (Aggregated)
 // ============================================
 app.get("/api/system/status", async (req, res) => {
   const [motherbot, gridlock, prodigy] = await Promise.all([
@@ -125,7 +136,7 @@ app.get("/api/system/status", async (req, res) => {
 });
 
 // ============================================
-// PURPLE GATE (PGE)
+// PURPLE GATE (PGE) AUTHENTICATION
 // ============================================
 app.post("/api/pge/login", (req, res) => {
   const { email, password } = req.body || {};
@@ -235,7 +246,7 @@ app.post("/api/gaia/sighting", (req, res) => {
 });
 
 // ============================================
-// SSE FABRIC
+// SSE FABRIC (Server-Sent Events)
 // ============================================
 const sseClients = new Set();
 
@@ -274,7 +285,7 @@ app.get("/api/archive/status", (req, res) => {
     principle: "We build. We own. We legacy.",
     base: "Milwaukee, Wisconsin",
     domain: "clickdash.net",
-    infrastructure: "Global Grid Core V5.0",
+    infrastructure: "Global Grid Core V6.0",
     platform: "ClickDash",
     node: SYSTEM.node,
     guardian: SYSTEM.guardian
@@ -282,14 +293,14 @@ app.get("/api/archive/status", (req, res) => {
 });
 
 // ============================================
-// ROOT
+// ROOT INGRESS
 // ============================================
 app.get("/", (req, res) => {
   res.sendFile(path.join(__dirname, "public", "hub.html"));
 });
 
 // ============================================
-// START
+// START LISTENER
 // ============================================
 app.listen(PORT, () => {
   console.log(`\n[GGC] ClickDash Sovereign Ingress Engine`);
@@ -300,6 +311,7 @@ app.listen(PORT, () => {
   console.log(`[GGC] Listening on     : ${PORT}`);
   console.log(`[GGC] Purple Gate      : READY`);
   console.log(`[GGC] Gaia Engine      : ACTIVE`);
+  console.log(`[GGC] Modules Loaded   : Commerce, CAMM's TV, Status`);
   console.log(`[GGC] Archive          : LOCKED\n`);
 });
 
