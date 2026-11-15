@@ -12,9 +12,6 @@ const pool = new Pool({
   connectionString: process.env.DATABASE_URL || "postgresql://ggc:ggc@localhost:5432/ggc_telemetry"
 });
 
-// ============================================
-// REDEEM SEED CARD ENDPOINT
-// ============================================
 router.post("/api/commerce/redeem", async (req, res) => {
     const { cardCode, userId } = req.body || {};
 
@@ -26,7 +23,6 @@ router.post("/api/commerce/redeem", async (req, res) => {
     try {
         await client.query("BEGIN");
 
-        // 1. Verify card exists and is unclaimed
         const cardQuery = await client.query(
             "SELECT * FROM seed_cards WHERE card_code = $1 AND is_claimed = FALSE",
             [cardCode.trim().toUpperCase()]
@@ -39,13 +35,11 @@ router.post("/api/commerce/redeem", async (req, res) => {
 
         const card = cardQuery.rows[0];
 
-        // 2. Mark card as claimed
         await client.query(
             "UPDATE seed_cards SET is_claimed = TRUE, claimed_by_user_id = $1 WHERE id = $2",
             [userId, card.id]
         );
 
-        // 3. Upgrade user tier
         const userUpdate = await client.query(
             "UPDATE users SET tier_level = $1 WHERE id = $2 RETURNING id, email, tier_level",
             [card.tier_level, userId]
