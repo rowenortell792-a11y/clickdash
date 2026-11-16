@@ -24,6 +24,7 @@ import leakedFireRouter from "./api/leaked_fire_router.js";       // Vault & Aud
 import tokenLedgerRouter from "./api/token_ledger.js";         // 3-6-9 Crypto Ledger
 import userRegistryRouter from "./api/user_registry.js";       // CRM & User Management
 import linkVibeRouter from "./api/link_vibe_router.js";         // Link Vibe Session Engine
+import cCardSyncRouter from "./api/c_card_sync.js";             // C Card Offline NFC Sync Engine
 
 // ============================================
 // IMPORT SOVEREIGN ENGINES & BRIDGES
@@ -99,6 +100,7 @@ app.use(leakedFireRouter);
 app.use(tokenLedgerRouter);
 app.use(userRegistryRouter);
 app.use(linkVibeRouter);
+app.use(cCardSyncRouter); // Mounted C Card offline synchronization router
 
 // ============================================
 // PRODIGY OS & BARE-METAL TELEMETRY ENDPOINT
@@ -226,7 +228,7 @@ app.listen(PORT, () => {
   console.log(`[GGC] Node             : ${SYSTEM.node}`);
   console.log(`[GGC] Ideology         : ${SYSTEM.ideology}`);
   console.log(`[GGC] Listening on     : ${PORT}`);
-  console.log(`[GGC] Modules Bound    : Commerce, CAMM's TV, Status, Seed Cards, Studio Pipeline, Leaked Fire, Token Ledger, User CRM, Link Vibe, 3-6-9 Engine\n`);
+  console.log(`[GGC] Modules Bound    : Commerce, CAMM's TV, Status, Seed Cards, Studio Pipeline, Leaked Fire, Token Ledger, User CRM, Link Vibe, C Card Sync, 3-6-9 Engine\n`);
 });
 
 export default app;
