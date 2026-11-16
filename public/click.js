@@ -1,5 +1,5 @@
 // Copyright (c) 2026 GGC Universe LLC. All rights reserved.
-// click.js — Master Sovereign Ingress & Routing Engine
+// click.js — Master Sovereign Ingress, Hardware, Crypto, CRM & Routing Engine
 // Host: ThinkPad T490s Genesis Node | Domain: clickdash.net
 
 import express from "express";
@@ -12,12 +12,24 @@ import pg from "pg";
 
 const { Pool } = pg;
 
-// Import Modular API Sub-routes
+// ============================================
+// IMPORT MODULAR API SUB-ROUTES
+// ============================================
 import commerceRouter from "./api/commerce.js";
 import cammTvRouter from "./api/camm_tv.js";
 import statusRouter from "./api/status.js";
 import seedCardsRouter from "./api/seed_cards_router.js";
 import studioPipelineRouter from "./api/studio_pipeline.js";
+import leakedFireRouter from "./api/leaked_fire_router.js";       // Vault & Audio Distribution
+import tokenLedgerRouter from "./api/token_ledger.js";         // 3-6-9 Crypto Ledger
+import userRegistryRouter from "./api/user_registry.js";       // CRM & User Management
+import linkVibeRouter from "./api/link_vibe_router.js";         // Link Vibe Session Engine
+
+// ============================================
+// IMPORT SOVEREIGN ENGINES & BRIDGES
+// ============================================
+import { calculateHarmonicResonance } from "./api/frequency_engine.js";
+import { getBareMetalTelemetry } from "./api/prodigy_hardware_bridge.js";
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -25,35 +37,36 @@ const __dirname = path.dirname(__filename);
 const app = express();
 const PORT = process.env.PORT || 3000;
 
-// PostgreSQL Connection Pool (T490s Local Iron)
+// PostgreSQL Connection Pool (T490s Local Iron - Sector Tanks)
 const pool = new Pool({
   connectionString: process.env.DATABASE_URL || "postgresql://ggc:ggc@localhost:5432/ggc_telemetry"
 });
 
 // ============================================
-// MASTER ARCHIVE CONSTANTS
+// MASTER ARCHIVE CONSTANTS (V6.0-SOVEREIGN)
 // ============================================
 const SYSTEM = {
-  name: "Global Grid Core",
-  version: "V6.0",
-  platform: "ClickDash",
+  name: "Global Grid Core Universe",
+  version: "V6.0-SOVEREIGN",
+  platform: "ClickDash / Prodigy OS",
   domain: "clickdash.net",
   node: "ThinkPad T490s Genesis Node",
   guardian: "Motherbot CF-003",
   ingress: "click.js",
   language: "PA Language",
-  router: "Gridlock"
+  router: "Gridlock",
+  ideology: "3-6-9 Harmonic Law"
 };
 
 // ============================================
-// MIDDLEWARE
+// MIDDLEWARE CONFIGURATION
 // ============================================
 app.use(cors());
 app.use(express.json());
 app.use(express.static(path.join(__dirname, "public")));
 
 // ============================================
-// IN-MEMORY STORES & CONFIG
+// IN-MEMORY STORES & AUTHORIZED NODES
 // ============================================
 const sessions = new Map();
 const anomalies = [];
@@ -68,20 +81,51 @@ const AUTHORIZED_USERS = {
   },
   "meechie@lcmt.tgb": {
     passwordHash: "vice",
-    role: "VICE_PRESIDENT",
+    role: "CHIEF_OPERATING_OFFICER",
     tier: "CREATOR",
-    name: "LCMT Meechie"
+    name: "Lcmt Meechie"
   }
 };
 
 // ============================================
-// MOUNT MODULAR API ROUTES
+// MOUNT ALL MODULAR API ROUTES & SUB-SYSTEMS
 // ============================================
 app.use(commerceRouter);
 app.use(cammTvRouter);
 app.use(statusRouter);
 app.use(seedCardsRouter);
 app.use(studioPipelineRouter);
+app.use(leakedFireRouter);
+app.use(tokenLedgerRouter);
+app.use(userRegistryRouter);
+app.use(linkVibeRouter);
+
+// ============================================
+// PRODIGY OS & BARE-METAL TELEMETRY ENDPOINT
+// ============================================
+app.get("/api/prodigy/telemetry", (req, res) => {
+    const telemetry = getBareMetalTelemetry();
+    res.json({
+        system: SYSTEM,
+        status: "OPTIMIZED",
+        hardware: telemetry
+    });
+});
+
+// ============================================
+// 3-6-9 FREQUENCY VALIDATION ENDPOINT
+// ============================================
+app.post("/api/frequency/verify", (req, res) => {
+    const { frequency } = req.body || {};
+    if (!frequency) return res.status(400).json({ error: "Frequency value required" });
+
+    const harmonicResult = calculateHarmonicResonance(Number(frequency));
+    res.json({
+        success: true,
+        ideology: "3-6-9 Vortex Mechanics",
+        analysis: harmonicResult
+    });
+});
 
 // ============================================
 // HEALTH PROBE & SYSTEM STATUS
@@ -176,12 +220,13 @@ app.get("/", (req, res) => {
 });
 
 app.listen(PORT, () => {
-  console.log(`\n[GGC] ClickDash Sovereign Ingress Engine`);
+  console.log(`\n[GGC] Master Sovereign Ingress & Routing Engine`);
   console.log(`[GGC] Version          : ${SYSTEM.version}`);
   console.log(`[GGC] Domain           : ${SYSTEM.domain}`);
   console.log(`[GGC] Node             : ${SYSTEM.node}`);
+  console.log(`[GGC] Ideology         : ${SYSTEM.ideology}`);
   console.log(`[GGC] Listening on     : ${PORT}`);
-  console.log(`[GGC] Modules Bound    : Commerce, CAMM's TV, Status, Seed Cards, Studio Pipeline\n`);
+  console.log(`[GGC] Modules Bound    : Commerce, CAMM's TV, Status, Seed Cards, Studio Pipeline, Leaked Fire, Token Ledger, User CRM, Link Vibe, 3-6-9 Engine\n`);
 });
 
 export default app;
