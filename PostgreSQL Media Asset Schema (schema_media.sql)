@@ -1,0 +1,41 @@
+-- ==========================================================
+-- GGC CREATOR ECONOMY // CAMM'S TV & MEDIA ASSET SCHEMA
+-- ==========================================================
+
+CREATE TABLE IF NOT EXISTS creators (
+    creator_id VARCHAR(50) PRIMARY KEY,
+    artist_name VARCHAR(150) NOT NULL,
+    persona_type VARCHAR(50) DEFAULT 'ARTIST',
+    wallet_address VARCHAR(100),
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+CREATE TABLE IF NOT EXISTS media_assets (
+    asset_id VARCHAR(64) PRIMARY KEY,
+    creator_id VARCHAR(50) REFERENCES creators(creator_id) ON DELETE CASCADE,
+    title VARCHAR(200) NOT NULL,
+    media_type VARCHAR(30) NOT NULL CHECK (media_type IN ('VIDEO', 'AUDIO', 'AURA_ART', 'PODCAST')),
+    file_path VARCHAR(255) NOT NULL,
+    duration_sec INTEGER DEFAULT 0,
+    transcode_status VARCHAR(30) DEFAULT 'PENDING',
+    storage_node VARCHAR(50) DEFAULT 'T490s-GENESIS',
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+CREATE TABLE IF NOT EXISTS camms_tv_channels (
+    channel_id VARCHAR(50) PRIMARY KEY,
+    channel_name VARCHAR(100) NOT NULL,
+    stream_key VARCHAR(100) UNIQUE,
+    is_live BOOLEAN DEFAULT FALSE,
+    current_asset_id VARCHAR(64) REFERENCES media_assets(asset_id),
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+-- Seed Initial Creator & Channel
+INSERT INTO creators (creator_id, artist_name, persona_type)
+VALUES ('TRIGGA-01', 'Trigga Nordy / Triganory', 'HIP_HOP_ARTIST')
+ON CONFLICT (creator_id) DO NOTHING;
+
+INSERT INTO camms_tv_channels (channel_id, channel_name, stream_key)
+VALUES ('CAMMS-TV-01', 'CAMMs TV Sovereign Stream', 'stream_ggc_live_5x')
+ON CONFLICT (channel_id) DO NOTHING;
