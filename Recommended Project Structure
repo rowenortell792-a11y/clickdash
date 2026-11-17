@@ -1,0 +1,16 @@
+clickdash/
+├── api/
+│   ├── index.js             <-- The Vercel serverless pulse handler you just shared
+│   ├── camm_tv.js           <-- CAMM's TV Express router
+│   ├── commerce.js          <-- Multi-store POS & inventory router
+│   └── status.js            <-- Health check router
+├── public/                  <-- Frontend static assets & HTML files
+│   ├── index.html
+│   ├── pos.html
+│   ├── creator.html
+│   └── ledger/              <-- Daily JSON ledger archives
+├── index.js                 <-- YOUR MAIN EXPRESS SERVER (runs on T490s iron under PM2)
+├── db.js                    <-- Persistent PostgreSQL pool connection adapter
+├── media_worker.js          <-- Background transcoding worker
+├── motherbot_watcher.js     <-- Local MotherBot surveillance warden
+└── package.json
