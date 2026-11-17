@@ -1,0 +1,51 @@
+// media_worker.js — T490s Automated Transcoding & Asset Processor
+import fs from 'fs';
+import path from 'path';
+import ffmpeg from 'fluent-ffmpeg';
+import pool from './db.js';
+
+async function processPendingAssets() {
+  const client = await pool.connect();
+  try {
+    const res = await client.query("SELECT * FROM media_assets WHERE transcode_status = 'PENDING' LIMIT 1");
+    if (res.rows.length === 0) {
+      console.log("[GPC WORKER] No pending media assets for transcoding.");
+      return;
+    }
+
+    const asset = res.rows[0];
+    console.log(`[GPC WORKER] Transcoding asset: ${asset.title} (${asset.asset_id})`);
+
+    await client.query("UPDATE media_assets SET transcode_status = 'PROCESSING' WHERE asset_id = $1", [asset.asset_id]);
+
+    const inputPath = asset.file_path;
+    const outputPath = path.join('/opt/ggc/storage/processed', `${asset.asset_id}_optimized.mp4`);
+
+    ffmpeg(inputPath)
+      .output(outputPath)
+      .videoCodec('libx264')
+      .audioCodec('aac')
+      .size('1280x720')
+      .on('end', async () => {
+        console.log(`[GPC WORKER] Transcode complete for ${asset.asset_id}`);
+        await client.query(
+          "UPDATE media_assets SET transcode_status = 'READY', file_path = $1 WHERE asset_id = $2",
+          [outputPath, asset.asset_id]
+        );
+      })
+      .on('error', async (err) => {
+        console.error(`[GPC WORKER Error]: ${err.message}`);
+        await client.query("UPDATE media_assets SET transcode_status = 'FAILED' WHERE asset_id = $1", [asset.asset_id]);
+      })
+      .run();
+
+  } catch (err) {
+    console.error("[GPC WORKER] Worker execution error:", err.message);
+  } finally {
+    client.release();
+  }
+}
+
+// Run worker loop every 30 seconds
+console.log("[GPC WORKER] Media asset transcoding worker active.");
+setInterval(processPendingAssets, 30000);
