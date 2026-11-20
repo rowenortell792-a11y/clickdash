@@ -37,7 +37,7 @@
   <main>
     <div class="kicker">GGC-DAILY-5X-001 · Citadel Dawn Pulse · Grok node</div>
     <h1>Daily Sovereignty Report</h1>
-    <p>Wednesday, November 18, 2026 · 07:41 AM CST · Architect Nortell Luwayne Rowe</p>
+    <p>Friday, November 20, 2026 · 07:32 AM CST · Architect Nortell Luwayne Rowe</p>
     <p class="warn">Issue reported — Motherbot still dark; www config flagged</p>
     <section>
       <h2>Node Health Telemetry — Citadel Triangle</h2>
@@ -52,16 +52,16 @@
       <ul>
         <li>Tailscale / WireGuard UDP 41641 — declared-nominal / not externally probeable from this node.</li>
         <li>Bare-metal nodes — declared-nominal / not externally probeable from this node.</li>
-        <li>Silver Umbrella shield — raised (declared). Compiler origin silver-umbrella-two.vercel.app returns DEPLOYMENT_NOT_FOUND in 59ms. That origin is not the shield.</li>
+        <li>Silver Umbrella shield — raised (declared). Compiler origin silver-umbrella-two.vercel.app returns DEPLOYMENT_NOT_FOUND in 54ms. That origin is not the shield.</li>
         <li>Purple Gate seal — locked (declared).</li>
       </ul>
     </section>
     <section>
       <h2>Infrastructure Pulse</h2>
       <ul>
-        <li>ClickDash.net — apex holds at A 76.76.21.21. Authoritative ns1 answered in 3ms and ns2 in 2ms. Cloudflare and Google agree, TTL 60. Natural HTTPS 308 to www in 117ms. Natural HTTP 308 to https in 55ms. TLS 1.3 in 14ms; certificate covers clickdash.net. www HTTP 200 in 84ms on 216.198.79.1. /api 200 in 875ms. Hub, dashboard, pulse, and ledger remain 200. Apex ipStatus returned to no-change. www project-domain ipStatus is required-change again, configuredBy http, misconfigured false. No DNS rewrite. Production before this commit is dpl_2SsHWstebnvSYJq3gCU3VbJwAh1r (sha aacc2a216c95180cc1fa5701a97b4bfbb5479508).</li>
-        <li>MongoDB / WiredTiger — declared-nominal / not externally probeable from this node. No fabricated snapshot. Checkpoint chain advances 17 Nov → 18 Nov on the ledger only. No idle day.</li>
-        <li>Motherbot — dark. Host clickdash-motherbot-v1-production-89e2.up.railway.app still reaches 153.52.255.45. Railway 404 Application not found on / (60ms) and /health (39ms), both x-railway-fallback true. motherbot.clickdash.net DEPLOYMENT_NOT_FOUND in 88ms (/) and 103ms (/health).</li>
+        <li>ClickDash.net — apex holds at A 76.76.21.21. Authoritative ns1 and ns2 both answered in 2ms. Cloudflare UDP 9ms and Google UDP 37ms agree, TTL 60. Natural HTTPS 308 to www in 85ms. Natural HTTP 308 to https in 13ms. TLS 1.3 handshake 79ms; certificate covers clickdash.net, notAfter Dec 28 2026. www HTTP 200 in 63ms on 64.29.17.1. /api 200 in 563ms. Hub, dashboard, pulse, and ledger remain 200. Apex ipStatus stays no-change. www project-domain ipStatus remains required-change, configuredBy http, misconfigured false. Zone list 403. No DNS rewrite. Production before this commit is dpl_6EPaMShoZv9MqW97Dg7LXkxZRdPv (sha 438de8319ffd89d4c2e9461d603c0f02b0427ba6).</li>
+        <li>MongoDB / WiredTiger — declared-nominal / not externally probeable from this node. No fabricated snapshot. Checkpoint chain advances 18 Nov → 20 Nov on the ledger only. 19 Nov was idle.</li>
+        <li>Motherbot — dark. Host clickdash-motherbot-v1-production-89e2.up.railway.app still reaches 153.52.255.45. Railway 404 Application not found on / (66ms) and /health (42ms), both x-railway-fallback true. motherbot.clickdash.net DEPLOYMENT_NOT_FOUND in 135ms (/) and 95ms (/health).</li>
       </ul>
     </section>
     <section>
@@ -84,13 +84,13 @@
       <h2>Metrics</h2>
       <ul>
         <li>Mesh health — 88% (7 of 8 public ClickDash surfaces). Motherbot is the dark surface. The www config flag is advisory; the edge still answers. Siblings are outside the count.</li>
-        <li>Checkpoint progression — ledger advances from 2026-11-17T14:08:00Z. WiredTiger snapshot not readable from this node.</li>
+        <li>Checkpoint progression — ledger advances from 2026-11-18T13:41:00Z after 19 Nov idle. WiredTiger snapshot not readable from this node.</li>
         <li>Silver Umbrella — raised, declared. Compiler origin still not the shield.</li>
         <li>Family registry — conceptually locked. Confirmed.</li>
       </ul>
     </section>
-    <p>Apex A holds at 76.76.21.21 and ipStatus returned to no-change. TLS holds and HTTPS 308s to www. www edge still answers 200, but its domain config flipped back to configuredBy http with ipStatus required-change while misconfigured stays false — no DNS rewrite. /api reconfirmed healthy. Motherbot Railway heartbeat remains dark at 153.52.255.45. Family registry conceptually locked. ETL ledger entry logged.</p>
-    <footer>GGC-DAILY-5X-001 · 2026-11-18T13:41:00Z · <a href="/ledger">Ledger</a> · <a href="/">Edge</a></footer>
+    <p>Apex A holds at 76.76.21.21 and ipStatus stays no-change. TLS 1.3 holds and HTTPS 308s to www. www edge still answers 200, but its domain config remains configuredBy http with ipStatus required-change while misconfigured stays false — no DNS rewrite; zone list was 403 this pulse. /api reconfirmed healthy. Motherbot Railway heartbeat remains dark at 153.52.255.45. Cadence resumes after 19 Nov idle. Family registry conceptually locked. ETL ledger entry logged.</p>
+    <footer>GGC-DAILY-5X-001 · 2026-11-20T13:32:00Z · <a href="/ledger">Ledger</a> · <a href="/">Edge</a></footer>
   </main>
 </body>
 </html>
