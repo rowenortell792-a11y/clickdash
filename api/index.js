@@ -44,6 +44,7 @@
  * Reconfirmed on GGC-DAILY-5X-001 (2026-11-17). Cadence resumes after 16 Nov idle. Apex A holds at 76.76.21.21. ipStatus optional-change; no rewrite. Motherbot station unchanged and still dark.
  * Reconfirmed on GGC-DAILY-5X-001 (2026-11-18). Daily cadence continues. Apex A holds at 76.76.21.21. ipStatus no-change; no rewrite. www project-domain ipStatus required-change, misconfigured false. Motherbot station unchanged and still dark.
  * Reconfirmed on GGC-DAILY-5X-001 (2026-11-20). Cadence resumes after 19 Nov idle. Apex A holds at 76.76.21.21. ipStatus no-change; no rewrite. Zone list 403. www project-domain ipStatus required-change, misconfigured false. Motherbot station unchanged and still dark.
+ * Reconfirmed on GGC-DAILY-5X-001 (2026-11-21). Daily cadence continues. Apex A holds at 76.76.21.21. ipStatus optional-change; no rewrite. Zone list readable. www domain-config ipStatus no-change, misconfigured false. Motherbot station unchanged and still dark.
  * The prior Express server.listen() binary caused FUNCTION_INVOCATION_FAILED.
  */
 module.exports = function handler(req, res) {
@@ -67,7 +68,7 @@ module.exports = function handler(req, res) {
     governance: "CITADEL_DAWN_PULSE",
     matrix_constant: "5X·1.500",
     frequency: "5X · 1.500",
-    lastPulse: "2026-11-20T13:32:00Z",
+    lastPulse: "2026-11-21T13:32:00Z",
     meshHealthPct: 88,
     silverUmbrella: "raised-declared",
     purpleGate: "sealed-declared",
@@ -75,12 +76,12 @@ module.exports = function handler(req, res) {
     apex: {
       address: "76.76.21.21",
       tls: "ok",
-      note: "Apex A holds at 76.76.21.21 (ttl 60). No rewrite this pulse. Zone list 403. Natural HTTPS 308 to www in 85ms. Natural HTTP 308 to https in 13ms. Certificate covers clickdash.net. ipStatus no-change. misconfigured false. www project-domain ipStatus required-change, configuredBy http, misconfigured false.",
+      note: "Apex A holds at 76.76.21.21 (ttl 60). No rewrite this pulse. Zone list readable (6 records). Natural HTTPS 308 to www in 77ms. Natural HTTP 308 to https in 22ms. Certificate covers clickdash.net. ipStatus optional-change (was no-change). misconfigured false. Recommended rank-1 is 216.198.79.1 / 64.29.17.1; live A is rank-2. www domain-config ipStatus no-change, configuredBy A, misconfigured false.",
     },
     motherbot: {
       host: "clickdash-motherbot-v1-production-89e2.up.railway.app",
       heartbeat: "dark",
-      note: "Still reaches 153.52.255.45; Railway station 404 Application not found on / (66ms) and /health (42ms); both x-railway-fallback true. motherbot.clickdash.net DEPLOYMENT_NOT_FOUND (135ms / and 95ms /health).",
+      note: "Still reaches 153.52.255.45; Railway station 404 Application not found on / (47ms) and /health (41ms); both x-railway-fallback true. motherbot.clickdash.net DEPLOYMENT_NOT_FOUND (92ms / and 78ms /health).",
     },
     architect: "Nortell Luwayne Rowe",
     issuedBy: "Grok node · Citadel Triangle",

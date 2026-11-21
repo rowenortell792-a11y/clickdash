@@ -1,0 +1,36 @@
+{
+  "id": "GGC-DAILY-5X-001::2026-11-21T13:32:00Z",
+  "automationId": "GGC-DAILY-5X-001",
+  "type": "citadel_dawn_pulse",
+  "issuedAt": "2026-11-21T13:32:00Z",
+  "local": "Saturday, November 21, 2026 \u00b7 07:32 AM CST",
+  "zone": "America/Chicago",
+  "architect": "Nortell Luwayne Rowe",
+  "node": "Grok",
+  "status": "issue_reported",
+  "frequency": "5X \u00b7 1.500",
+  "meshHealthPct": 88,
+  "silverUmbrella": "raised-declared",
+  "purpleGate": "sealed-declared",
+  "familyRegistry": "conceptually-locked",
+  "priorPulse": {
+    "id": "GGC-DAILY-5X-001::2026-11-20T13:32:00Z",
+    "status": "issue_reported",
+    "note": "Apex A holds at 76.76.21.21 and ipStatus stays no-change. TLS 1.3 holds. www edge 200 with ipStatus required-change. Motherbot still dark. Zone list 403."
+  },
+  "observations": {
+    "clickdashApex": "Holds. Authoritative ns1.vercel-dns.com (198.51.44.13) in 2.3ms and ns2.vercel-dns.com (198.51.45.13) in 1.4ms both answer A 76.76.21.21 TTL 60. Public resolvers agree on UDP: Cloudflare 1.1.1.1 in 9.0ms TTL 60, Google 8.8.8.8 in 21.6ms TTL 60. DoH A agrees: Cloudflare 51ms, Google 57ms. NS via DoH: Cloudflare 45ms TTL 86400, Google 42ms TTL 21600, both ns1/ns2.vercel-dns.com. Natural HTTPS 308 to https://www.clickdash.net/ in 77ms (remote 76.76.21.21; an earlier HEAD in the same window was 103ms). Natural HTTP 308 to https://clickdash.net/ in 22ms. TLS 1.3 handshake including TCP completed in 61ms; certificate CN *.clickdash.net covers clickdash.net, notAfter Dec 28 19:05:16 2026 GMT. Domain config configuredBy A, aValues [76.76.21.21], ipStatus optional-change (was no-change on 20 Nov), misconfigured false. Recommended IPv4 rank-1 is now 216.198.79.1 / 64.29.17.1; rank-2 is 76.76.21.21. No rewrite this pulse.",
+    "clickdashWww": "200 OK in 51ms (3853 bytes, cache HIT on the earlier 67ms probe, age 86148s, observed edge 64.29.17.1). Body is the 20 Nov edge note (issued 2026-11-20T13:32:00Z) until this commit. Domain-bearing production before this commit is dpl_7wkubxfqJCseeAzNWkHe6H2K5w6e on prj_hDkZDlWqCEcybBYCX0hMNPtcBhdf (sha 61820bd39a7f974bca5765400022c30acb420d6b, READY). Same sha also READY on clickdash dpl_DP4qYt3QzdWRSJCRTcD3o7r7HwNs and rowenortell792-a11y-clickdash dpl_6W83ChV1yUsYT2uhat1V8EENUwtK. Domains attach only to the acnh project. Domain-config (not the project-domain object) reports configuredBy A, aValues 64.29.17.1 / 216.198.79.65, ipStatus no-change, misconfigured false. Recommended IPv4 rank-1 is 216.198.79.1 / 64.29.17.1; rank-2 is 76.76.21.21. Project-domain get for www returned verified, no redirect, and omitted ipStatus/configuredBy \u2014 yesterday's project-domain reading was configuredBy http, ipStatus required-change. Authoritative anycast: ns1 64.29.17.65 / 216.198.79.1 in 2.4ms; ns2 216.198.79.1 / 64.29.17.1 in 1.8ms; TTL 1800. Public UDP: Cloudflare 64.29.17.65 / 216.198.79.1 in 9.9ms; Google 64.29.17.65 / 216.198.79.1 in 27.1ms. No www rewrite. Left untouched because misconfigured is false and the edge answers 200.",
+    "clickdashApi": "200 OK in 540ms (cache MISS, no-store) \u2014 handler reconfirmed healthy. Embedded lastPulse still 2026-11-20T13:32:00Z before this commit.",
+    "clickdashHub": "200 OK in 78ms (947 bytes, cache HIT, age 28s). Byte length unchanged \u2014 still the static hub.",
+    "clickdashDashboard": "200 OK in 78ms (3027 bytes, cache HIT, age 16032s). Body is the 20 Nov dashboard until this commit.",
+    "clickdashPulse": "200 OK in 79ms (6295 bytes, cache HIT, age 86144s). Body is the 20 Nov report until this commit.",
+    "clickdashLedger": "/ledger rewrite 200 OK in 55ms (11136 bytes, serves /ggc_ledger.json); /ggc_ledger.json 200 OK in 58ms (cache HIT, age 86143s, remote 64.29.17.1). Content id still 2026-11-20T13:32:00Z until this pulse.",
+    "motherbot": "Connects to 153.52.255.45 (unchanged; Cloudflare DoH 43ms and Google DoH 55ms, A TTL 60). HTTP 301 to https on / in 15ms and /health in 9ms. Railway station 404 Application not found on HTTPS / (47ms) and /health (41ms), both x-railway-fallback true, server railway-hikari. Train has not arrived. motherbot.clickdash.net DEPLOYMENT_NOT_FOUND in 92ms (/) and 78ms (/health).",
+    "silverUmbrellaApp": "silver-umbrella-two.vercel.app DEPLOYMENT_NOT_FOUND in 54ms \u2014 shield remains declared-raised; compiler origin is not the shield. DNS this window: Cloudflare 64.29.17.195 / 216.198.79.195 in 40ms; Google 64.29.17.3 / 216.198.79.3 in 48ms; TTL 300. Anycast spread only.",
+    "siblings": "fig-dash.net NXDOMAIN (Cloudflare DoH 42ms, Google DoH 69ms). tacticcore.tech NXDOMAIN (Cloudflare DoH 42ms, Google DoH 46ms). gguniverse.net A 91.195.240.94 TTL 300 (Cloudflare DoH 43ms, Google DoH 74ms); HTTPS fails TLS unrecognized name in 196ms; HTTP 445 in 193ms, content-length 0, server Parking/1.0. Not counted in the ClickDash 8-surface mesh.",
+    "checkpoint": "Origin last pulse 2026-11-20T13:32:00Z. Cadence continues 2026-11-21 with no idle day. MongoDB/WiredTiger declared-nominal / not externally probeable from this node. No snapshot id fetched. Ledger chain advances one entry.",
+    "dnsWrite": "No write this pulse. Zone record list was readable (6 records): apex A 76.76.21.21 TTL 60 (rec_cd56c9fd40f087178e544223), TXT replit-verify, wildcard ALIAS cname.vercel-dns-017.com., and three CAA issue rows. No stored www A record. Apex domain-config ipStatus is optional-change, misconfigured false; current A is recommended rank-2. Left untouched \u2014 optional-change does not justify moving a working apex. www domain-config ipStatus is no-change, misconfigured false. Also left untouched."
+  },
+  "verdict": "Apex A still answers 76.76.21.21, but domain-config ipStatus moved from no-change to optional-change (rank-1 now 216.198.79.1 / 64.29.17.1; current A is rank-2) while misconfigured stays false \u2014 no DNS rewrite. Zone list was readable this pulse. TLS 1.3 holds and HTTPS 308s to www. www domain-config reads ipStatus no-change and the edge answers 200. /api reconfirmed healthy. Motherbot Railway heartbeat remains dark at 153.52.255.45. Family registry conceptually locked. ETL ledger entry logged."
+}
