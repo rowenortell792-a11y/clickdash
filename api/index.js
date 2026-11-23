@@ -46,6 +46,7 @@
  * Reconfirmed on GGC-DAILY-5X-001 (2026-11-20). Cadence resumes after 19 Nov idle. Apex A holds at 76.76.21.21. ipStatus no-change; no rewrite. Zone list 403. www project-domain ipStatus required-change, misconfigured false. Motherbot station unchanged and still dark.
  * Reconfirmed on GGC-DAILY-5X-001 (2026-11-21). Daily cadence continues. Apex A holds at 76.76.21.21. ipStatus optional-change; no rewrite. Zone list readable. www domain-config ipStatus no-change, misconfigured false. Motherbot station unchanged and still dark.
  * Reconfirmed on GGC-DAILY-5X-001 (2026-11-22). Daily cadence continues. Apex A holds at 76.76.21.21. ipStatus recovered to no-change; no rewrite. Zone list readable. www domain-config ipStatus no-change, misconfigured false. Motherbot station unchanged and still dark.
+ * Reconfirmed on GGC-DAILY-5X-001 (2026-11-23). Daily cadence continues. Apex A holds at 76.76.21.21. ipStatus no-change; no rewrite. Zone list readable. www moved onto the clickdash project; domain-config ipStatus required-change, configuredBy http, misconfigured false. Motherbot station unchanged and still dark.
  * The prior Express server.listen() binary caused FUNCTION_INVOCATION_FAILED.
  */
 module.exports = function handler(req, res) {
@@ -69,7 +70,7 @@ module.exports = function handler(req, res) {
     governance: "CITADEL_DAWN_PULSE",
     matrix_constant: "5X·1.500",
     frequency: "5X · 1.500",
-    lastPulse: "2026-11-22T13:30:00Z",
+    lastPulse: "2026-11-23T13:37:00Z",
     meshHealthPct: 88,
     silverUmbrella: "raised-declared",
     purpleGate: "sealed-declared",
@@ -77,12 +78,12 @@ module.exports = function handler(req, res) {
     apex: {
       address: "76.76.21.21",
       tls: "ok",
-      note: "Apex A holds at 76.76.21.21 (ttl 60). No rewrite this pulse. Zone list readable (6 records). Natural HTTPS 307 to www in 28ms. Natural HTTP 308 to https in 15ms. Certificate covers clickdash.net. ipStatus no-change (was optional-change). misconfigured false. Recommended rank-1 is again 76.76.21.21. www domain-config ipStatus no-change, configuredBy A, aValues 216.198.79.65 / 64.29.17.65, misconfigured false.",
+      note: "Apex A holds at 76.76.21.21 (ttl 60). No rewrite this pulse. Zone list readable (6 records). Natural HTTPS 307 to www in 58ms. Natural HTTP 308 to https in 54ms. Certificate covers clickdash.net. ipStatus no-change. misconfigured false. Recommended rank-1 remains 76.76.21.21. www is on the clickdash project as of 03:20 UTC. Domain-config ipStatus required-change, configuredBy http, aValues 216.198.79.1 / 216.198.79.65, misconfigured false. Edge still 200. No www rewrite.",
     },
     motherbot: {
       host: "clickdash-motherbot-v1-production-89e2.up.railway.app",
       heartbeat: "dark",
-      note: "Still reaches 153.52.255.45; Railway station 404 Application not found on / (36ms) and /health (12ms); both x-railway-fallback true. motherbot.clickdash.net DEPLOYMENT_NOT_FOUND (41ms / and 60ms /health).",
+      note: "Still reaches 153.52.255.45; Railway station 404 Application not found on / (34ms) and /health (11ms); both x-railway-fallback true. motherbot.clickdash.net DEPLOYMENT_NOT_FOUND (109ms / and 41ms /health).",
     },
     architect: "Nortell Luwayne Rowe",
     issuedBy: "Grok node · Citadel Triangle",
