@@ -1,85 +1,278 @@
 {
-  "id": "GGC-DAILY-5X-001::2026-11-25T13:36:00Z",
+  "id": "GGC-DAILY-5X-001::2026-11-27T13:36:00Z",
   "automationId": "GGC-DAILY-5X-001",
   "type": "citadel_dawn_pulse",
-  "issuedAt": "2026-11-25T13:36:00Z",
-  "local": "Wednesday, November 25, 2026 \u00b7 07:36 AM CST",
+  "issuedAt": "2026-11-27T13:36:00Z",
+  "local": "Friday, November 27, 2026 · 07:36 AM CST",
   "zone": "America/Chicago",
   "architect": "Nortell Luwayne Rowe",
   "node": "Grok",
   "status": "issue_reported",
-  "frequency": "5X \u00b7 1.500",
+  "frequency": "5X · 1.500",
   "meshHealthPct": 88,
   "silverUmbrella": "raised-declared",
   "purpleGate": "sealed-declared",
   "familyRegistry": "conceptually-locked",
   "priorPulse": {
-    "id": "GGC-DAILY-5X-001::2026-11-23T13:37:00Z",
+    "id": "GGC-DAILY-5X-001::2026-11-25T13:36:00Z",
     "status": "issue_reported",
-    "note": "Apex A holds at 76.76.21.21; ipStatus no-change; www ipStatus required-change (configuredBy http); API healthy; Motherbot still dark"
+    "note": "Apex A holds at 76.76.21.21; ipStatus no-change; www ipStatus recovered to no-change (configuredBy A); API healthy; Motherbot still dark"
   },
   "observations": {
-    "clickdashApex": "Holds. Authoritative UDP: ns1.vercel-dns.com (198.51.44.13) A 76.76.21.21 TTL 60 in 3.0ms; ns2.vercel-dns.com (198.51.45.13) same answer in 2.3ms. DoH A agrees: Cloudflare 54.6ms TTL 60, Google 76.9ms TTL 60. NS via DoH: Cloudflare 49.2ms TTL 86400, Google 67.9ms TTL 21600, both ns1/ns2.vercel-dns.com. Natural HTTPS 307 to https://www.clickdash.net/ in 76ms (remote 76.76.21.21). Natural HTTP 308 to https://clickdash.net/ in 13ms. TLS 1.3 (TLS_AES_128_GCM_SHA256) handshake 67.0ms after TCP 7.1ms; certificate CN *.clickdash.net covers clickdash.net, notAfter Dec 28 19:05:16 2026 GMT. Domain config configuredBy A, aValues [76.76.21.21], ipStatus no-change, misconfigured false. Recommended IPv4 rank-1 is only 76.76.21.21. No rewrite this pulse. Apex is not attached as a project domain. The clickdash project domain list contains only www.clickdash.net. The acnh project domain list is empty. The A record still 307s.",
-    "clickdashWww": "200 OK. Follow landed 64.29.17.1 in 126ms; timed probe landed 216.198.79.65 in 141ms (3957 bytes, cache HIT, age 172423s). Body is the 23 Nov edge note (issued 2026-11-23T13:37:00Z) until this commit. Domain-bearing production before this commit is dpl_4KysFW96K4YCEsgTmmFRy5Pktf4G on prj_0M3NGvrogAxAQC38jLYPqEg96jYf (sha 73e5e3b67aee69a6519ff1b9807c04d53e735f9e, READY). www.clickdash.net remains attached to that clickdash project (verified, no redirect, updatedAt 2026-11-23T03:20:09Z). The acnh project domain list is empty. Project record updatedAt is 2026-11-25T01:48:40Z; the recent production list has no newer deployment than the 23 Nov pulse. Domain-config now reports configuredBy A (was http on 23 Nov), aValues 216.198.79.65 / 64.29.17.65, ipStatus no-change (was required-change), misconfigured false. Recommended IPv4 rank-1 is 216.198.79.1 / 64.29.17.1; rank-2 is 76.76.21.21. Authoritative anycast: ns1 216.198.79.1 / 64.29.17.1 in 2.3ms; ns2 216.198.79.65 / 216.198.79.1 in 2.4ms; TTL 1800. DoH: Cloudflare 216.198.79.1 / 64.29.17.65 in 52.3ms; Google 216.198.79.1 / 216.198.79.65 in 56.7ms. Anycast spread only. No www rewrite. Left untouched because misconfigured is false, ipStatus is no-change, and the edge still answers 200.",
-    "clickdashApi": "200 OK in 608ms (1335 bytes, cache MISS, no-store) \u2014 handler reconfirmed healthy. Embedded lastPulse still 2026-11-23T13:37:00Z before this commit. /api/status remains FUNCTION_INVOCATION_FAILED (833ms) and is not the pulse handler.",
-    "clickdashHub": "200 OK in 44ms (947 bytes, cache HIT, age 28327s, last-modified 2026-11-25T05:41:56Z). Byte length unchanged \u2014 still the static hub.",
-    "clickdashDashboard": "200 OK in 54ms (2924 bytes, cache HIT, age 34s). Body is the 23 Nov dashboard until this commit.",
-    "clickdashPulse": "200 OK in 46ms (6626 bytes, cache HIT, age 172422s). Body is the 23 Nov report until this commit.",
-    "clickdashLedger": "/ledger rewrite 200 OK in 49ms (14800 bytes, serves /ggc_ledger.json); /ggc_ledger.json 200 OK in 74ms (cache HIT, age 172423s, remote 216.198.79.65). Content id still 2026-11-23T13:37:00Z until this pulse.",
-    "motherbot": "Connects to 153.52.255.45 (unchanged). Host HTTPS / 404 Application not found in 65ms and /health in 41ms, both x-railway-fallback true, server railway-hikari. Direct-IP HTTPS / 12ms and /health 13ms, same 404. HTTP on the station 301s to HTTPS in 4ms. Train has not arrived. motherbot.clickdash.net DEPLOYMENT_NOT_FOUND in 65ms (/) and 44ms (/health). That name resolves to Vercel anycast (Cloudflare DoH 216.198.79.1 / 216.198.79.65 in 48.5ms; Google DoH 216.198.79.1 / 64.29.17.65 in 53.6ms; TTL 1800), not the Railway station.",
-    "silverUmbrellaApp": "silver-umbrella-two.vercel.app DEPLOYMENT_NOT_FOUND in 58ms \u2014 shield remains declared-raised; compiler origin is not the shield. DNS this window: connect landed on 64.29.17.131; Cloudflare DoH 216.198.79.131 / 64.29.17.131 in 45.4ms; Google DoH 216.198.79.67 / 64.29.17.67 in 43.4ms; TTL 300. Anycast spread only.",
-    "siblings": "fig-dash.net NXDOMAIN (Cloudflare DoH 45.1ms, Google DoH 50.7ms). tacticcore.tech NXDOMAIN (Cloudflare DoH 42.6ms, Google DoH 46.2ms). gguniverse.net A remains 76.76.21.21 TTL 300 (Cloudflare DoH 49.3ms, Google DoH 61.0ms); HTTPS failed SSL_ERROR_SYSCALL in 460ms; HTTP 404 DEPLOYMENT_NOT_FOUND in 440ms, server Vercel. Wildcard names api.clickdash.net and heartbeat.clickdash.net also DEPLOYMENT_NOT_FOUND (124ms and 61ms). Project domain gguniverse.net.clickdash.net (created 2026-11-23T03:08:36Z) still returns DEPLOYMENT_NOT_FOUND in 127ms. Not counted in the ClickDash 8-surface mesh. No zone rewrite.",
-    "checkpoint": "Origin last pulse 2026-11-23T13:37:00Z. No 2026-11-24 ledger file. Cadence resumes 2026-11-25 after one idle day. MongoDB/WiredTiger declared-nominal / not externally probeable from this node. No snapshot id fetched. Ledger chain advances one entry.",
-    "dnsWrite": "No write this pulse. Zone record list was readable (6 records): apex A 76.76.21.21 TTL 60 (rec_cd56c9fd40f087178e544223), TXT replit-verify, wildcard ALIAS cname.vercel-dns-017.com., and three CAA issue rows. No stored www A record. Apex domain-config ipStatus remains no-change; live A is recommended rank-1. Left untouched. www domain-config ipStatus recovered from required-change to no-change, configuredBy moved from http back to A, aValues 216.198.79.65 / 64.29.17.65, misconfigured false. Also left untouched."
+    "clickdashApex": "Holds at 76.76.21.21, but the recommendation moved. Authoritative UDP: ns1.vercel-dns.com (198.51.44.13) A 76.76.21.21 TTL 60 in 2.6ms; ns2.vercel-dns.com (198.51.45.13) same answer in 13.9ms. DoH A agrees: Cloudflare 64.3ms TTL 60, Google 45.8ms TTL 60. Natural HTTPS 307 to https://www.clickdash.net/ in 111ms (remote 76.76.21.21). Natural HTTP 308 to https://clickdash.net/ in 59ms. TLS 1.3 (TLS_AES_128_GCM_SHA256) handshake 65.8ms after TCP 13.9ms; certificate CN *.clickdash.net covers clickdash.net, notAfter Dec 28 19:05:16 2026 GMT. Domain config configuredBy A, aValues [76.76.21.21], ipStatus optional-change (was no-change on 25 Nov), misconfigured false. Recommended IPv4 rank-1 is now 216.198.79.1 / 64.29.17.1; rank-2 is 76.76.21.21 (was sole rank-1 on 25 Nov). No rewrite this pulse — same hold as 17 Nov and 21 Nov when ipStatus was optional-change and misconfigured was false. Apex is not attached as a project domain. The clickdash project domain list still contains only www.clickdash.net. The A record still 307s.",
+    "clickdashWww": "200 OK. Timed probe landed 216.198.79.65 in 110ms (3959 bytes, cache HIT, age 166789s, last-modified 2026-11-25T15:15:12Z). Body is the 25 Nov edge note (issued 2026-11-25T13:36:00Z) until this commit. Domain-bearing production before this commit is dpl_CiFeQLY5Gz7VaWED6Rhy3gFPuoHS on prj_0M3NGvrogAxAQC38jLYPqEg96jYf (sha d000a4fd69d184f8c4251a80b2fcd6c5c930cafa, READY, created 2026-11-25T13:43:09Z). www.clickdash.net remains attached to that clickdash project (verified, no redirect, updatedAt 2026-11-23T03:20:09Z). Project record updatedAt is still 2026-11-25T13:43:37Z. Domain-config configuredBy A, aValues 216.198.79.1 / 216.198.79.65 (was 216.198.79.65 / 64.29.17.65 on 25 Nov), ipStatus no-change, misconfigured false. Recommended IPv4 rank-1 is 216.198.79.1 / 64.29.17.1; rank-2 is 76.76.21.21. Authoritative anycast: ns1 64.29.17.65 / 216.198.79.1 in 3.2ms; ns2 64.29.17.65 / 216.198.79.1 in 15.3ms; TTL 1800. DoH: Cloudflare 216.198.79.1 / 216.198.79.65 in 49.5ms; Google 216.198.79.65 / 216.198.79.1 in 43.0ms. Anycast spread only. No www rewrite. Left untouched because misconfigured is false, ipStatus is no-change, and the edge still answers 200.",
+    "clickdashApi": "200 OK in 101ms (1324 bytes, cache MISS, no-store); an earlier probe in the same window was 637ms. Handler reconfirmed healthy. Embedded lastPulse still 2026-11-25T13:36:00Z before this commit. /api/status remains FUNCTION_INVOCATION_FAILED (826ms) and is not the pulse handler.",
+    "clickdashHub": "200 OK in 100ms (947 bytes). Byte length unchanged — still the static hub.",
+    "clickdashDashboard": "200 OK in 111ms (2916 bytes). Body is the 25 Nov dashboard until this commit.",
+    "clickdashPulse": "200 OK in 106ms (6630 bytes). Body is the 25 Nov report until this commit.",
+    "clickdashLedger": "/ledger rewrite 200 OK in 107ms (13903 bytes, serves /ggc_ledger.json); /ggc_ledger.json 200 OK in 62ms. Content id still 2026-11-25T13:36:00Z until this pulse.",
+    "motherbot": "Connects to 153.52.255.45 (unchanged). Host HTTPS / 404 Application not found in 57ms and /health in 61ms, both consistent with x-railway-fallback true, server railway-hikari. Direct-IP HTTPS / 12ms and /health 11ms, same 404. HTTP HEAD on the station 301s to HTTPS. Train has not arrived. motherbot.clickdash.net DEPLOYMENT_NOT_FOUND in 114ms (/) and 57ms (/health). That name resolves to Vercel anycast (Cloudflare DoH 64.29.17.1 / 216.198.79.1 in 55.0ms; Google DoH 64.29.17.1 / 64.29.17.65 in 61.9ms; TTL 1800), not the Railway station.",
+    "silverUmbrellaApp": "silver-umbrella-two.vercel.app DEPLOYMENT_NOT_FOUND in 53ms — shield remains declared-raised; compiler origin is not the shield. DNS this window: Cloudflare DoH 216.198.79.3 / 64.29.17.3 in 46.6ms; Google DoH 216.198.79.195 / 64.29.17.195 in 44.1ms; TTL 300. Anycast spread only.",
+    "siblings": "fig-dash.net NXDOMAIN (Cloudflare DoH 41.5ms, Google DoH 54.2ms). tacticcore.tech NXDOMAIN (Cloudflare DoH 53.5ms, Google DoH 52.1ms). gguniverse.net A remains 76.76.21.21 TTL 300 (Cloudflare DoH 51.0ms, Google DoH 52.4ms); strict HTTPS failed certificate hostname mismatch in 321ms (cert is *.clickdash.net); HTTP 308 to https. Unverified follow returned the ClickDash routing page. www.gguniverse.net, now attached to the acnh project, returned HTTPS 200 in 80ms (3945 bytes) and that body is the same 25 Nov ClickDash edge note; HTTP 308 in 11ms. Wildcard names api.clickdash.net and heartbeat.clickdash.net also DEPLOYMENT_NOT_FOUND (195ms and 131ms). Project domain gguniverse.net.clickdash.net remains on pulse-language-cycle-api-server (prj_Rw8VXxkYevh22LHN7jSVZaPgMKSH, created 2026-11-23T03:08:36Z) and still returns DEPLOYMENT_NOT_FOUND in 138ms. Not counted in the ClickDash 8-surface mesh. No zone rewrite.",
+    "checkpoint": "Origin last pulse 2026-11-25T13:36:00Z. No 2026-11-26 ledger file. Cadence resumes 2026-11-27 after one idle day. MongoDB/WiredTiger declared-nominal / not externally probeable from this node. No snapshot id fetched. Ledger chain advances one entry.",
+    "dnsWrite": "No write this pulse. Zone record list was readable (6 records): apex A 76.76.21.21 TTL 60 (rec_cd56c9fd40f087178e544223), TXT replit-verify, wildcard ALIAS cname.vercel-dns-017.com., and three CAA issue rows. No stored www A record. Apex domain-config ipStatus moved from no-change to optional-change because recommended rank-1 left 76.76.21.21; misconfigured remains false. Left untouched, matching the 17 Nov and 21 Nov optional-change hold. www domain-config ipStatus stays no-change, configuredBy A, aValues 216.198.79.1 / 216.198.79.65, misconfigured false. Also left untouched."
   },
-  "verdict": "Apex A 76.76.21.21 holds at recommended rank-1 with ipStatus no-change \u2014 no DNS rewrite. TLS 1.3 holds and HTTPS 307s to www. www.clickdash.net domain-config ipStatus recovered from required-change to no-change, configuredBy A, misconfigured false, and the edge still answers 200 \u2014 left untouched. /api reconfirmed healthy. Motherbot Railway heartbeat remains dark at 153.52.255.45. Family registry conceptually locked. ETL ledger entry logged.",
+  "verdict": "Apex A 76.76.21.21 still answers and still 307s, but domain-config ipStatus moved from no-change to optional-change — recommended rank-1 is now 216.198.79.1 / 64.29.17.1 and 76.76.21.21 is rank-2. misconfigured stays false, so no DNS rewrite. TLS 1.3 holds. www.clickdash.net ipStatus stays no-change, configuredBy A, and the edge still answers 200 — left untouched. /api reconfirmed healthy. Motherbot Railway heartbeat remains dark at 153.52.255.45. Family registry conceptually locked. ETL ledger entry logged.",
   "history": [
-    {"id": "GGC-DAILY-5X-001::2026-11-23T13:37:00Z", "status": "issue_reported", "note": "Apex A holds at 76.76.21.21; ipStatus no-change; www ipStatus required-change (configuredBy http); API healthy; Motherbot still dark"},
-    {"id": "GGC-DAILY-5X-001::2026-11-22T13:30:00Z", "status": "issue_reported", "note": "Apex A holds at 76.76.21.21; ipStatus recovered to no-change; www no-change; API healthy; Motherbot still dark"},
-    {"id": "GGC-DAILY-5X-001::2026-11-21T13:32:00Z", "status": "issue_reported", "note": "Apex A holds at 76.76.21.21; ipStatus optional-change; API healthy; Motherbot still dark; www config no-change"},
-    {"id": "GGC-DAILY-5X-001::2026-11-20T13:32:00Z", "status": "issue_reported", "note": "Apex A holds at 76.76.21.21; ipStatus no-change; API healthy; Motherbot still dark; www config flagged"},
-    {"id": "GGC-DAILY-5X-001::2026-11-18T13:41:00Z", "status": "issue_reported", "note": "Apex A holds at 76.76.21.21; API healthy; Motherbot still dark; www config flagged"},
-    {"id": "GGC-DAILY-5X-001::2026-11-17T14:08:00Z", "status": "issue_reported", "note": "Apex A holds at 76.76.21.21; API healthy; Motherbot still dark"},
-    {"id": "GGC-DAILY-5X-001::2026-11-15T13:32:00Z", "status": "issue_reported", "note": "Apex A holds at 76.76.21.21; API healthy; Motherbot still dark"},
-    {"id": "GGC-DAILY-5X-001::2026-11-14T13:31:00Z", "status": "issue_reported", "note": "Apex A holds at 76.76.21.21; API healthy; Motherbot still dark"},
-    {"id": "GGC-DAILY-5X-001::2026-11-13T13:33:00Z", "status": "issue_reported", "note": "Apex A restored to 76.76.21.21; API healthy; Motherbot still dark"},
-    {"id": "GGC-DAILY-5X-001::2026-11-10T13:32:00Z", "status": "issue_reported", "note": "API healthy; Motherbot dark; apex TLS still dark; DNS write 403"},
-    {"id": "GGC-DAILY-5X-001::2026-11-09T13:36:00Z", "status": "issue_reported", "note": "API healthy; Motherbot dark; apex TLS still dark; DNS write 403"},
-    {"id": "GGC-DAILY-5X-001::2026-11-05T13:26:00Z", "status": "issue_reported", "note": "API healthy; Motherbot dark; apex TLS still dark; DNS write 403"},
-    {"id": "GGC-DAILY-5X-001::2026-11-04T13:26:00Z", "status": "issue_reported", "note": "API healthy; Motherbot dark; apex TLS still dark; DNS write 403"},
-    {"id": "GGC-DAILY-5X-001::2026-11-03T13:25:00Z", "status": "issue_reported", "note": "API healthy; Motherbot dark; apex TLS still dark; DNS write 403"},
-    {"id": "GGC-DAILY-5X-001::2026-11-02T13:28:00Z", "status": "issue_reported", "note": "API healthy; Motherbot dark; apex TLS still dark; DNS write 403"},
-    {"id": "GGC-DAILY-5X-001::2026-11-01T13:24:00Z", "status": "issue_reported", "note": "API healthy; Motherbot dark; apex TLS still dark; DNS write 403"},
-    {"id": "GGC-DAILY-5X-001::2026-10-30T12:30:00Z", "status": "issue_reported", "note": "API healthy; Motherbot dark; apex TLS still dark; DNS list 403"},
-    {"id": "GGC-DAILY-5X-001::2026-10-29T12:26:00Z", "status": "issue_reported", "note": "API healthy; Motherbot dark; apex TLS still dark; daily cadence continued"},
-    {"id": "GGC-DAILY-5X-001::2026-10-28T12:22:00Z", "status": "issue_reported", "note": "API healthy; Motherbot dark; cadence resumed after 27 Oct idle"},
-    {"id": "GGC-DAILY-5X-001::2026-10-26T12:27:00Z", "status": "issue_reported", "note": "API healthy; Motherbot dark; daily cadence continued"},
-    {"id": "GGC-DAILY-5X-001::2026-10-25T12:25:00Z", "status": "issue_reported", "note": "API healthy; Motherbot dark; daily cadence continued"},
-    {"id": "GGC-DAILY-5X-001::2026-10-24T12:21:00Z", "status": "issue_reported", "note": "API healthy; Motherbot dark; daily cadence continued"},
-    {"id": "GGC-DAILY-5X-001::2026-10-23T12:24:00Z", "status": "issue_reported", "note": "API healthy; Motherbot dark; daily cadence continued"},
-    {"id": "GGC-DAILY-5X-001::2026-10-22T12:24:00Z", "status": "issue_reported", "note": "API healthy; Motherbot dark; daily cadence continued"},
-    {"id": "GGC-DAILY-5X-001::2026-10-21T12:22:00Z", "status": "issue_reported", "note": "API healthy; Motherbot dark; daily cadence continued"},
-    {"id": "GGC-DAILY-5X-001::2026-10-20T12:24:00Z", "status": "issue_reported", "note": "API healthy; Motherbot dark; daily cadence continued"},
-    {"id": "GGC-DAILY-5X-001::2026-10-19T12:24:00Z", "status": "issue_reported", "note": "API healthy; Motherbot dark; cadence resumed after 18 Oct idle"},
-    {"id": "GGC-DAILY-5X-001::2026-10-17T12:24:00Z", "status": "issue_reported", "note": "API healthy; Motherbot dark; cadence resumed after 16 Oct idle"},
-    {"id": "GGC-DAILY-5X-001::2026-10-15T12:24:00Z", "status": "issue_reported", "note": "API healthy; Motherbot dark; daily cadence continued"},
-    {"id": "GGC-DAILY-5X-001::2026-10-14T12:28:00Z", "status": "issue_reported", "note": "API healthy; Motherbot dark; daily cadence continued"},
-    {"id": "GGC-DAILY-5X-001::2026-10-13T12:25:00Z", "status": "issue_reported", "note": "API healthy; Motherbot dark; daily cadence continued"},
-    {"id": "GGC-DAILY-5X-001::2026-10-12T12:25:00Z", "status": "issue_reported", "note": "API healthy; Motherbot dark; daily cadence continued"},
-    {"id": "GGC-DAILY-5X-001::2026-10-11T12:25:00Z", "status": "issue_reported", "note": "API healthy; Motherbot dark; daily cadence continued"},
-    {"id": "GGC-DAILY-5X-001::2026-10-10T12:23:00Z", "status": "issue_reported", "note": "API healthy; Motherbot dark; daily cadence continued"},
-    {"id": "GGC-DAILY-5X-001::2026-10-09T12:23:00Z", "status": "issue_reported", "note": "API healthy; Motherbot dark; daily cadence continued"},
-    {"id": "GGC-DAILY-5X-001::2026-10-08T12:23:00Z", "status": "issue_reported", "note": "API healthy; Motherbot dark; cadence resumed after 06\u201307 Oct idle"},
-    {"id": "GGC-DAILY-5X-001::2026-10-05T12:48:00Z", "status": "issue_reported", "note": "API healthy; Motherbot dark; daily cadence continued"},
-    {"id": "GGC-DAILY-5X-001::2026-10-04T12:22:00Z", "status": "issue_reported", "note": "API healthy; Motherbot dark; cadence resumed after 03 Oct idle"},
-    {"id": "GGC-DAILY-5X-001::2026-10-02T12:23:00Z", "status": "issue_reported", "note": "API healthy; Motherbot dark"},
-    {"id": "GGC-DAILY-5X-001::2026-10-01T12:17:00Z", "status": "issue_reported", "note": "API healthy; Motherbot dark; ledger resumed after 29\u201330 Sep idle"},
-    {"id": "GGC-DAILY-5X-001::2026-09-28T12:20:00Z", "status": "issue_reported", "note": "API healthy; Motherbot dark"},
-    {"id": "GGC-DAILY-5X-001::2026-09-27T12:18:00Z", "status": "issue_reported", "note": "API healthy; Motherbot dark"},
-    {"id": "GGC-DAILY-5X-001::2026-09-26T12:15:00Z", "status": "issue_reported", "note": "API healthy; Motherbot dark"},
-    {"id": "GGC-DAILY-5X-001::2026-09-25T12:14:00Z", "status": "issue_reported", "note": "API healthy; Motherbot dark"},
-    {"id": "GGC-DAILY-5X-001::2026-09-24T12:15:00Z", "status": "issue_reported", "note": "API healthy; Motherbot dark"},
-    {"id": "GGC-DAILY-5X-001::2026-09-23T12:05:00Z", "status": "issue_reported", "note": "API healthy; Motherbot dark"},
-    {"id": "GGC-DAILY-5X-001::2026-09-21T12:34:21Z", "status": "issue_reported", "note": "API restored; Motherbot dark"}
+    {
+      "id": "GGC-DAILY-5X-001::2026-11-25T13:36:00Z",
+      "status": "issue_reported",
+      "note": "Apex A holds at 76.76.21.21; ipStatus no-change; www ipStatus recovered to no-change (configuredBy A); API healthy; Motherbot still dark"
+    },
+    {
+      "id": "GGC-DAILY-5X-001::2026-11-23T13:37:00Z",
+      "status": "issue_reported",
+      "note": "Apex A holds at 76.76.21.21; ipStatus no-change; www ipStatus required-change (configuredBy http); API healthy; Motherbot still dark"
+    },
+    {
+      "id": "GGC-DAILY-5X-001::2026-11-22T13:30:00Z",
+      "status": "issue_reported",
+      "note": "Apex A holds at 76.76.21.21; ipStatus recovered to no-change; www no-change; API healthy; Motherbot still dark"
+    },
+    {
+      "id": "GGC-DAILY-5X-001::2026-11-21T13:32:00Z",
+      "status": "issue_reported",
+      "note": "Apex A holds at 76.76.21.21; ipStatus optional-change; API healthy; Motherbot still dark; www config no-change"
+    },
+    {
+      "id": "GGC-DAILY-5X-001::2026-11-20T13:32:00Z",
+      "status": "issue_reported",
+      "note": "Apex A holds at 76.76.21.21; ipStatus no-change; API healthy; Motherbot still dark; www config flagged"
+    },
+    {
+      "id": "GGC-DAILY-5X-001::2026-11-18T13:41:00Z",
+      "status": "issue_reported",
+      "note": "Apex A holds at 76.76.21.21; API healthy; Motherbot still dark; www config flagged"
+    },
+    {
+      "id": "GGC-DAILY-5X-001::2026-11-17T14:08:00Z",
+      "status": "issue_reported",
+      "note": "Apex A holds at 76.76.21.21; API healthy; Motherbot still dark"
+    },
+    {
+      "id": "GGC-DAILY-5X-001::2026-11-15T13:32:00Z",
+      "status": "issue_reported",
+      "note": "Apex A holds at 76.76.21.21; API healthy; Motherbot still dark"
+    },
+    {
+      "id": "GGC-DAILY-5X-001::2026-11-14T13:31:00Z",
+      "status": "issue_reported",
+      "note": "Apex A holds at 76.76.21.21; API healthy; Motherbot still dark"
+    },
+    {
+      "id": "GGC-DAILY-5X-001::2026-11-13T13:33:00Z",
+      "status": "issue_reported",
+      "note": "Apex A restored to 76.76.21.21; API healthy; Motherbot still dark"
+    },
+    {
+      "id": "GGC-DAILY-5X-001::2026-11-10T13:32:00Z",
+      "status": "issue_reported",
+      "note": "API healthy; Motherbot dark; apex TLS still dark; DNS write 403"
+    },
+    {
+      "id": "GGC-DAILY-5X-001::2026-11-09T13:36:00Z",
+      "status": "issue_reported",
+      "note": "API healthy; Motherbot dark; apex TLS still dark; DNS write 403"
+    },
+    {
+      "id": "GGC-DAILY-5X-001::2026-11-05T13:26:00Z",
+      "status": "issue_reported",
+      "note": "API healthy; Motherbot dark; apex TLS still dark; DNS write 403"
+    },
+    {
+      "id": "GGC-DAILY-5X-001::2026-11-04T13:26:00Z",
+      "status": "issue_reported",
+      "note": "API healthy; Motherbot dark; apex TLS still dark; DNS write 403"
+    },
+    {
+      "id": "GGC-DAILY-5X-001::2026-11-03T13:25:00Z",
+      "status": "issue_reported",
+      "note": "API healthy; Motherbot dark; apex TLS still dark; DNS write 403"
+    },
+    {
+      "id": "GGC-DAILY-5X-001::2026-11-02T13:28:00Z",
+      "status": "issue_reported",
+      "note": "API healthy; Motherbot dark; apex TLS still dark; DNS write 403"
+    },
+    {
+      "id": "GGC-DAILY-5X-001::2026-11-01T13:24:00Z",
+      "status": "issue_reported",
+      "note": "API healthy; Motherbot dark; apex TLS still dark; DNS write 403"
+    },
+    {
+      "id": "GGC-DAILY-5X-001::2026-10-30T12:30:00Z",
+      "status": "issue_reported",
+      "note": "API healthy; Motherbot dark; apex TLS still dark; DNS list 403"
+    },
+    {
+      "id": "GGC-DAILY-5X-001::2026-10-29T12:26:00Z",
+      "status": "issue_reported",
+      "note": "API healthy; Motherbot dark; apex TLS still dark; daily cadence continued"
+    },
+    {
+      "id": "GGC-DAILY-5X-001::2026-10-28T12:22:00Z",
+      "status": "issue_reported",
+      "note": "API healthy; Motherbot dark; cadence resumed after 27 Oct idle"
+    },
+    {
+      "id": "GGC-DAILY-5X-001::2026-10-26T12:27:00Z",
+      "status": "issue_reported",
+      "note": "API healthy; Motherbot dark; daily cadence continued"
+    },
+    {
+      "id": "GGC-DAILY-5X-001::2026-10-25T12:25:00Z",
+      "status": "issue_reported",
+      "note": "API healthy; Motherbot dark; daily cadence continued"
+    },
+    {
+      "id": "GGC-DAILY-5X-001::2026-10-24T12:21:00Z",
+      "status": "issue_reported",
+      "note": "API healthy; Motherbot dark; daily cadence continued"
+    },
+    {
+      "id": "GGC-DAILY-5X-001::2026-10-23T12:24:00Z",
+      "status": "issue_reported",
+      "note": "API healthy; Motherbot dark; daily cadence continued"
+    },
+    {
+      "id": "GGC-DAILY-5X-001::2026-10-22T12:24:00Z",
+      "status": "issue_reported",
+      "note": "API healthy; Motherbot dark; daily cadence continued"
+    },
+    {
+      "id": "GGC-DAILY-5X-001::2026-10-21T12:22:00Z",
+      "status": "issue_reported",
+      "note": "API healthy; Motherbot dark; daily cadence continued"
+    },
+    {
+      "id": "GGC-DAILY-5X-001::2026-10-20T12:24:00Z",
+      "status": "issue_reported",
+      "note": "API healthy; Motherbot dark; daily cadence continued"
+    },
+    {
+      "id": "GGC-DAILY-5X-001::2026-10-19T12:24:00Z",
+      "status": "issue_reported",
+      "note": "API healthy; Motherbot dark; cadence resumed after 18 Oct idle"
+    },
+    {
+      "id": "GGC-DAILY-5X-001::2026-10-17T12:24:00Z",
+      "status": "issue_reported",
+      "note": "API healthy; Motherbot dark; cadence resumed after 16 Oct idle"
+    },
+    {
+      "id": "GGC-DAILY-5X-001::2026-10-15T12:24:00Z",
+      "status": "issue_reported",
+      "note": "API healthy; Motherbot dark; daily cadence continued"
+    },
+    {
+      "id": "GGC-DAILY-5X-001::2026-10-14T12:28:00Z",
+      "status": "issue_reported",
+      "note": "API healthy; Motherbot dark; daily cadence continued"
+    },
+    {
+      "id": "GGC-DAILY-5X-001::2026-10-13T12:25:00Z",
+      "status": "issue_reported",
+      "note": "API healthy; Motherbot dark; daily cadence continued"
+    },
+    {
+      "id": "GGC-DAILY-5X-001::2026-10-12T12:25:00Z",
+      "status": "issue_reported",
+      "note": "API healthy; Motherbot dark; daily cadence continued"
+    },
+    {
+      "id": "GGC-DAILY-5X-001::2026-10-11T12:25:00Z",
+      "status": "issue_reported",
+      "note": "API healthy; Motherbot dark; daily cadence continued"
+    },
+    {
+      "id": "GGC-DAILY-5X-001::2026-10-10T12:23:00Z",
+      "status": "issue_reported",
+      "note": "API healthy; Motherbot dark; daily cadence continued"
+    },
+    {
+      "id": "GGC-DAILY-5X-001::2026-10-09T12:23:00Z",
+      "status": "issue_reported",
+      "note": "API healthy; Motherbot dark; daily cadence continued"
+    },
+    {
+      "id": "GGC-DAILY-5X-001::2026-10-08T12:23:00Z",
+      "status": "issue_reported",
+      "note": "API healthy; Motherbot dark; cadence resumed after 06–07 Oct idle"
+    },
+    {
+      "id": "GGC-DAILY-5X-001::2026-10-05T12:48:00Z",
+      "status": "issue_reported",
+      "note": "API healthy; Motherbot dark; daily cadence continued"
+    },
+    {
+      "id": "GGC-DAILY-5X-001::2026-10-04T12:22:00Z",
+      "status": "issue_reported",
+      "note": "API healthy; Motherbot dark; cadence resumed after 03 Oct idle"
+    },
+    {
+      "id": "GGC-DAILY-5X-001::2026-10-02T12:23:00Z",
+      "status": "issue_reported",
+      "note": "API healthy; Motherbot dark"
+    },
+    {
+      "id": "GGC-DAILY-5X-001::2026-10-01T12:17:00Z",
+      "status": "issue_reported",
+      "note": "API healthy; Motherbot dark; ledger resumed after 29–30 Sep idle"
+    },
+    {
+      "id": "GGC-DAILY-5X-001::2026-09-28T12:20:00Z",
+      "status": "issue_reported",
+      "note": "API healthy; Motherbot dark"
+    },
+    {
+      "id": "GGC-DAILY-5X-001::2026-09-27T12:18:00Z",
+      "status": "issue_reported",
+      "note": "API healthy; Motherbot dark"
+    },
+    {
+      "id": "GGC-DAILY-5X-001::2026-09-26T12:15:00Z",
+      "status": "issue_reported",
+      "note": "API healthy; Motherbot dark"
+    },
+    {
+      "id": "GGC-DAILY-5X-001::2026-09-25T12:14:00Z",
+      "status": "issue_reported",
+      "note": "API healthy; Motherbot dark"
+    },
+    {
+      "id": "GGC-DAILY-5X-001::2026-09-24T12:15:00Z",
+      "status": "issue_reported",
+      "note": "API healthy; Motherbot dark"
+    },
+    {
+      "id": "GGC-DAILY-5X-001::2026-09-23T12:05:00Z",
+      "status": "issue_reported",
+      "note": "API healthy; Motherbot dark"
+    },
+    {
+      "id": "GGC-DAILY-5X-001::2026-09-21T12:34:21Z",
+      "status": "issue_reported",
+      "note": "API restored; Motherbot dark"
+    }
   ]
 }
