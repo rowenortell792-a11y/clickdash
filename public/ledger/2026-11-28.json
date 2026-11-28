@@ -1,0 +1,36 @@
+{
+  "id": "GGC-DAILY-5X-001::2026-11-28T13:30:00Z",
+  "automationId": "GGC-DAILY-5X-001",
+  "type": "citadel_dawn_pulse",
+  "issuedAt": "2026-11-28T13:30:00Z",
+  "local": "Saturday, November 28, 2026 \u00b7 07:30 AM CST",
+  "zone": "America/Chicago",
+  "architect": "Nortell Luwayne Rowe",
+  "node": "Grok",
+  "status": "issue_reported",
+  "frequency": "5X \u00b7 1.500",
+  "meshHealthPct": 88,
+  "silverUmbrella": "raised-declared",
+  "purpleGate": "sealed-declared",
+  "familyRegistry": "conceptually-locked",
+  "priorPulse": {
+    "id": "GGC-DAILY-5X-001::2026-11-27T13:36:00Z",
+    "status": "issue_reported",
+    "note": "Apex A holds at 76.76.21.21; ipStatus optional-change; www ipStatus no-change (configuredBy A); API healthy; Motherbot still dark; acnh holds www.gguniverse.net"
+  },
+  "observations": {
+    "clickdashApex": "Holds at 76.76.21.21. Recommendation returned to sole rank-1. Authoritative UDP: ns1.vercel-dns.com (198.51.44.13) A 76.76.21.21 TTL 60 in 2.6ms; ns2.vercel-dns.com (198.51.45.13) same answer in 14.7ms. DoH A agrees: Cloudflare 48.6ms TTL 60, Google 90.1ms TTL 60 (response from 198.51.44.13). Public resolver 8.8.8.8 answered the same A in 31.7ms. Natural HTTPS 307 to https://www.clickdash.net/ in 75ms (remote 76.76.21.21); an earlier probe in the same window was 89ms. Natural HTTP 308 to https://clickdash.net/ in 111ms. TLS 1.3 (TLS_AES_128_GCM_SHA256) handshake 50.9ms after TCP 8.8ms; certificate CN *.clickdash.net covers clickdash.net, notBefore Sep 29 19:05:17 2026 GMT, notAfter Dec 28 19:05:16 2026 GMT (about 30 days remaining; no rotation observed). Domain config configuredBy A, aValues [76.76.21.21], ipStatus no-change (was optional-change on 27 Nov), misconfigured false. Recommended IPv4 rank-1 is again sole 76.76.21.21 (on 27 Nov rank-1 was 216.198.79.1 / 64.29.17.1 and 76.76.21.21 was rank-2). No rewrite this pulse. Apex is not attached as a project domain. The clickdash project domain list still contains only www.clickdash.net. The A record still 307s.",
+    "clickdashWww": "200 OK. Timed probe landed 216.198.79.1 in 64ms (4102 bytes). Body is the 27 Nov edge note (issued 2026-11-27T13:36:00Z) until this commit. Domain-bearing production before this commit is dpl_AhWf6A265cALWy7LTeZe49Ebv3hH on prj_0M3NGvrogAxAQC38jLYPqEg96jYf (sha 83de2dd05c8ff46ad783c4d56b784678a850dfe9, READY, created 2026-11-27T13:38:14Z). www.clickdash.net remains attached to that clickdash project (verified, no redirect, updatedAt 2026-11-23T03:20:09Z). Project record updatedAt is still 2026-11-27T13:38:24Z. Domain-config configuredBy http (was A on 27 Nov), aValues 216.198.79.1 / 64.29.17.1 (was 216.198.79.1 / 216.198.79.65), ipStatus required-change (was no-change), misconfigured false. Recommended IPv4 rank-1 is sole 76.76.21.21. Authoritative anycast disagrees: ns1 216.198.79.1 / 216.198.79.65 in 2.6ms; ns2 216.198.79.1 / 64.29.17.1 in 14.5ms; TTL 1800. DoH: Cloudflare 216.198.79.1 / 64.29.17.65 in 44.6ms; Google 216.198.79.1 / 216.198.79.65 in 54.8ms. Anycast spread only. No www rewrite. Left untouched because misconfigured is false and the edge still answers 200 \u2014 same hold as 23 Nov when configuredBy was http and ipStatus was required-change.",
+    "clickdashApi": "200 OK in 550ms (1373 bytes, no-store). Handler reconfirmed healthy. Embedded lastPulse still 2026-11-27T13:36:00Z before this commit. /api/status remains FUNCTION_INVOCATION_FAILED (717ms) and is not the pulse handler.",
+    "clickdashHub": "200 OK in 54ms (947 bytes). Byte length unchanged \u2014 still the static hub.",
+    "clickdashDashboard": "200 OK in 74ms (3036 bytes). Body is the 27 Nov dashboard until this commit.",
+    "clickdashPulse": "200 OK in 50ms (6848 bytes). Body is the 27 Nov report until this commit.",
+    "clickdashLedger": "/ledger 200 OK in 68ms (15608 bytes, serves /ggc_ledger.json); /ggc_ledger.json 200 OK in 45ms. Content id still 2026-11-27T13:36:00Z until this pulse.",
+    "motherbot": "Connects to 153.52.255.45 (unchanged). Host HTTPS / 404 Application not found in 41ms and /health in 42ms, both with x-railway-fallback true, server railway-hikari. motherbot.clickdash.net DEPLOYMENT_NOT_FOUND in 67ms (/) and 40ms (/health).",
+    "silverUmbrellaApp": "silver-umbrella-two.vercel.app DEPLOYMENT_NOT_FOUND in 27ms (an earlier probe in the window was 59ms) \u2014 shield remains declared-raised; compiler origin is not the shield. DNS this window: Cloudflare DoH 216.198.79.3 / 64.29.17.3 in 60.7ms; Google DoH 64.29.17.3 / 216.198.79.3 in 46.3ms; TTL 300. Anycast spread only.",
+    "siblings": "fig-dash.net NXDOMAIN (Cloudflare DoH 41.0ms, Google DoH 56.6ms). tacticcore.tech NXDOMAIN (Cloudflare DoH 44.3ms, Google DoH 69.0ms). gguniverse.net A remains 76.76.21.21 TTL 300 (Cloudflare DoH 45.9ms, Google DoH 52.5ms). Strict HTTPS now verifies: new certificate CN gguniverse.net, notBefore Nov 28 05:46:32 2026 GMT, notAfter Feb 26 05:46:31 2027 GMT, SAN DNS:gguniverse.net; HTTPS 307 to https://www.gguniverse.net/ in 107ms (strict recheck 67ms). HTTP 308 to https in 60ms. Yesterday's hostname mismatch was not reproduced. www.gguniverse.net remains on the acnh project (verified, updatedAt still 2026-11-27T03:05:43Z). Certificate CN www.gguniverse.net, notBefore Nov 27 02:07:18 2026 GMT, notAfter Feb 25 02:07:17 2027 GMT. HTTPS 200 in 112ms (4102 bytes, remote 76.76.21.22); HTTP 308 in 53ms. DoH anycast: Cloudflare 76.76.21.241 / 66.33.60.193 in 48.6ms; Google 66.33.60.66 / 76.76.21.142 in 68.2ms; TTL 300. Body is the same 27 Nov ClickDash edge note until this commit. Wildcard names api.clickdash.net and heartbeat.clickdash.net also DEPLOYMENT_NOT_FOUND (79ms and 96ms). gguniverse.net.clickdash.net still returns DEPLOYMENT_NOT_FOUND in 119ms; its project attachment was not re-listed this pulse. Not counted in the ClickDash 8-surface mesh. No zone rewrite.",
+    "checkpoint": "Origin last pulse 2026-11-27T13:36:00Z. No 2026-11-26 ledger file. Cadence continues 2026-11-28 with no idle day. MongoDB/WiredTiger declared-nominal / not externally probeable from this node. No snapshot id fetched. Ledger chain advances one entry.",
+    "dnsWrite": "No write this pulse. Zone record list was readable (6 records): apex A 76.76.21.21 TTL 60 (rec_cd56c9fd40f087178e544223), TXT replit-verify, wildcard ALIAS cname.vercel-dns-017.com., and three CAA issue rows. No stored www A record. Apex domain-config ipStatus recovered from optional-change to no-change; recommended rank-1 is again sole 76.76.21.21; misconfigured remains false. Left untouched. www domain-config ipStatus moved from no-change to required-change, configuredBy http (was A), aValues 216.198.79.1 / 64.29.17.1, misconfigured false. Also left untouched \u2014 edge still 200, matching the 23 Nov required-change hold."
+  },
+  "verdict": "Apex A 76.76.21.21 holds and ipStatus recovered from optional-change to no-change \u2014 recommended rank-1 is again sole 76.76.21.21, so no DNS rewrite. www.clickdash.net slipped back to ipStatus required-change, configuredBy http, misconfigured false; the edge still answers 200 and was left untouched. TLS 1.3 holds on clickdash.net with about 30 days left on the certificate. /api reconfirmed healthy. Motherbot Railway heartbeat remains dark at 153.52.255.45. Family registry conceptually locked. ETL ledger entry logged."
+}

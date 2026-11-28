@@ -37,8 +37,8 @@
   <main>
     <div class="kicker">GGC-DAILY-5X-001 · Citadel Dawn Pulse · Grok node</div>
     <h1>Daily Sovereignty Report</h1>
-    <p>Friday, November 27, 2026 · 07:36 AM CST · Architect Nortell Luwayne Rowe</p>
-    <p class="warn">Issue reported — Motherbot still dark; apex ipStatus optional-change</p>
+    <p>Saturday, November 28, 2026 · 07:30 AM CST · Architect Nortell Luwayne Rowe</p>
+    <p class="warn">Issue reported — Motherbot still dark; www ipStatus required-change</p>
     <section>
       <h2>Node Health Telemetry — Citadel Triangle</h2>
       <ul>
@@ -52,16 +52,16 @@
       <ul>
         <li>Tailscale / WireGuard UDP 41641 — declared-nominal / not externally probeable from this node.</li>
         <li>Bare-metal nodes — declared-nominal / not externally probeable from this node.</li>
-        <li>Silver Umbrella shield — raised (declared). Compiler origin silver-umbrella-two.vercel.app returns DEPLOYMENT_NOT_FOUND in 53ms. That origin is not the shield.</li>
+        <li>Silver Umbrella shield — raised (declared). Compiler origin silver-umbrella-two.vercel.app returns DEPLOYMENT_NOT_FOUND in 27ms. That origin is not the shield.</li>
         <li>Purple Gate seal — locked (declared).</li>
       </ul>
     </section>
     <section>
       <h2>Infrastructure Pulse</h2>
       <ul>
-        <li>ClickDash.net — apex A holds at 76.76.21.21. Authoritative ns1 answered in 2.6ms and ns2 in 13.9ms. DoH agrees (Cloudflare 64.3ms, Google 45.8ms), TTL 60. Natural HTTPS 307 to www in 111ms. Natural HTTP 308 to https in 59ms. TLS 1.3 handshake 66ms after TCP 14ms; certificate covers clickdash.net, notAfter Dec 28 2026. www HTTP 200 in 110ms on 216.198.79.65. /api 200 in 101ms. Hub, dashboard, pulse, and ledger remain 200. Apex ipStatus moved to optional-change; misconfigured stays false. Recommended rank-1 is now 216.198.79.1 / 64.29.17.1; 76.76.21.21 is rank-2. No DNS rewrite. www.clickdash.net remains the only domain on the clickdash project. www domain-config stays no-change, configuredBy A, aValues 216.198.79.1 / 216.198.79.65, misconfigured false. Zone list returned 6 records. The acnh project now holds www.gguniverse.net (verified 2026-11-27T03:05:43Z); that name returned the ClickDash edge page, HTTPS 200 in 80ms. Domain-bearing production before this commit is dpl_CiFeQLY5Gz7VaWED6Rhy3gFPuoHS (sha d000a4fd69d184f8c4251a80b2fcd6c5c930cafa).</li>
-        <li>MongoDB / WiredTiger — declared-nominal / not externally probeable from this node. No fabricated snapshot. Checkpoint chain advances 25 Nov → 27 Nov on the ledger only. 26 Nov was idle.</li>
-        <li>Motherbot — dark. Host clickdash-motherbot-v1-production-89e2.up.railway.app still reaches 153.52.255.45. Railway 404 Application not found on / (57ms) and /health (61ms). motherbot.clickdash.net DEPLOYMENT_NOT_FOUND in 114ms (/) and 57ms (/health).</li>
+        <li>ClickDash.net — apex A holds at 76.76.21.21. ipStatus recovered from optional-change to no-change. Recommended rank-1 is again sole 76.76.21.21. Authoritative ns1 answered in 2.6ms and ns2 in 14.7ms. DoH agrees (Cloudflare 48.6ms, Google 90.1ms), TTL 60. Natural HTTPS 307 to www in 75ms. Natural HTTP 308 to https in 111ms. TLS 1.3 handshake 50.9ms after TCP 8.8ms; certificate covers clickdash.net, notAfter Dec 28 19:05:16 2026 GMT, about 30 days remaining, no rotation observed. www HTTP 200 in 64ms on 216.198.79.1. /api 200 in 550ms. Hub, dashboard, pulse, and ledger remain 200. www domain-config ipStatus moved to required-change; configuredBy flipped from A to http; aValues 216.198.79.1 / 64.29.17.1; misconfigured stays false. No DNS rewrite. www.clickdash.net remains the only domain on the clickdash project. Zone list returned 6 records. The acnh project still holds www.gguniverse.net (updatedAt unchanged 2026-11-27T03:05:43Z); that name returned HTTPS 200 in 112ms. gguniverse.net now has its own certificate (notBefore Nov 28 05:46:32 2026 GMT) and strict HTTPS 307s to www. Domain-bearing production before this commit is dpl_AhWf6A265cALWy7LTeZe49Ebv3hH (sha 83de2dd05c8ff46ad783c4d56b784678a850dfe9).</li>
+        <li>MongoDB / WiredTiger — declared-nominal / not externally probeable from this node. No fabricated snapshot. Checkpoint chain advances 27 Nov → 28 Nov on the ledger only. No idle day.</li>
+        <li>Motherbot — dark. Host clickdash-motherbot-v1-production-89e2.up.railway.app still reaches 153.52.255.45. Railway 404 Application not found on / (41ms) and /health (42ms). motherbot.clickdash.net DEPLOYMENT_NOT_FOUND in 67ms (/) and 40ms (/health).</li>
       </ul>
     </section>
     <section>
@@ -83,14 +83,14 @@
     <section>
       <h2>Metrics</h2>
       <ul>
-        <li>Mesh health — 88% (7 of 8 public ClickDash surfaces). Motherbot is the dark surface. www answers 200 and its ipStatus stays no-change, so it stays in the count. Apex ipStatus is optional-change and is noted, not dropped. Siblings are outside the count.</li>
-        <li>Checkpoint progression — ledger advances from 2026-11-25T13:36:00Z after a 26 Nov idle day. WiredTiger snapshot not readable from this node.</li>
+        <li>Mesh health — 88% (7 of 8 public ClickDash surfaces). Motherbot is the dark surface. www answers 200, so it stays in the count even though ipStatus is required-change. Apex ipStatus recovered to no-change and stays in the count. Siblings are outside the count.</li>
+        <li>Checkpoint progression — ledger advances from 2026-11-27T13:36:00Z. No idle day. WiredTiger snapshot not readable from this node.</li>
         <li>Silver Umbrella — raised, declared. Compiler origin still not the shield.</li>
         <li>Family registry — conceptually locked. Confirmed.</li>
       </ul>
     </section>
-    <p>Apex A 76.76.21.21 still answers and still 307s, but domain-config ipStatus moved from no-change to optional-change — recommended rank-1 is now 216.198.79.1 / 64.29.17.1 and 76.76.21.21 is rank-2. misconfigured stays false, so no DNS rewrite. TLS 1.3 holds. www.clickdash.net ipStatus stays no-change, configuredBy A, and the edge still answers 200 — left untouched. /api reconfirmed healthy. Motherbot Railway heartbeat remains dark at 153.52.255.45. Family registry conceptually locked. ETL ledger entry logged.</p>
-    <footer>GGC-DAILY-5X-001 · 2026-11-27T13:36:00Z · <a href="/ledger">Ledger</a> · <a href="/">Edge</a></footer>
+    <p>Apex A 76.76.21.21 holds and ipStatus recovered from optional-change to no-change — recommended rank-1 is again sole 76.76.21.21, so no DNS rewrite. www.clickdash.net slipped back to ipStatus required-change, configuredBy http, misconfigured false; the edge still answers 200 and was left untouched. TLS 1.3 holds on clickdash.net with about 30 days left on the certificate. /api reconfirmed healthy. Motherbot Railway heartbeat remains dark at 153.52.255.45. Family registry conceptually locked. ETL ledger entry logged.</p>
+    <footer>GGC-DAILY-5X-001 · 2026-11-28T13:30:00Z · <a href="/ledger">Ledger</a> · <a href="/">Edge</a></footer>
   </main>
 </body>
 </html>
